@@ -1,0 +1,709 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Office" Class="DataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=5.61.31.163\sql2014163;Initial Catalog=Office;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="OfficeConnectionString1" Provider="System.Data.SqlClient" />
+  <Table Name="" Member="rwOrderInfos">
+    <Type Name="rwOrderInfo">
+      <Column Name="strOrderCode" Type="System.String" CanBeNull="false" />
+      <Column Name="numExtraPrice" Type="System.Int64" CanBeNull="false" />
+      <Column Name="ErrorCode" Type="System.Int32" CanBeNull="false" />
+      <Column Name="ErrorTitle" Type="System.String" CanBeNull="false" />
+      <Column Name="strOrderStatusTitle" Type="System.String" CanBeNull="false" />
+      <Column Name="dateSendDate" Type="System.String" CanBeNull="false" />
+      <Column Name="strCityName" Type="System.String" CanBeNull="false" />
+      <Column Name="numOrderBPayTypeRef" Type="System.Int32" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="rwSettles">
+    <Type Name="rwSettle">
+      <Column Name="strSettleCode" Type="System.String" CanBeNull="false" />
+      <Column Name="numSettleCost" Type="System.Int64" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="rwBanks">
+    <Type Name="rwBank">
+      <Column Name="numSettleCost" Type="System.Int64" CanBeNull="false" />
+      <Column Name="dateRegisterDate" Type="System.String" CanBeNull="false" />
+      <Column Name="dateSettleDate" Type="System.String" CanBeNull="false" />
+      <Column Name="strFishCode" Type="System.String" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="rwReportPeiks">
+    <Type Name="rwReportPeik">
+      <Column Name="strReportName" Type="System.String" CanBeNull="false" />
+      <Column Name="stDaryaftShod" Type="System.String" CanBeNull="false" />
+      <Column Name="stDarHaleTozi" Type="System.String" CanBeNull="false" />
+      <Column Name="stPishTozi" Type="System.String" CanBeNull="false" />
+      <Column Name="stToziShode" Type="System.String" CanBeNull="false" />
+      <Column Name="stPishBargashti" Type="System.String" CanBeNull="false" />
+      <Column Name="stDarHalBargasht" Type="System.String" CanBeNull="false" />
+      <Column Name="stErsalMojadad" Type="System.String" CanBeNull="false" />
+      <Column Name="sum" Type="System.String" CanBeNull="false" />
+      <Column Name="stTozi" Type="System.String" CanBeNull="false" />
+      <Column Name="stBargashti" Type="System.String" CanBeNull="false" />
+      <Column Name="stReturnNow" Type="System.String" CanBeNull="false" />
+      <Column Name="Percent" Type="System.String" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="rwVariances">
+    <Type Name="rwVariance">
+      <Column Name="Cnt1" Type="System.Int32" CanBeNull="false" />
+      <Column Name="Cnt2" Type="System.Int32" CanBeNull="false" />
+      <Column Name="Cnt3" Type="System.Int32" CanBeNull="false" />
+      <Column Name="Cnt4" Type="System.Int32" CanBeNull="false" />
+      <Column Name="Cnt5" Type="System.Int32" CanBeNull="false" />
+      <Column Name="Cnt6" Type="System.Int32" CanBeNull="false" />
+      <Column Name="Cnt7" Type="System.Int32" CanBeNull="false" />
+      <Column Name="Cnt8" Type="System.Int32" CanBeNull="false" />
+      <Column Name="Cnt9" Type="System.Int32" CanBeNull="false" />
+      <Column Name="Cnt10" Type="System.Int32" CanBeNull="false" />
+      <Column Name="Cnt11" Type="System.Int32" CanBeNull="false" />
+      <Column Name="Cnt12" Type="System.Int32" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" CanBeNull="false" />
+      <Column Name="Code" Type="System.String" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="rwUsers">
+    <Type Name="rwUser">
+      <Column Name="numUserCode" Type="System.String" CanBeNull="false" />
+      <Column Name="strUserName" Type="System.String" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="DropDownDes">
+    <Type Name="DropDownDes">
+      <Column Name="drpdwnValue" Type="System.String" CanBeNull="false" />
+      <Column Name="drpdwnText" Type="System.String" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="Factor2SendClasses">
+    <Type Name="Factor2SendClass">
+      <Column Name="strOrderCode" Type="System.String" CanBeNull="false" />
+      <Column Name="numOrderBOrderStatusRef" Type="System.Int32" CanBeNull="false" />
+      <Column Name="strOrderStatusTitle" Type="System.String" CanBeNull="false" />
+      <Column Name="dateOrderRegisterDate" Type="System.String" CanBeNull="false" />
+      <Column Name="numExtraPrice" Type="System.Int32" CanBeNull="false" />
+      <Column Name="numOrderBPayTypeRef" Type="System.Int32" CanBeNull="false" />
+      <Column Name="strCityName" Type="System.String" CanBeNull="false" />
+      <Column Name="numOrderBPostServiceRef" Type="System.Int32" CanBeNull="false" />
+      <Column Name="strPeikRef" Type="System.String" CanBeNull="false" />
+      <Column Name="numSalesRoomStatus" Type="System.Int32" CanBeNull="false" />
+      <Column Name="strPostCode" Type="System.String" CanBeNull="false" />
+      <Column Name="numOrderBazaryabRef" Type="System.Int32" CanBeNull="false" />
+      <Column Name="numReturnOrderStatusCode" Type="System.Int32" CanBeNull="false" />
+      <Column Name="strReturnOrderStatusTitle" Type="System.String" CanBeNull="false" />
+      <Column Name="strBargashtiFactorRef" Type="System.String" CanBeNull="false" />
+      <Column Name="numIsLojesticWithUs" Type="System.Int32" CanBeNull="false" />
+      <Column Name="numOrderParentSalesRoomRef" Type="System.Int32" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="AddErrors">
+    <Type Name="AddError">
+      <Column Name="row" Type="System.Int32" CanBeNull="false" />
+      <Column Name="Code" Type="System.String" CanBeNull="false" />
+      <Column Name="Status" Type="System.String" CanBeNull="false" />
+      <Column Name="CheckCode" Type="System.Int32" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="rwReturnOrders">
+    <Type Name="rwReturnOrders">
+      <Column Name="SalesRoom" Type="System.String" CanBeNull="false" />
+      <Column Name="strOrderRef" Type="System.String" CanBeNull="false" />
+      <Column Name="dateRegisterDate" Type="System.String" CanBeNull="false" />
+      <Column Name="strBuyerName" Type="System.String" CanBeNull="false" />
+      <Column Name="strGoodName" Type="System.String" CanBeNull="false" />
+      <Column Name="tempOrder" Type="System.String" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="rwOrderSendAgains">
+    <Type Name="rwOrderSendAgain">
+      <Column Name="strOrderRef" Type="System.String" CanBeNull="false" />
+      <Column Name="tempOrder" Type="System.String" CanBeNull="false" />
+      <Column Name="dateOrderSendDate" Type="System.String" CanBeNull="false" />
+      <Column Name="strPersonName" Type="System.String" CanBeNull="false" />
+      <Column Name="strGoodName" Type="System.String" CanBeNull="false" />
+      <Column Name="CntTime" Type="System.Int32" CanBeNull="false" />
+      <Column Name="CntMojadad" Type="System.Int32" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="op_orders">
+    <Type Name="op_order">
+      <Column Name="row" Type="System.String" CanBeNull="false" />
+      <Column Name="ErrorCode" Type="System.String" CanBeNull="false" />
+      <Column Name="ErrorTitle" Type="System.String" CanBeNull="false" />
+      <Column Name="strOrderCode" Type="System.String" CanBeNull="false" />
+      <Column Name="strOrderStatusTitle" Type="System.String" CanBeNull="false" />
+      <Column Name="dateOrderRegisterDate" Type="System.String" CanBeNull="false" />
+      <Column Name="strOrderBazaryabTitle" Type="System.String" CanBeNull="false" />
+      <Column Name="numOrderBOrderStatusRef" Type="System.String" CanBeNull="false" />
+      <Column Name="numExtraPrice" Type="System.String" CanBeNull="false" />
+      <Column Name="numOrderBPostServiceRef" Type="System.String" CanBeNull="false" />
+      <Column Name="numOrderBazaryabRef" Type="System.String" CanBeNull="false" />
+      <Column Name="strCityName" Type="System.String" CanBeNull="false" />
+      <Column Name="bazar" Type="System.String" CanBeNull="false" />
+      <Column Name="Kasri" Type="System.String" CanBeNull="false" />
+      <Column Name="strPeikRef" Type="System.String" CanBeNull="false" />
+      <Column Name="strPostCode" Type="System.String" CanBeNull="false" />
+      <Column Name="numOrderBPayTypeRef" Type="System.String" CanBeNull="false" />
+      <Column Name="strSubFactorRef" Type="System.String" CanBeNull="false" />
+      <Column Name="strDesc" Type="System.String" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="AbOrders">
+    <Type Name="AbOrders">
+      <Column Name="strX" Type="System.String" CanBeNull="false" />
+      <Column Name="orderCnt" Type="System.Int32" CanBeNull="false" />
+      <Column Name="ThisMonthOCnt" Type="System.Int32" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="rwPersons">
+    <Type Name="rwPerson">
+      <Column Name="strX" Type="System.String" CanBeNull="false" />
+      <Column Name="PersonPercent" Type="System.Double" CanBeNull="false" />
+      <Column Name="Cnt" Type="System.String" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="FinalLists">
+    <Type Name="FinalList">
+      <Column Name="OrderCode" Type="System.String" CanBeNull="false" />
+      <Column Name="OrderRegisterDate" Type="System.String" CanBeNull="false" />
+      <Column Name="OrderLastChangeStatTime" Type="System.String" CanBeNull="false" />
+      <Column Name="UserRef" Type="System.String" CanBeNull="false" />
+      <Column Name="FromStat" Type="System.String" CanBeNull="false" />
+      <Column Name="ToStat" Type="System.String" CanBeNull="false" />
+      <Column Name="DateDistance" Type="System.String" CanBeNull="false" />
+      <Column Name="LastChangeStateDate" Type="System.String" CanBeNull="false" />
+      <Column Name="NowStatus" Type="System.String" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="OrderInfos">
+    <Type Name="OrderInfo">
+      <Column Name="RowCode" Type="System.Int32" CanBeNull="false" />
+      <Column Name="OrderStatus" Type="System.Int32" CanBeNull="false" />
+      <Column Name="DateLogDate" Type="System.String" CanBeNull="false" />
+      <Column Name="OrderCode" Type="System.String" CanBeNull="false" />
+      <Column Name="StatusTitle" Type="System.String" CanBeNull="false" />
+      <Column Name="ChangeDuration" Type="System.String" CanBeNull="false" />
+      <Column Name="FromState" Type="System.String" CanBeNull="false" />
+      <Column Name="ToState" Type="System.String" CanBeNull="false" />
+      <Column Name="DateFrom" Type="System.String" CanBeNull="false" />
+      <Column Name="DateTo" Type="System.String" CanBeNull="false" />
+      <Column Name="NowState" Type="System.String" CanBeNull="false" />
+      <Column Name="PersonName" Type="System.String" CanBeNull="false" />
+      <Column Name="LastChangeStateDate" Type="System.String" CanBeNull="false" />
+      <Column Name="IsExist" Type="System.Boolean" CanBeNull="false" />
+      <Column Name="AgcName" Type="System.String" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="Result_Checks">
+    <Type Name="Result_Check">
+      <Column Name="OrderCode" Type="System.String" CanBeNull="false" />
+      <Column Name="ErrorCode" Type="System.String" CanBeNull="false" />
+      <Column Name="ErrorTitle" Type="System.String" CanBeNull="false" />
+      <Column Name="RowColor" Type="System.String" CanBeNull="false" />
+      <Column Name="Status" Type="System.String" CanBeNull="false" />
+      <Column Name="PersonName" Type="System.String" CanBeNull="false" />
+      <Column Name="City" Type="System.String" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="op_OrderDividers">
+    <Type Name="op_OrderDivider">
+      <Column Name="strOrderRef" Type="System.String" CanBeNull="false" />
+      <Column Name="tempOrder" Type="System.String" CanBeNull="false" />
+      <Column Name="strGoodName" Type="System.String" CanBeNull="false" />
+      <Column Name="numOrderBOrderStatusRef" Type="System.Int32" CanBeNull="false" />
+      <Column Name="strBuyerName" Type="System.String" CanBeNull="false" />
+      <Column Name="strBuyerMobTel" Type="System.String" CanBeNull="false" />
+      <Column Name="strBuyerTel" Type="System.String" CanBeNull="false" />
+      <Column Name="strBuyerAddress" Type="System.String" CanBeNull="false" />
+      <Column Name="strPersonName" Type="System.String" CanBeNull="false" />
+      <Column Name="strDesc" Type="System.String" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="ReportResults">
+    <Type Name="ReportResult">
+      <Column Name="StrOrderRef" Type="System.String" CanBeNull="false" />
+      <Column Name="DateKind" Type="System.String" CanBeNull="false" />
+      <Column Name="StatusTitle" Type="System.String" CanBeNull="false" />
+      <Column Name="TimeChange" Type="System.String" CanBeNull="false" />
+      <Column Name="SalesRoom" Type="System.String" CanBeNull="false" />
+      <Column Name="Datefrom" Type="System.String" CanBeNull="false" />
+      <Column Name="DateTo" Type="System.String" CanBeNull="false" />
+      <Column Name="PersonName" Type="System.String" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="op_persons">
+    <Type Name="op_person">
+      <Column Name="strPersonName" Type="System.String" CanBeNull="false" />
+      <Column Name="strPersonMelliCode" Type="System.String" CanBeNull="false" />
+      <Column Name="strAgcName" Type="System.String" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="rwNotToziReports">
+    <Type Name="rwNotToziReport">
+      <Column Name="OrderRef" Type="System.String" CanBeNull="false" />
+      <Column Name="tempOrder" Type="System.String" CanBeNull="false" />
+      <Column Name="PersonName" Type="System.String" CanBeNull="false" />
+      <Column Name="RegisterDate" Type="System.String" CanBeNull="false" />
+      <Column Name="RecivedDate" Type="System.String" CanBeNull="false" />
+      <Column Name="DateDistance" Type="System.Int32" CanBeNull="false" />
+      <Column Name="strPersonMelliRef" Type="System.String" CanBeNull="false" />
+      <Column Name="Balanceable" Type="System.String" CanBeNull="false" />
+      <Column Name="timeRegisterTime" Type="System.String" CanBeNull="false" />
+      <Column Name="SalesRoom" Type="System.String" CanBeNull="false" />
+      <Column Name="Ostan" Type="System.String" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="TimedDiffrenceClasses">
+    <Type Name="TimedDiffrenceClass" Id="ID1">
+      <Column Name="strOrderCode" Type="System.String" CanBeNull="true" />
+      <Column Name="strPostCode" Type="System.String" CanBeNull="true" />
+      <Column Name="strorderStatustitle" Type="System.String" CanBeNull="true" />
+      <Column Name="dateorderregisterdate" Type="System.String" CanBeNull="true" />
+      <Column Name="dateordersendDate&#xD;&#xA;" Member="dateordersendDate" Type="System.String" CanBeNull="true" />
+      <Column Name="dateorderdeliverydate&#xD;&#xA;" Member="dateorderdeliverydate" Type="System.String" CanBeNull="true" />
+      <Column Name="datereformdate" Type="System.String" CanBeNull="true" />
+      <Column Name="numsalesroomcode" Type="System.Int32" CanBeNull="true" />
+      <Column Name="salesroompostcenterName" Type="System.String" CanBeNull="true" />
+      <Column Name="buyerPostCenterName" Type="System.String" CanBeNull="true" />
+      <Column Name="numexteraprice" Type="System.Int64" CanBeNull="true" />
+      <Column Name="sendprice" Type="System.Int32" CanBeNull="true" />
+      <Column Name="MelliPerson" Type="System.String" CanBeNull="true" />
+      <Column Name="strorderref" Type="System.String" CanBeNull="true" />
+      <Column Name="DateSource" Type="System.String" CanBeNull="true" />
+      <Column Name="DateEnd" Type="System.String" CanBeNull="true" />
+      <Column Name="Diff" Type="System.Int32" CanBeNull="true" />
+      <Column Name="nummaliat" Type="System.Int32" DbType="int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="" Member="rwDifDate1s">
+    <Type Name="rwDifDate1" Id="ID2">
+      <Column Name="AllRecCount" Type="System.Int32" CanBeNull="false" />
+      <Column Name="strBuyerName" Type="System.String" CanBeNull="false" />
+      <Column Name="OrderCode" Type="System.String" CanBeNull="false" />
+      <Column Name="SalesRoomCode" Storage="_SalesRoom" Type="System.String" CanBeNull="false" />
+      <Column Name="statusFrom" Storage="_FromStatus" Type="System.String" CanBeNull="false" />
+      <Column Name="statusTo" Storage="_ToStatus" Type="System.String" CanBeNull="false" />
+      <Column Name="DiffCnt" Type="System.String" CanBeNull="false" />
+      <Column Name="CurrentStatusTitle" Type="System.String" CanBeNull="false" />
+      <Column Name="dateorderregisterdate" Type="System.String" CanBeNull="false" />
+      <Column Name="ErsaleMojadadCnt" Type="System.Int32" CanBeNull="false" />
+      <Column Name="SalesRoomName" Type="System.String" CanBeNull="false" />
+      <Column Name="statusToDate" Type="System.String" CanBeNull="false" />
+      <Column Name="statusFromDate" Type="System.String" CanBeNull="false" />
+      <Column Name="PishbargashtiCnt" Type="System.Int32" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="rwDifDate2s">
+    <Type Name="rwDifDate2" Id="ID3">
+      <Column Name="AllRecCount" Type="System.Int32" CanBeNull="false" />
+      <Column Name="strBuyerName" Type="System.String" CanBeNull="false" />
+      <Column Name="OrderCode" Type="System.String" CanBeNull="false" />
+      <Column Name="SalesRoomCode" Storage="_SalesRoom" Type="System.String" CanBeNull="false" />
+      <Column Name="statusFrom" Storage="_FromStatus" Type="System.String" CanBeNull="false" />
+      <Column Name="statusTo" Storage="_ToStatus" Type="System.String" CanBeNull="false" />
+      <Column Name="DiffCnt" Type="System.String" CanBeNull="false" />
+      <Column Name="CurrentStatusTitle" Type="System.String" CanBeNull="false" />
+      <Column Name="dateorderregisterdate" Type="System.String" CanBeNull="false" />
+      <Column Name="ErsaleMojadadCnt" Type="System.Int32" CanBeNull="false" />
+      <Column Name="SalesRoomName" Type="System.String" CanBeNull="false" />
+      <Column Name="statusToDate" Type="System.String" CanBeNull="false" />
+      <Column Name="statusFromDate" Type="System.String" CanBeNull="false" />
+      <Column Name="strPostCenterName" Type="System.String" CanBeNull="false" />
+      <Column Name="strCityName" Type="System.String" CanBeNull="false" />
+      <Column Name="PishbargashtiCnt" Type="System.Int32" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="rwReport2s">
+    <Type Name="rwReport2">
+      <Column Name="Cnt35" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Cnt1" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Cnt6" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Cnt14" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Cnt17" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Cnt2" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" CanBeNull="false" />
+      <Column Name="CntSum" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Code" Type="System.String" CanBeNull="false" />
+      <Column Name="Cnt8" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Cnt49" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Cnt47" Type="System.Int64" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="rwReport3s">
+    <Type Name="rwReport3">
+      <Column Name="Cnt36" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Cnt37" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Cnt38" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Cnt39" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Cnt40" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Cnt41" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Cnt42" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Cnt9" Type="System.Int64" CanBeNull="false" />
+      <Column Name="CntSum" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Cnt10" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Code" Type="System.String" CanBeNull="false" />
+      <Column Name="Cnt8" Type="System.Int64" CanBeNull="false" />
+      <Column Name="ReturnPercent" Type="System.String" CanBeNull="false" />
+      <Column Name="Cnt50" Type="System.Int64" CanBeNull="false" />
+      <Column Name="strPostCenterName" Type="System.String" CanBeNull="false" />
+      <Column Name="strCityName" Type="System.String" CanBeNull="false" />
+      <Column Name="Cnt48" Type="System.Int64" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="rwReport4s">
+    <Type Name="rwReport4">
+      <Column Name="Cnt35" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Cnt1" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Cnt6" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Cnt14" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Cnt17" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Cnt2" Type="System.Int64" CanBeNull="false" />
+      <Column Name="CntSum" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Code" Type="System.String" CanBeNull="false" />
+      <Column Name="Cnt8" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Cnt49" Type="System.Int64" CanBeNull="false" />
+      <Column Name="strPostCenterName" Type="System.String" CanBeNull="false" />
+      <Column Name="strCityName" Type="System.String" CanBeNull="false" />
+      <Column Name="Cnt47" Type="System.Int64" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="rwReport1s">
+    <Type Name="rwReport1">
+      <Column Name="Cnt36" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Cnt37" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Cnt38" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Cnt39" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Cnt40" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Cnt41" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Cnt42" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" CanBeNull="false" />
+      <Column Name="Cnt9" Type="System.Int64" CanBeNull="false" />
+      <Column Name="CntSum" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Cnt10" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Code" Type="System.String" CanBeNull="false" />
+      <Column Name="Cnt8" Type="System.Int64" CanBeNull="false" />
+      <Column Name="ReturnPercent" Type="System.String" CanBeNull="false" />
+      <Column Name="Cnt50" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Cnt48" Type="System.Int64" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="rwInfoContract1s">
+    <Type Name="rwInfoContract1">
+      <Column Name="numEmployerRef" Type="System.String" CanBeNull="false" />
+      <Column Name="strPersonelName" Type="System.String" CanBeNull="false" />
+      <Column Name="strPersonelFamily" Type="System.String" CanBeNull="false" />
+      <Column Name="strFatherName" Type="System.String" CanBeNull="false" />
+      <Column Name="dateBrithdayDate" Type="System.String" CanBeNull="false" />
+      <Column Name="strNumberShenasname" Type="System.String" CanBeNull="false" />
+      <Column Name="strExportCityRef" Type="System.String" CanBeNull="false" />
+      <Column Name="strMelliCode" Type="System.String" CanBeNull="false" />
+      <Column Name="strMarridName" Type="System.String" CanBeNull="false" />
+      <Column Name="strTel" Type="System.String" CanBeNull="false" />
+      <Column Name="strMobile" Type="System.String" CanBeNull="false" />
+      <Column Name="strPersonelAddress" Type="System.String" CanBeNull="false" />
+      <Column Name="strPostCode" Type="System.String" CanBeNull="false" />
+      <Column Name="strReagentName" Type="System.String" CanBeNull="false" />
+      <Column Name="strReagentFamily" Type="System.String" CanBeNull="false" />
+      <Column Name="strReagentRelation" Type="System.String" CanBeNull="false" />
+      <Column Name="strReagentTel" Type="System.String" CanBeNull="false" />
+      <Column Name="strReagentMobile" Type="System.String" CanBeNull="false" />
+      <Column Name="strReagentAddress" Type="System.String" CanBeNull="false" />
+      <Column Name="strContractKindName" Type="System.String" CanBeNull="false" />
+      <Column Name="strContractDay" Type="System.String" CanBeNull="false" />
+      <Column Name="strContractMonth" Type="System.String" CanBeNull="false" />
+      <Column Name="dateStartContractDate" Type="System.String" CanBeNull="false" />
+      <Column Name="dateEndContractDate" Type="System.String" CanBeNull="false" />
+      <Column Name="dateUnvalidContractDate" Type="System.String" CanBeNull="false" />
+      <Column Name="dateDoreFromDate" Type="System.String" CanBeNull="false" />
+      <Column Name="dateDoreToDate" Type="System.String" CanBeNull="false" />
+      <Column Name="strProvinceName" Type="System.String" CanBeNull="false" />
+      <Column Name="strCityName" Type="System.String" CanBeNull="false" />
+      <Column Name="PersonelSalary" Type="System.String" CanBeNull="false" />
+      <Column Name="PersonelHomeSalary" Type="System.String" CanBeNull="false" />
+      <Column Name="PersonelBon" Type="System.String" CanBeNull="false" />
+      <Column Name="PersonelChildSalary" Type="System.String" CanBeNull="false" />
+      <Column Name="PersonelPadash" Type="System.String" CanBeNull="false" />
+      <Column Name="PersonelSaier" Type="System.String" CanBeNull="false" />
+      <Column Name="PersonelSanavat" Type="System.String" CanBeNull="false" />
+      <Column Name="HaghModiriat" Type="System.String" CanBeNull="false" />
+      <Column Name="AyabZahab" Type="System.String" CanBeNull="false" />
+      <Column Name="strEmployerName" Type="System.String" CanBeNull="false" />
+      <Column Name="ContractUniqCodeMovaghat" Type="System.String" CanBeNull="false" />
+      <Column Name="lblCodeFactor" Type="System.String" CanBeNull="false" />
+      <Column Name="lblBaznegari" Type="System.String" CanBeNull="false" />
+      <Column Name="lblDateBaznegari" Type="System.String" CanBeNull="false" />
+      <Column Name="lblTitleContract" Type="System.String" CanBeNull="false" />
+      <Column Name="numContractCode" Type="System.String" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.String" CanBeNull="false" />
+      <Column Name="ImageLogo" Type="System.String" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="rwInfoContract2s">
+    <Type Name="rwInfoContract2">
+      <Column Name="numEmployerRef" Type="System.String" CanBeNull="false" />
+      <Column Name="strPersonelName" Type="System.String" CanBeNull="false" />
+      <Column Name="strPersonelFamily" Type="System.String" CanBeNull="false" />
+      <Column Name="strFatherName" Type="System.String" CanBeNull="false" />
+      <Column Name="dateBrithdayDate" Type="System.String" CanBeNull="false" />
+      <Column Name="strNumberShenasname" Type="System.String" CanBeNull="false" />
+      <Column Name="strExportCityRef" Type="System.String" CanBeNull="false" />
+      <Column Name="strMelliCode" Type="System.String" CanBeNull="false" />
+      <Column Name="strMarridName" Type="System.String" CanBeNull="false" />
+      <Column Name="strTel" Type="System.String" CanBeNull="false" />
+      <Column Name="strMobile" Type="System.String" CanBeNull="false" />
+      <Column Name="strPersonelAddress" Type="System.String" CanBeNull="false" />
+      <Column Name="strPostCode" Type="System.String" CanBeNull="false" />
+      <Column Name="strContractKindName" Type="System.String" CanBeNull="false" />
+      <Column Name="strContractMonth" Type="System.String" CanBeNull="false" />
+      <Column Name="dateStartContractDate" Type="System.String" CanBeNull="false" />
+      <Column Name="dateEndContractDate" Type="System.String" CanBeNull="false" />
+      <Column Name="dateRegisterContractDate" Storage="_dateUnvalidContractDate" Type="System.String" CanBeNull="false" />
+      <Column Name="strCityName" Type="System.String" CanBeNull="false" />
+      <Column Name="PersonelSalary" Type="System.String" CanBeNull="false" />
+      <Column Name="strEmployerName" Type="System.String" CanBeNull="false" />
+      <Column Name="lblCodeFactor" Type="System.String" CanBeNull="false" />
+      <Column Name="lblBaznegari" Type="System.String" CanBeNull="false" />
+      <Column Name="lblDateBaznegari" Type="System.String" CanBeNull="false" />
+      <Column Name="lblTitleContract" Type="System.String" CanBeNull="false" />
+      <Column Name="StrKarKardTime" Type="System.String" CanBeNull="false" />
+      <Column Name="strKhadamatDescription" Type="System.String" CanBeNull="false" />
+      <Column Name="ContractUniqCodeSaati" Type="System.String" CanBeNull="false" />
+      <Column Name="EndOfKind" Type="System.String" CanBeNull="false" />
+      <Column Name="strTitleFaraiand" Type="System.String" CanBeNull="false" />
+      <Column Name="PersonelPadash" Type="System.String" CanBeNull="false" />
+      <Column Name="strContractDay" Type="System.String" CanBeNull="false" />
+      <Column Name="numContractCode" Type="System.String" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.String" CanBeNull="false" />
+      <Column Name="ImageLogo" Type="System.String" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="rwInfoContract4s">
+    <Type Name="rwInfoContract4">
+      <Column Name="numEmployerRef" Type="System.String" CanBeNull="false" />
+      <Column Name="strPersonelName" Type="System.String" CanBeNull="false" />
+      <Column Name="strPersonelFamily" Type="System.String" CanBeNull="false" />
+      <Column Name="strFatherName" Type="System.String" CanBeNull="false" />
+      <Column Name="strNumberShenasname" Type="System.String" CanBeNull="false" />
+      <Column Name="strExportCityRef" Type="System.String" CanBeNull="false" />
+      <Column Name="strPersonelAddress" Type="System.String" CanBeNull="false" />
+      <Column Name="strContractKindName" Type="System.String" CanBeNull="false" />
+      <Column Name="strContractDay" Type="System.String" CanBeNull="false" />
+      <Column Name="strContractMonth" Type="System.String" CanBeNull="false" />
+      <Column Name="dateStartContractDate" Type="System.String" CanBeNull="false" />
+      <Column Name="dateEndContractDate" Type="System.String" CanBeNull="false" />
+      <Column Name="dateRegisterContractDate" Storage="_dateUnvalidContractDate" Type="System.String" CanBeNull="false" />
+      <Column Name="PersonelSalary" Type="System.String" CanBeNull="false" />
+      <Column Name="strEmployerName" Type="System.String" CanBeNull="false" />
+      <Column Name="lblCodeFactor" Type="System.String" CanBeNull="false" />
+      <Column Name="lblBaznegari" Type="System.String" CanBeNull="false" />
+      <Column Name="lblDateBaznegari" Type="System.String" CanBeNull="false" />
+      <Column Name="lblTitleContract" Type="System.String" CanBeNull="false" />
+      <Column Name="StrKarKardTime" Type="System.String" CanBeNull="false" />
+      <Column Name="strKhadamatDescription" Type="System.String" CanBeNull="false" />
+      <Column Name="ContractUniqCodeProject" Type="System.String" CanBeNull="false" />
+      <Column Name="EndOfKind" Type="System.String" CanBeNull="false" />
+      <Column Name="strTitleFaraiand" Type="System.String" CanBeNull="false" />
+      <Column Name="PersonelPadash" Storage="_owner" Type="System.String" CanBeNull="false" />
+      <Column Name="numAgentArea" Type="System.String" CanBeNull="false" />
+      <Column Name="numAnbarArea" Type="System.String" CanBeNull="false" />
+      <Column Name="strTel" Type="System.String" CanBeNull="false" />
+      <Column Name="strMobile" Type="System.String" CanBeNull="false" />
+      <Column Name="CompanyType" Type="System.String" CanBeNull="false" />
+      <Column Name="strCompanyRegNumber" Type="System.String" CanBeNull="false" />
+      <Column Name="strCompanyName" Type="System.String" CanBeNull="false" />
+      <Column Name="strCityName" Type="System.String" CanBeNull="false" />
+      <Column Name="ownerName" Type="System.String" CanBeNull="false" />
+      <Column Name="strPostCode" Type="System.String" CanBeNull="false" />
+      <Column Name="strMelliCode" Type="System.String" CanBeNull="false" />
+      <Column Name="numContractCode" Type="System.String" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.String" CanBeNull="false" />
+      <Column Name="CompanySemat" Type="System.String" CanBeNull="true" />
+      <Column Name="dateBrithdayDate" Type="System.String" CanBeNull="true" />
+      <Column Name="strUniversityField" Type="System.String" CanBeNull="true" />
+      <Column Name="strUniversitySectionName" Type="System.String" CanBeNull="true" />
+      <Column Name="strBankAccount" Type="System.String" CanBeNull="true" />
+      <Column Name="strBankName" Type="System.String" CanBeNull="true" />
+      <Column Name="strShebaBank" Type="System.String" CanBeNull="false" />
+      <Column Name="strCartNumberBank" Type="System.String" CanBeNull="true" />
+      <Column Name="numTransporterKind" Type="System.String" CanBeNull="false" />
+      <Column Name="strNumBody" Type="System.String" CanBeNull="false" />
+      <Column Name="strColor" Type="System.String" CanBeNull="false" />
+      <Column Name="strModel" Type="System.String" CanBeNull="false" />
+      <Column Name="strNumShahrbani" Type="System.String" CanBeNull="false" />
+      <Column Name="strNumShasi" Type="System.String" CanBeNull="false" />
+      <Column Name="strOwnerName" Type="System.String" CanBeNull="false" />
+      <Column Name="ImageLogo" Type="System.String" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="rwInfoContract5s">
+    <Type Name="rwInfoContract5">
+      <Column Name="numEmployerRef" Type="System.String" CanBeNull="false" />
+      <Column Name="strPersonelName" Type="System.String" CanBeNull="false" />
+      <Column Name="strPersonelFamily" Type="System.String" CanBeNull="false" />
+      <Column Name="strFatherName" Type="System.String" CanBeNull="false" />
+      <Column Name="strNumberShenasname" Type="System.String" CanBeNull="false" />
+      <Column Name="strExportCityRef" Type="System.String" CanBeNull="false" />
+      <Column Name="strPersonelAddress" Type="System.String" CanBeNull="false" />
+      <Column Name="strContractKindName" Type="System.String" CanBeNull="false" />
+      <Column Name="strContractDay" Type="System.String" CanBeNull="false" />
+      <Column Name="strContractMonth" Type="System.String" CanBeNull="false" />
+      <Column Name="dateStartContractDate" Type="System.String" CanBeNull="false" />
+      <Column Name="dateEndContractDate" Type="System.String" CanBeNull="false" />
+      <Column Name="dateRegisterContractDate" Storage="_dateUnvalidContractDate" Type="System.String" CanBeNull="false" />
+      <Column Name="PersonelSalary" Type="System.String" CanBeNull="false" />
+      <Column Name="strEmployerName" Type="System.String" CanBeNull="false" />
+      <Column Name="lblCodeFactor" Type="System.String" CanBeNull="false" />
+      <Column Name="lblBaznegari" Type="System.String" CanBeNull="false" />
+      <Column Name="lblDateBaznegari" Type="System.String" CanBeNull="false" />
+      <Column Name="lblTitleContract" Type="System.String" CanBeNull="false" />
+      <Column Name="StrKarKardTime" Type="System.String" CanBeNull="false" />
+      <Column Name="strKhadamatDescription" Type="System.String" CanBeNull="false" />
+      <Column Name="ContractUniqCodeProject" Type="System.String" CanBeNull="false" />
+      <Column Name="EndOfKind" Type="System.String" CanBeNull="false" />
+      <Column Name="strTitleFaraiand" Type="System.String" CanBeNull="false" />
+      <Column Name="PersonelPadash" Storage="_owner" Type="System.String" CanBeNull="false" />
+      <Column Name="strTel" Type="System.String" CanBeNull="false" />
+      <Column Name="strMobile" Type="System.String" CanBeNull="false" />
+      <Column Name="CompanyType" Type="System.String" CanBeNull="false" />
+      <Column Name="strCompanyRegNumber" Type="System.String" CanBeNull="false" />
+      <Column Name="strCompanyName" Type="System.String" CanBeNull="false" />
+      <Column Name="strCityName" Type="System.String" CanBeNull="false" />
+      <Column Name="ownerName" Type="System.String" CanBeNull="false" />
+      <Column Name="strPostCode" Type="System.String" CanBeNull="false" />
+      <Column Name="strMelliCode" Type="System.String" CanBeNull="false" />
+      <Column Name="numContractCode" Type="System.String" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.String" CanBeNull="false" />
+      <Column Name="dateBrithdayDate" Type="System.String" CanBeNull="true" />
+      <Column Name="strUniversityField" Type="System.String" CanBeNull="true" />
+      <Column Name="strUniversitySectionName" Type="System.String" CanBeNull="true" />
+      <Column Name="strBankAccount" Type="System.String" CanBeNull="true" />
+      <Column Name="strBankName" Type="System.String" CanBeNull="true" />
+      <Column Name="strShebaBank" Type="System.String" CanBeNull="false" />
+      <Column Name="strCartNumberBank" Type="System.String" CanBeNull="true" />
+      <Column Name="numTransporterKind" Type="System.String" CanBeNull="false" />
+      <Column Name="strNumBody" Type="System.String" CanBeNull="false" />
+      <Column Name="strColor" Type="System.String" CanBeNull="false" />
+      <Column Name="strModel" Type="System.String" CanBeNull="false" />
+      <Column Name="strNumShahrbani" Type="System.String" CanBeNull="false" />
+      <Column Name="strNumShasi" Type="System.String" CanBeNull="false" />
+      <Column Name="strOwnerName" Type="System.String" CanBeNull="false" />
+      <Column Name="ImageLogo" Type="System.String" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="rwInfoContract3s">
+    <Type Name="rwInfoContract3">
+      <Column Name="numEmployerRef" Type="System.String" CanBeNull="false" />
+      <Column Name="strPersonelName" Type="System.String" CanBeNull="false" />
+      <Column Name="strPersonelFamily" Type="System.String" CanBeNull="false" />
+      <Column Name="strFatherName" Type="System.String" CanBeNull="false" />
+      <Column Name="strNumberShenasname" Type="System.String" CanBeNull="false" />
+      <Column Name="strExportCityRef" Type="System.String" CanBeNull="false" />
+      <Column Name="strPersonelAddress" Type="System.String" CanBeNull="false" />
+      <Column Name="strContractKindName" Type="System.String" CanBeNull="false" />
+      <Column Name="strContractDay" Type="System.String" CanBeNull="false" />
+      <Column Name="strContractMonth" Type="System.String" CanBeNull="false" />
+      <Column Name="dateStartContractDate" Type="System.String" CanBeNull="false" />
+      <Column Name="dateEndContractDate" Type="System.String" CanBeNull="false" />
+      <Column Name="dateRegisterContractDate" Storage="_dateUnvalidContractDate" Type="System.String" CanBeNull="false" />
+      <Column Name="PersonelSalary" Type="System.String" CanBeNull="false" />
+      <Column Name="strEmployerName" Type="System.String" CanBeNull="false" />
+      <Column Name="lblCodeFactor" Type="System.String" CanBeNull="false" />
+      <Column Name="lblBaznegari" Type="System.String" CanBeNull="false" />
+      <Column Name="lblDateBaznegari" Type="System.String" CanBeNull="false" />
+      <Column Name="lblTitleContract" Type="System.String" CanBeNull="false" />
+      <Column Name="StrKarKardTime" Type="System.String" CanBeNull="false" />
+      <Column Name="strKhadamatDescription" Type="System.String" CanBeNull="false" />
+      <Column Name="ContractUniqCodeProject" Type="System.String" CanBeNull="false" />
+      <Column Name="EndOfKind" Type="System.String" CanBeNull="false" />
+      <Column Name="strTitleFaraiand" Type="System.String" CanBeNull="false" />
+      <Column Name="PersonelPadash" Type="System.String" CanBeNull="false" />
+      <Column Name="strMelliCode" Type="System.String" CanBeNull="false" />
+      <Column Name="numContractCode" Type="System.String" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.String" CanBeNull="false" />
+      <Column Name="ImageLogo" Type="System.String" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="rwZemanatInfoAlls">
+    <Type Name="rwZemanatInfoAll">
+      <Column Name="numContractRef" Type="System.String" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.String" CanBeNull="false" />
+      <Column Name="StrZemanatType" Type="System.String" CanBeNull="false" />
+      <Column Name="numCountZemanat" Type="System.String" CanBeNull="false" />
+      <Column Name="numZemanatPrice" Type="System.String" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="rwZemanatCheckDetails">
+    <Type Name="rwZemanatCheckDetails">
+      <Column Name="numContractCodeCheck" Type="System.String" CanBeNull="false" />
+      <Column Name="numPersonelRefCheck" Type="System.String" CanBeNull="false" />
+      <Column Name="StrZemanatInfoNumberCheck" Type="System.String" CanBeNull="false" />
+      <Column Name="numZemanatInfoPriceCheck" Type="System.String" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="rwZemanatSaftehDetails">
+    <Type Name="rwZemanatSaftehDetails">
+      <Column Name="numContractCodeSafteh" Type="System.String" CanBeNull="false" />
+      <Column Name="numPersonelRefSafteh" Type="System.String" CanBeNull="false" />
+      <Column Name="StrZemanatInfoNumberSafteh" Type="System.String" CanBeNull="false" />
+      <Column Name="numZemanatInfoPriceSafteh" Type="System.String" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="rwPriceContracts">
+    <Type Name="rwPriceContract">
+      <Column Name="numContractCode" Type="System.String" CanBeNull="true" />
+      <Column Name="numPersonelRef" Type="System.String" CanBeNull="true" />
+      <Column Name="PriceKind" Type="System.String" CanBeNull="true" />
+      <Column Name="Price" Type="System.String" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.agcTimeDiffrenceStatus" Method="agcTimeDiffrenceStatus">
+    <Parameter Name="WhichDate" Parameter="whichDate" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="df" Type="System.String" DbType="NChar(10)" />
+    <Parameter Name="dt" Type="System.String" DbType="NChar(10)" />
+    <Parameter Name="numOrderBPostServiceRef" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="numOrderParentSalesRoomRef" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="WhichDiffDateSource" Parameter="whichDiffDateSource" Type="System.String" DbType="NVarChar(5)" />
+    <Parameter Name="WhichDiffDateDes" Parameter="whichDiffDateDes" Type="System.String" DbType="NVarChar(5)" />
+    <Parameter Name="strOrder" Type="System.String" DbType="NVarChar(20)" />
+    <Parameter Name="strPersonCode" Type="System.String" DbType="NVarChar(20)" />
+    <ElementType IdRef="ID1" />
+  </Function>
+  <Function Name="dbo.agcCPTimeDiffStatus931014RS" Method="agcCPTimeDiffStatus931014RS">
+    <Parameter Name="DateFrom" Parameter="dateFrom" Type="System.String" DbType="NChar(10)" />
+    <Parameter Name="DateTo" Parameter="dateTo" Type="System.String" DbType="NChar(10)" />
+    <Parameter Name="FromStat" Parameter="fromStat" Type="System.Int32" DbType="Int" />
+    <Parameter Name="ToStat" Parameter="toStat" Type="System.Int32" DbType="Int" />
+    <Parameter Name="OrderCode" Parameter="orderCode" Type="System.String" DbType="NVarChar(20)" />
+    <Parameter Name="strPersonCode" Type="System.String" DbType="NVarChar(20)" />
+    <Parameter Name="SrcDateBase" Parameter="srcDateBase" Type="System.Int32" DbType="Int" />
+    <Parameter Name="DesDateBase" Parameter="desDateBase" Type="System.Int32" DbType="Int" />
+    <Parameter Name="PageNumber" Parameter="pageNumber" Type="System.Int32" DbType="Int" />
+    <Parameter Name="RowspPage" Parameter="rowspPage" Type="System.Int32" DbType="Int" />
+    <Parameter Name="DateBase" Parameter="dateBase" Type="System.Int32" DbType="Int" />
+    <Parameter Name="SalesRoomCode" Parameter="salesRoomCode" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="TakhirD" Parameter="takhirD" Type="System.Int32" DbType="Int" />
+    <Parameter Name="TakhirH" Parameter="takhirH" Type="System.Int32" DbType="Int" />
+    <Parameter Name="TakhirM" Parameter="takhirM" Type="System.Int32" DbType="Int" />
+    <Parameter Name="TakhirType" Parameter="takhirType" Type="System.Int32" DbType="Int" />
+    <Parameter Name="OrdersType" Parameter="ordersType" Type="System.Int32" DbType="Int" />
+    <ElementType IdRef="ID2" />
+  </Function>
+  <Function Name="dbo.agcCPTimeDiffStatus931014RS" Method="agcCPTimeDiffStatus931014RS1">
+    <Parameter Name="DateFrom" Parameter="dateFrom" Type="System.String" DbType="NChar(10)" />
+    <Parameter Name="DateTo" Parameter="dateTo" Type="System.String" DbType="NChar(10)" />
+    <Parameter Name="FromStat" Parameter="fromStat" Type="System.Int32" DbType="Int" />
+    <Parameter Name="ToStat" Parameter="toStat" Type="System.Int32" DbType="Int" />
+    <Parameter Name="OrderCode" Parameter="orderCode" Type="System.String" DbType="NVarChar(20)" />
+    <Parameter Name="strPersonCode" Type="System.String" DbType="NVarChar(20)" />
+    <Parameter Name="SrcDateBase" Parameter="srcDateBase" Type="System.Int32" DbType="Int" />
+    <Parameter Name="DesDateBase" Parameter="desDateBase" Type="System.Int32" DbType="Int" />
+    <Parameter Name="PageNumber" Parameter="pageNumber" Type="System.Int32" DbType="Int" />
+    <Parameter Name="RowspPage" Parameter="rowspPage" Type="System.Int32" DbType="Int" />
+    <Parameter Name="DateBase" Parameter="dateBase" Type="System.Int32" DbType="Int" />
+    <Parameter Name="SalesRoomCode" Parameter="salesRoomCode" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="TakhirD" Parameter="takhirD" Type="System.Int32" DbType="Int" />
+    <Parameter Name="TakhirH" Parameter="takhirH" Type="System.Int32" DbType="Int" />
+    <Parameter Name="TakhirM" Parameter="takhirM" Type="System.Int32" DbType="Int" />
+    <Parameter Name="TakhirType" Parameter="takhirType" Type="System.Int32" DbType="Int" />
+    <Parameter Name="OrdersType" Parameter="ordersType" Type="System.Int32" DbType="Int" />
+    <ElementType IdRef="ID3" />
+  </Function>
+</Database>

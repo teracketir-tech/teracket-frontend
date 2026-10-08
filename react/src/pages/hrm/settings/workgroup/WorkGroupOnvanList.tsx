@@ -1,0 +1,421 @@
+// src/pages/hrm/settings/workgroup/WorkGroupOnvanList.jsx
+
+import { useFormik } from "formik";
+import * as yup from "yup";
+import { useState, useEffect } from "react";
+import { toast } from "sonner";
+import { api } from "@/lib/axios";
+import Button from "@/components/shared/Button";
+import Input from "@/components/shared/inputs";
+import Select from "@/components/shared/inputs/Select";
+import Loading from "@/components/shared/Loading";
+import Empty from "@/components/shared/Empty";
+import Pagination from "@/components/shared/Pagination";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { PenBox, Trash2Icon, CheckCircle, XCircle, Search, X } from "lucide-react";
+import Confirm from "@/components/ui/confirm";
+import { checkAccess } from "@/lib/utils";
+
+const validationSchema = yup.object({
+    ghesmat_id: yup.string().required("انتخاب قسمت الزامی است"),
+    name: yup.string().required("نام عنوان الزامی است"),
+});
+
+export default function WorkGroupOnvanList() {
+    const [loading, setLoading] = useState(false);
+    const [listLoading, setListLoading] = useState(false);
+    const [editingItem, setEditingItem] = useState(null);
+    const [data, setData] = useState({ data: [], pages: 0, totalCount: 0 });
+    const [workgroups, setWorkgroups] = useState([]);
+    const [bakhshs, setBakhshs] = useState([]);
+    const [ghesmats, setGhesmats] = useState([]);
+    const [filters, setFilters] = useState({ ghesmat_id: "", name: "", status: "" });
+    const [searchTerm, setSearchTerm] = useState("");
+    const [selectedWorkgroup, setSelectedWorkgroup] = useState("");
+    const [selectedBakhsh, setSelectedBakhsh] = useState("");
+
+    const fetchWorkgroups = async () => {
+        try {
+            const res = await api("hrm-workgroup/items", "GET");
+            if (res?.success) setWorkgroups(res.data);
+        } catch (error) {
+            console.error("Error fetching workgroups:", error);
+        }
+    };
+
+    const fetchBakhshs = async (workgroupId) => {
+        if (!workgroupId) {
+            setBakhshs([]);
+            return;
+        }
+        try {
+            const res = await api(`hrm-workgroup-bakhsh/items?workgroupId=${workgroupId}`, "GET");
+            if (res?.success) setBakhshs(res.data);
+        } catch (error) {
+            console.error("Error fetching bakhshs:", error);
+        }
+    };
+
+    const fetchGhesmats = async (bakhshId) => {
+        if (!bakhshId) {
+            setGhesmats([]);
+            return;
+        }
+        try {
+            const res = await api(`hrm-workgroup-ghesmat/items?bakhshId=${bakhshId}`, "GET");
+            if (res?.success) setGhesmats(res.data);
+        } catch (error) {
+            console.error("Error fetching ghesmats:", error);
+        }
+    };
+
+    const fetchData = async () => {
+        const params = new URLSearchParams();
+        if (filters.ghesmat_id) params.set("ghesmat_id", filters.ghesmat_id);
+        if (filters.name) params.set("name", filters.name);
+        if (filters.status !== "") params.set("status", filters.status);
+
+        setListLoading(true);
+        try {
+            const res = await api(`hrm-workgroup-onvan?${params.toString()}`, "GET");
+            setData(res || { data: [], pages: 0 });
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            toast.error("خطا در دریافت اطلاعات");
+        }
+        setListLoading(false);
+    };
+
+    useEffect(() => {
+        fetchWorkgroups();
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        fetchData();
+    }, [filters]);
+
+    useEffect(() => {
+        if (selectedWorkgroup) {
+            fetchBakhshs(selectedWorkgroup);
+        } else {
+            setBakhshs([]);
+            setGhesmats([]);
+        }
+    }, [selectedWorkgroup]);
+
+    useEffect(() => {
+        if (selectedBakhsh) {
+            fetchGhesmats(selectedBakhsh);
+        } else {
+            setGhesmats([]);
+        }
+    }, [selectedBakhsh]);
+
+    const formik = useFormik({
+        initialValues: { ghesmat_id: "", name: "" },
+        validationSchema,
+        onSubmit: handleSubmit,
+    });
+
+    async function handleSubmit(values) {
+        setLoading(true);
+
+        const payload = {
+            ...values,
+            ghesmat_id: parseInt(values.ghesmat_id),
+        };
+
+        // ✅ اصلاح: بدون /create و /update
+        const url = editingItem
+            ? `hrm-workgroup-onvan/${editingItem.id}`
+            : "hrm-workgroup-onvan";
+
+        const method = editingItem ? "PATCH" : "POST";
+
+        const res = await api(url, method, payload);
+
+        setLoading(false);
+
+        if (res?.success) {
+            toast.success(
+                editingItem ? "عنوان با موفقیت ویرایش شد" : "عنوان با موفقیت ثبت شد"
+            );
+            setEditingItem(null);
+            formik.resetForm();
+            setSelectedWorkgroup("");
+            setSelectedBakhsh("");
+            fetchData();
+        } else {
+            toast.error(res?.message || "خطا در ثبت اطلاعات");
+        }
+    }
+
+    const handleEdit = (item) => {
+        setEditingItem(item);
+        const ghesmat = item?.ghesmat;
+        if (ghesmat) {
+            setSelectedWorkgroup(String(ghesmat?.bakhsh?.workgroup_id || ""));
+            setSelectedBakhsh(String(ghesmat?.bakhsh_id || ""));
+        }
+        formik.setValues({
+            ghesmat_id: String(item.ghesmat_id),
+            name: item.name,
+        });
+    };
+
+    const handleCancelEdit = () => {
+        setEditingItem(null);
+        formik.resetForm();
+        setSelectedWorkgroup("");
+        setSelectedBakhsh("");
+    };
+
+    const handleDelete = async (id) => {
+        // ✅ اصلاح: بدون /delete
+        const res = await api(`hrm-workgroup-onvan/${id}`, "DELETE");
+        if (res?.success) {
+            toast.success("عنوان با موفقیت حذف شد");
+            fetchData();
+        } else {
+            toast.error(res?.message || "خطا در حذف");
+        }
+    };
+
+    const handleToggleStatus = async (id, currentStatus) => {
+        const newStatus = currentStatus === 1 ? 0 : 1;
+        // ✅ اصلاح: بدون /update
+        const res = await api(`hrm-workgroup-onvan/${id}`, "PATCH", {
+            status: newStatus,
+        });
+        if (res?.success) {
+            toast.success("وضعیت با موفقیت تغییر کرد");
+            fetchData();
+        } else {
+            toast.error(res?.message || "خطا در تغییر وضعیت");
+        }
+    };
+
+    const workgroupOptions = workgroups.map((item) => ({
+        value: String(item.id),
+        label: item.name,
+    }));
+
+    const bakhshOptions = bakhshs.map((item) => ({
+        value: String(item.id),
+        label: item.name,
+    }));
+
+    const ghesmatOptions = ghesmats.map((item) => ({
+        value: String(item.id),
+        label: item.name,
+    }));
+
+    const handleSearch = () => {
+        setFilters({ ...filters, name: searchTerm });
+    };
+
+    const handleClearFilters = () => {
+        setFilters({ ghesmat_id: "", name: "", status: "" });
+        setSearchTerm("");
+    };
+
+    const columns = ["ردیف", "گروه کاری", "بخش", "قسمت", "عنوان (سمت)", "وضعیت", "عملیات"];
+
+    return (
+        <div className="space-y-4">
+            {/* فرم ثبت/ویرایش */}
+            <div className="bg-gray-50 p-4 rounded-lg">
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+                    <Select
+                        name="filter_workgroup"
+                        title="گروه کاری"
+                        value={workgroupOptions.find(opt => opt.value === selectedWorkgroup) || null}
+                        onChange={(opt) => {
+                            setSelectedWorkgroup(opt || "");
+                            setSelectedBakhsh("");
+                            formik.setFieldValue("ghesmat_id", "");
+                        }}
+                        options={workgroupOptions}
+                        placeholder="انتخاب گروه کاری"
+                    />
+                    <Select
+                        name="filter_bakhsh"
+                        title="بخش"
+                        value={bakhshOptions.find(opt => opt.value === selectedBakhsh) || null}
+                        onChange={(opt) => {
+                            setSelectedBakhsh(opt || "");
+                            formik.setFieldValue("ghesmat_id", "");
+                        }}
+                        options={bakhshOptions}
+                        placeholder="انتخاب بخش"
+                    />
+                    <Select
+                        name="ghesmat_id"
+                        title="قسمت"
+                        formik={formik}
+                        options={ghesmatOptions}
+                        placeholder="انتخاب قسمت"
+                        required
+                        onChange={(selectedOption) => {
+                            formik.setFieldValue("ghesmat_id", selectedOption || "");
+                        }}
+                    />
+                    <div>
+                        <Input
+                            type="text"
+                            name="name"
+                            title={editingItem ? "ویرایش عنوان" : "عنوان جدید (سمت شغلی)"}
+                            formik={formik}
+                            placeholder="مثال: حسابدار ارشد"
+                        />
+                    </div>
+                    <div className="flex items-end gap-2">
+                        <Button
+                            onClick={formik.handleSubmit}
+                            isLoading={loading}
+                            disabled={!formik.isValid || loading}
+                        >
+                            {editingItem ? "ویرایش" : "ثبت"}
+                        </Button>
+                        {editingItem && (
+                            <Button variant="secondary" onClick={handleCancelEdit}>
+                                انصراف
+                            </Button>
+                        )}
+                    </div>
+                </div>
+            </div>
+
+            {/* فیلترها */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <Select
+                    name="filter_ghesmat" 
+                    value={ghesmatOptions.find(opt => opt.value === filters.ghesmat_id) || null}
+                    onChange={(opt) => setFilters({ ...filters, ghesmat_id: opt || "" })}
+                    options={ghesmatOptions}
+                    placeholder="همه قسمت‌ها"
+                    isClearable
+                />
+                <div>
+                    <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        placeholder="جستجوی عنوان..."
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                        onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+                    />
+                </div>
+                <div className="flex gap-2">
+                    <Button onClick={handleSearch} className="flex items-center gap-2">
+                        <Search className="w-4 h-4" />
+                        جستجو
+                    </Button>
+                    <Button variant="secondary" onClick={handleClearFilters} className="flex items-center gap-2">
+                        <X className="w-4 h-4" />
+                        پاک کردن
+                    </Button>
+                </div>
+            </div>
+
+            {/* لیست */}
+            {listLoading ? (
+                <div className="flex justify-center py-10">
+                    <Loading />
+                </div>
+            ) : data?.data?.length === 0 ? (
+                <Empty />
+            ) : (
+                <>
+                    <div className="w-full overflow-x-auto">
+                        <div className="min-w-[800px]">
+                            <div className="w-full grid grid-cols-7 gap-4 p-3 bg-gray-100 rounded-t-md">
+                                {columns.map((col, i) => (
+                                    <div key={i} className="flex items-center justify-center">
+                                        <span className="text-xs font-bold text-gray-600">{col}</span>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className="flex flex-col border-x border-b rounded-b-md">
+                                {data.data.map((item, index) => (
+                                    <div
+                                        key={item.id}
+                                        className="w-full grid grid-cols-7 gap-4 px-3 py-3 hover:bg-gray-50 border-b last:border-b-0"
+                                    >
+                                        <div className="flex items-center justify-center">
+                                            <span className="text-xs">{index + 1}</span>
+                                        </div>
+                                        <div className="flex items-center justify-center">
+                                            <span className="text-xs font-medium">
+                                                {item?.ghesmat?.bakhsh?.workgroup?.name || "-"}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center justify-center">
+                                            <span className="text-xs">{item?.ghesmat?.bakhsh?.name || "-"}</span>
+                                        </div>
+                                        <div className="flex items-center justify-center">
+                                            <span className="text-xs">{item?.ghesmat?.name || "-"}</span>
+                                        </div>
+                                        <div className="flex items-center justify-center">
+                                            <span className="text-xs font-bold text-blue-600">{item.name}</span>
+                                        </div>
+                                        <div className="flex items-center justify-center">
+                                            <button
+                                                onClick={() => handleToggleStatus(item.id, item.status)}
+                                                className="cursor-pointer"
+                                            >
+                                                {item.status === 1 ? (
+                                                    <span className="flex items-center gap-1 text-xs text-green-600">
+                                                        <CheckCircle className="w-4 h-4" /> فعال
+                                                    </span>
+                                                ) : (
+                                                    <span className="flex items-center gap-1 text-xs text-gray-400">
+                                                        <XCircle className="w-4 h-4" /> غیرفعال
+                                                    </span>
+                                                )}
+                                            </button>
+                                        </div>
+                                        <div className="flex items-center justify-center gap-2">
+                                            {checkAccess([703]) && (
+                                                <Tooltip>
+                                                    <TooltipTrigger asChild>
+                                                        <button
+                                                            className="cursor-pointer hover:text-blue-600"
+                                                            onClick={() => handleEdit(item)}
+                                                        >
+                                                            <PenBox className="w-4 h-4" />
+                                                        </button>
+                                                    </TooltipTrigger>
+                                                    <TooltipContent>ویرایش</TooltipContent>
+                                                </Tooltip>
+                                            )}
+
+                                            {checkAccess([704]) && (
+                                                <Confirm
+                                                    title="حذف عنوان"
+                                                    onConfirm={() => handleDelete(item.id)}
+                                                >
+                                                    <button className="cursor-pointer hover:text-red-600">
+                                                        <Tooltip>
+                                                            <TooltipTrigger asChild>
+                                                                <Trash2Icon className="w-4 h-4 text-red-500" />
+                                                            </TooltipTrigger>
+                                                            <TooltipContent>حذف</TooltipContent>
+                                                        </Tooltip>
+                                                    </button>
+                                                </Confirm>
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                    <Pagination totalPage={data.pages} />
+                </>
+            )}
+        </div>
+    );
+}

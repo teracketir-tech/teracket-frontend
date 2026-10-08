@@ -1,0 +1,263 @@
+﻿<table align="center" class="ods1" dir="rtl" style="">
+    <tr>
+        <td class="style1" style="width: 126px">
+            <div id="divClose" onclick="HideOrderDiv();" style="cursor: pointer">
+                <img alt="" src="images/delete.png?v=1" style="width: 20px;" />
+            </div>
+        </td>
+        <td width="156">
+            &nbsp;
+        </td>
+        <td style="width: 101px">
+            &nbsp;
+        </td>
+        <td width="197">
+            &nbsp;
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 126px">
+            <div onclick="OrderLog('{strOrderCode}')" style="cursor: pointer; color: #5d9cec;" align="center">
+                تغییرات وضعیت
+            </div>
+        </td>
+        <td width="156">
+            <div onclick="BuyerHistory('{strOrderCode}')" style="cursor: pointer; color: #5d9cec;" align="center">
+                سابقه خريد
+            </div>
+        </td>
+        <td style="width: 101px" align="center">
+            <!--<span lang="fa"><a href="{Editlink}" target="_blank">ویرایش</a></span>-->
+        </td>
+        <td width="197">
+            <div onclick="javascript:PrintOrder('{strOrderCode}')" style="cursor: pointer" align="center">
+                <img src="images/REprint.gif?v=2" alt="چاپ فاکتور" />
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align: left;" colspan="4">
+            <div class="Line2px"></div>
+        </td>
+    </tr>
+    <tr>
+        <td align="left" style="width: 126px">
+            شناسه:
+        </td>
+        <td class="style2" width="156">
+            <font color="#3F51B5">{strOrderCode}</font>
+        </td>
+        <td align="left" style="width: 101px">
+            وضعیت:
+        </td>
+        <td width="197">
+            <font color="#3F51B5">{strOrderStatusTitle} </font>
+        </td>
+    </tr>
+    <tr>
+        <td align="left" style="width: 126px">
+            تاریخ ثبت:
+        </td>
+        <td width="156">
+            <font color="#3F51B5">{dateOrderRegisterDate}</font>
+        </td>
+        <td align="left" style="width: 101px">
+            تاریخ آماده به ارسال:
+        </td>
+        <td width="197">
+            <font color="#3F51B5">{dateOrderReady2SendDate}</font>
+        </td>
+    </tr>
+    <tr>
+        <td align="left" style="width: 126px">
+            ساعت <span lang="fa">ثبت</span>:
+        </td>
+        <td width="156">
+            <font color="#3F51B5">{timeOrderRegisterTime}</font>
+        </td>
+        <td align="left" style="width: 101px">
+            تاریخ در حال ارسال:
+        </td>
+        <td width="197">
+            <font color="#3F51B5">{dateOrderSendDate}</font>
+        </td>
+    </tr>
+    <tr>
+        <td align="left" style="width: 126px">
+            تاریخ اخرین تغییر وضعیت:
+        </td>
+        <td width="156">
+            <font color="#3F51B5">{dateReformDate}</font>
+        </td>
+        <td align="left" style="width: 140px">
+            تاریخ توزیع یا برگشت:
+        </td>
+        <td width="197">
+            <font color="#3F51B5">{dateOrderDeliveryReturnDate}</font>
+        </td>
+    </tr>
+    <tr>
+        <td align="left" style="width: 126px">
+            وزن:
+        </td>
+        <td width="156">
+            <font color="#3F51B5">{numAllGoodWeight}</font>
+        </td>
+        <td align="left" style="width: 101px">
+            کد ارسال:
+        </td>
+        <td width="197">
+            <font color="#3F51B5">{strPeikVarizRef}</font>
+        </td>
+    </tr>
+    <tr>
+        <td align="left" style="width: 126px">
+            نوع پرداخت:
+        </td>
+        <td width="156">
+            <font color="#3F51B5">{strPayTypeTitle}</font>
+        </td>
+        <td align="left" style="width: 101px">
+            کد برگشتی:
+        </td>
+        <td width="197">
+            <font color="#3F51B5">{strBargashtiFactorRef}</font>
+        </td>
+    </tr>
+    <tr>
+        <td align="left" style="width: 126px">
+            نوع ارسال:
+        </td>
+        <td width="156">
+            <font color="#3F51B5">{strPostServiceTitle}</font>
+        </td>
+        <td align="left" style="width: 101px">
+            کد واریزی:
+        </td>
+        <td width="197">
+            <font color="#3F51B5">{strVarizRef}</font>
+        </td>
+    </tr>
+    <tr>
+        <td align="left" style="width: 126px">
+            شماره فاکتور پیک:
+        </td>
+        <td width="156">
+            <font color="#3F51B5">{strPeikSendFactorRef}</font>
+        </td>
+        <td align="left" style="width: 101px"></td>
+        <td width="197"></td>
+    </tr>
+    <tr>
+        <td align="left" style="width: 126px" valign="top">
+            توضیحات:
+        </td>
+        <td width="156" colspan="3" style="width: 353px">
+            <font color="#3F51B5">{strOrderDescription}</font>
+        </td>
+    </tr>
+    <tr {reteurnstyle}>
+        <td align="left" style="width: 126px" valign="top">علت برگشت:</td>
+        <td width="156" colspan="3" style="width: 353px">
+            <font color="#3F51B5">
+                {returnorder}
+            </font>
+        </td>
+
+    </tr>
+
+
+    <tr {notestyle}>
+        <td align="left" style="width: 126px" valign="top">یادداشت مرکز توزیع:</td>
+        <td width="156" colspan="3" style="width: 353px">
+            <font color="#3F51B5">
+                {ordernote}
+            </font>
+        </td>
+
+
+    </tr>
+    <tr>
+        <td style="text-align: left;" colspan="4">
+            <div class="Line2px"></div>
+        </td>
+    </tr>
+    <tr>
+        <td align="left" style="width: 126px">
+            خریدار:
+        </td>
+        <td width="156">
+            <font color="#3F51B5">{strBuyerName}</font>
+        </td>
+        <td align="left" style="width: 101px"></td>
+        <td width="197"></td>
+    </tr>
+    <tr>
+        <td align="left" style="width: 126px">
+            مقصد:
+        </td>
+        <td width="156">
+            <font color="#3F51B5">{strPostCenterName}</font>
+        </td>
+        <td align="left" style="width: 101px">
+            کدپستی:
+        </td>
+        <td width="197">
+            <font color="#3F51B5">{strBuyerPostalCode}</font>
+        </td>
+    </tr>
+    <tr>
+        <td align="left" style="width: 126px">
+            شهر:
+        </td>
+        <td width="156">
+            <font color="#3F51B5">{strBuyerCityName}</font>
+        </td>
+        <td align="left" style="width: 101px">
+            تلفن:
+        </td>
+        <td width="197">
+            <font color="#3F51B5">{strBuyerTel}</font>
+        </td>
+    </tr>
+    <tr>
+        <td align="left" valign="top" style="width: 126px">
+            آدرس:
+        </td>
+        <td colspan="3">
+            <font color="#3F51B5">{strBuyerAddress}</font>
+        </td>
+    </tr>
+    <tr>
+        <td style=" text-align: left;" colspan="4">
+            <div class="Line2px"></div>
+        </td>
+    </tr>
+    <tr>
+        <td align="left" style="width: 126px" valign="top">
+            محصولات:
+        </td>
+        <td colspan="3">
+            <font color="#3F51B5">{strLineOrderItems}</font>
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align: left;" colspan="4">
+            <div class="Line2px"></div>
+        </td>
+    </tr>
+    <tr>
+        <td align="left" style="width: 126px">
+            پیک:
+        </td>
+        <td width="156">
+            <font color="#3F51B5">{strPeikName}</font>
+        </td>
+        <td align="left" style="width: 101px">
+            مسیر:
+        </td>
+        <td width="197">
+            <font color="#3F51B5">{strMasirName}</font>
+        </td>
+    </tr>
+</table>

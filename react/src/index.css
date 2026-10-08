@@ -1,0 +1,329 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@font-face {
+  font-family: "Kalameh";
+  src: url("/fonts/KalamehFaNum-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  font-family: "Kalameh", sans-serif !important;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(91.279% 0.0001 271.152);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  .grid-cold-16 {
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+  }
+
+  .grid-cold-17 {
+    grid-template-columns: repeat(17, minmax(0, 1fr));
+  }
+
+  .mr-7 {
+    @apply mr-7;
+  }
+
+  .mr-14 {
+    @apply mr-14;
+  }
+
+  .ant-select-tree-checkbox {
+    @apply appearance-none! border! border-gray-400! rounded-xs! cursor-pointer! bg-white! transition-all! duration-100! disabled:opacity-50! size-[1.05rem]!;
+  }
+
+  .ant-select-tree-checkbox-checked::after {
+    @apply bg-primary! border-primary! text-white! content-['✓']! size-[1.05rem]! flex! items-center! justify-center!;
+    transform: rotate(0deg) scale(1) translate(-25%, -50%) !important;
+  }
+
+}
+
+@media print {
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .hide_print {
+    display: none;
+    width: 0px !important;
+    height: 0px !important;
+  }
+
+}
+
+[data-sonner-toast] {
+  font-family: 'Kalameh', sans-serif !important;
+}
+
+[data-sonner-toast][data-type="success"] [data-icon] {
+  color: oklch(72.3% 0.219 149.579);
+}
+
+[data-sonner-toast][data-type="info"] [data-icon] {
+  color: oklch(70.7% 0.165 254.624);
+}
+
+[data-sonner-toast][data-type="warning"] [data-icon] {
+  color: oklch(82.8% 0.189 84.429);
+}
+
+[data-sonner-toast][data-type="error"] [data-icon] {
+  color: oklch(63.7% 0.237 25.331);
+}
+
+.ant-select.ant-tree-select {
+  align-items: center !important;
+}
+
+.ant-select-tree {
+  font-size: 12.2px !important;
+  font-family: "Kalameh", sans-serif !important;
+}
+
+.ant-select-tree-node-content-wrapper {
+  padding: 5px !important;
+  border-radius: 0 !important;
+  border-bottom: 1px solid rgb(231, 231, 231) !important;
+}
+
+.ant-select-tree-switcher {
+  margin-top: 4px !important;
+  padding-top: 3px !important;
+}
+
+.ant-select-disabled {
+  @apply bg-white!
+}
+
+
+/* react-select style */
+.css-1dyz3mf {
+  max-height: 65px !important;
+  overflow-y: auto !important;
+}
+/* react-select style */
+
+/* react-multi-date-picker custome style */
+.black .rmdp-wrapper {
+  border: 1px solid var(--primary);
+  box-shadow: 0 0 5px var(--primary);
+}
+
+.black .rmdp-panel-body li {
+  background-color: var(--secondary);
+  box-shadow: 0 0 2px var(--primary);
+}
+
+.black .rmdp-week-day {
+  color: var(--primary);
+}
+
+.black .rmdp-day.rmdp-deactive {
+  color: var(--primary);
+}
+
+.black .rmdp-range {
+  background-color: var(--secondary);
+  box-shadow: 0 0 3px var(--secondary);
+}
+
+.black .rmdp-arrow {
+  border: solid var(--secondary);
+  border-width: 0 2px 2px 0;
+}
+
+.black .rmdp-arrow-container:hover {
+  background-color: var(--secondary);
+  box-shadow: 0 0 3px var(--primary);
+}
+
+.black .rmdp-panel-body::-webkit-scrollbar-thumb {
+  background: var(--secondary);
+}
+
+.black .rmdp-day.rmdp-today span {
+  background-color: var(--secondary);
+}
+
+.black .rmdp-rtl .rmdp-panel {
+  border-left: unset;
+  border-right: 1px solid var(--primary);
+}
+
+.black .rmdp-day.rmdp-selected span:not(.highlight) {
+  background-color: var(--primary);
+  box-shadow: 0 0 3px var(--primary);
+}
+
+.black .rmdp-day:not(.rmdp-day-hidden) span:hover {
+  background-color: var(--secondary) !important;
+}
+
+.black .b-deselect {
+  color: var(--secondary);
+}
+
+.black .rmdp-action-button {
+  color: var(--secondary);
+}
+
+.black .rmdp-button:not(.rmdp-action-button) {
+  background-color: var(--secondary);
+}
+
+.black .rmdp-button:not(.rmdp-action-button):hover {
+  background-color: var(--secondary);
+}
+.black .rmdp-container {
+  height: 2.5rem !important;
+}
+/* react-multi-date-picker custome style */
+
+.seperator-menu-group-label span{
+float:right;
+font-size: 12px;
+padding: 0 3px;
+background-color: var(--sidebar);
+}
+.seperator-menu-group-label span.icon{
+  position: relative;
+  top:3px;
+}
+.seperator-menu-group-line{
+  background-color: #ececec;
+  height: 1px;
+  width: 100%;
+  top:50%;
+  position: absolute;
+  z-index: -1;
+}
+
+/* در فایل index.css یا global.css اضافه کنید */
+
+@media print {
+    /* مخفی کردن المان‌های غیرضروری */
+    .no-print {
+        display: none !important;
+    }
+    
+    /* نمایش محتوای اصلی */
+    #print-content {
+        margin: 0 !important;
+        padding: 20px !important;
+        background: white !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+    }
+    
+    /* تنظیمات صفحه */
+    body {
+        background: white !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    /* جلوگیری از شکستن صفحات */
+    .print-page {
+        page-break-after: avoid;
+    }
+    
+    /* اندازه فونت برای چاپ */
+    .print-content {
+        font-size: 12px !important;
+    }
+}
+input[type="text"]{
+  background-color: #fff !important;
+}

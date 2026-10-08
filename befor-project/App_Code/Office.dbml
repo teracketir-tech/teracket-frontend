@@ -1,0 +1,1138 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Office" Class="OfficeDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=5.61.31.171\sql2014171;Initial Catalog=Office;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="OfficeConnectionString3" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.ofcBBlod" Member="ofcBBlods">
+    <Type Name="ofcBBlod">
+      <Column Name="numBlodCode" Type="System.Int16" DbType="SmallInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strBlodName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelSkill" Member="ofcPersonelSkills">
+    <Type Name="ofcPersonelSkill">
+      <Column Name="numSkillCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strSkillDesc" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="timeRegisterTime" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="strSkillName" Type="System.String" DbType="nvarchar(100)" CanBeNull="true" />
+      <Column Name="numMaharatLevel" Type="System.Int16" DbType="smallint" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcBContractKind" Member="ofcBContractKinds">
+    <Type Name="ofcBContractKind">
+      <Column Name="numContractKindCode" Type="System.Int16" DbType="SmallInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strContractKindName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcBHosingStatus" Member="ofcBHosingStatus">
+    <Type Name="ofcBHosingStatus">
+      <Column Name="numHosingCode" Type="System.Int16" DbType="SmallInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strHosingName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcBJensiat" Member="ofcBJensiats">
+    <Type Name="ofcBJensiat">
+      <Column Name="numJensiatCode" Type="System.Int16" DbType="SmallInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strJensiatName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcBJobStatus" Member="ofcBJobStatus">
+    <Type Name="ofcBJobStatus">
+      <Column Name="numJobStatusCode" Type="System.Int16" DbType="SmallInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strJobStatusName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcBLanguageState" Member="ofcBLanguageStates">
+    <Type Name="ofcBLanguageState">
+      <Column Name="numLanguageStateCode" Type="System.Int16" DbType="SmallInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strLanguageStateName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcBMarrid" Member="ofcBMarrids">
+    <Type Name="ofcBMarrid">
+      <Column Name="numMarridCode" Type="System.Int16" DbType="SmallInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strMarridName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcBMarridRelation" Member="ofcBMarridRelations">
+    <Type Name="ofcBMarridRelation">
+      <Column Name="numRelationCode" Type="System.Int16" DbType="SmallInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strRelationName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcBMilitaryExempt" Member="ofcBMilitaryExempts">
+    <Type Name="ofcBMilitaryExempt">
+      <Column Name="numMilitaryCode" Type="System.Int16" DbType="SmallInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strMilitaryName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcBReligion" Member="ofcBReligions">
+    <Type Name="ofcBReligion">
+      <Column Name="numReligionCode" Type="System.Int16" DbType="SmallInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strReligionName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcBUnitOrganization" Member="ofcBUnitOrganizations">
+    <Type Name="ofcBUnitOrganization">
+      <Column Name="numUnitOrganizationCode" Type="System.Int16" DbType="SmallInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strUnitOrganizationName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcBUniversitySection" Member="ofcBUniversitySections">
+    <Type Name="ofcBUniversitySection">
+      <Column Name="numUniversitySectionCode" Type="System.Int16" DbType="SmallInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strUniversitySectionName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelLanguage" Member="ofcPersonelLanguages">
+    <Type Name="ofcPersonelLanguage">
+      <Column Name="numLanguageCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strLanguageName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numReadingRef" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numWritingRef" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numSpeakingRef" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="timeRegisterTime" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelReagent" Member="ofcPersonelReagents">
+    <Type Name="ofcPersonelReagent">
+      <Column Name="numReagentCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strReagentName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strReagentFamily" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strReagentAddress" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="strReagentPostCode" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="strReagentTel" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="strReagentMobile" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="strReagentRelation" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="timeRegisterTime" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelServiceTraining" Member="ofcPersonelServiceTrainings">
+    <Type Name="ofcPersonelServiceTraining">
+      <Column Name="numServiceCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strServiceTrainingName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strServiceTrainingPlace" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="strServiceTrainingMaster" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="dateServiceStartDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateServiceEndDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="strServiceTime" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="strServiceDocument" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="timeRegisterTime" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelUniversity" Member="ofcPersonelUniversities">
+    <Type Name="ofcPersonelUniversity">
+      <Column Name="numUniversityCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="strUniversityName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numUniversitySectionRef" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="strUniversityField" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strUniversityOrientation" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="dateStartUniversityDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateEndUniversityDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="strUniversityAvg" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="timeRegisterTime" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelChildInfo" Member="ofcPersonelChildInfos">
+    <Type Name="ofcPersonelChildInfo">
+      <Column Name="numCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strChildName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strChildFamily" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strChildMelliCode" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="strNumberShenasname" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateChildBrithDayDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numChildKind" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelMarridInfo" Member="ofcPersonelMarridInfos">
+    <Type Name="ofcPersonelMarridInfo">
+      <Column Name="numCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strPersonName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strPersonFamily" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strPersonMelliCode" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="strNumberShenasname" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateMarridBrithdayDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateMarridDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelEducation" Member="ofcPersonelEducations">
+    <Type Name="ofcPersonelEducation">
+      <Column Name="numEducationCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strEducationName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="strLessonName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strEducationTime" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="dateStartLessonDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateEndLessonDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="timeRegisterTime" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="strGovahiNameTitle" Type="System.String" DbType="nvarchar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelFileUploaded" Member="ofcPersonelFileUploadeds">
+    <Type Name="ofcPersonelFileUploaded">
+      <Column Name="numCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strUploadImage" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numFileType" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcBEmployer" Member="ofcBEmployers">
+    <Type Name="ofcBEmployer">
+      <Column Name="numEmployerCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strEmployerName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelTimeWorkSpecial" Member="ofcPersonelTimeWorkSpecials">
+    <Type Name="ofcPersonelTimeWorkSpecial">
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="numWeekDay" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="strWeekName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strTimeIn" Type="System.String" DbType="NVarChar(8)" CanBeNull="true" />
+      <Column Name="strTimeOut" Type="System.String" DbType="NVarChar(8)" CanBeNull="true" />
+      <Column Name="strTimeDelay" Type="System.String" DbType="NVarChar(8)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelTimeWork" Member="ofcPersonelTimeWorks">
+    <Type Name="ofcPersonelTimeWork">
+      <Column Name="numTimeWorkCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numYear" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numWeekDay" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="strWeekName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strTimeIn" Type="System.String" DbType="NVarChar(8)" CanBeNull="true" />
+      <Column Name="strTimeOut" Type="System.String" DbType="NVarChar(8)" CanBeNull="true" />
+      <Column Name="strTimeDelay" Type="System.String" DbType="NVarChar(8)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcBWorkGroup" Member="ofcBWorkGroups">
+    <Type Name="ofcBWorkGroup">
+      <Column Name="numWorkGroupCode" Type="System.Int16" DbType="SmallInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strWorkGroupName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcBleave" Member="ofcBleaves">
+    <Type Name="ofcBleave">
+      <Column Name="numLeaveCode" Type="System.Int16" DbType="SmallInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strLeaveName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcBMission" Member="ofcBMissions">
+    <Type Name="ofcBMission">
+      <Column Name="numMissionCode" Type="System.Int16" DbType="SmallInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strMissionName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelMission" Member="ofcPersonelMissions">
+    <Type Name="ofcPersonelMission">
+      <Column Name="numCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numMissionRef" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="dateStartMissionDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateEndMissionDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="timeStartMissionTime" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="timeEndMissionTime" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="strMissionDescription" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelBimeh" Member="ofcPersonelBimehs">
+    <Type Name="ofcPersonelBimeh">
+      <Column Name="numBimehCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strBimehNumber" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strBimehWorkshopCode" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strWorkshopName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="dateStartBimehDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateEndBimehDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelHistoryJob" Member="ofcPersonelHistoryJobs">
+    <Type Name="ofcPersonelHistoryJob">
+      <Column Name="numJobHistoryCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strJobPlaceName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="strResponsibilityName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="dateResponsibilityFromDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateResponsibilityToDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="strResponsibilityDesc" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="timeRegisterTime" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelBankInfo" Member="ofcPersonelBankInfos">
+    <Type Name="ofcPersonelBankInfo">
+      <Column Name="numBankInfoCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strBankAccount" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strBankName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strShebaBank" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strCartNumberBank" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelTasviehVam" Member="ofcPersonelTasviehVams">
+    <Type Name="ofcPersonelTasviehVam">
+      <Column Name="numTasviehVamCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numVamRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceGhestVam" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelMosaede" Member="ofcPersonelMosaedes">
+    <Type Name="ofcPersonelMosaede">
+      <Column Name="numMosaedeCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceMosaede" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateTasviehDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numMonth" Type="System.Int16" DbType="smallint" CanBeNull="true" />
+      <Column Name="numYear" Type="System.Int16" DbType="smallint" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelPadashAndJarimeh" Member="ofcPersonelPadashAndJarimehs">
+    <Type Name="ofcPersonelPadashAndJarimeh">
+      <Column Name="numPadashCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPricePadashAndJarimeh" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strDesc" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="numSaveKind" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateTasviehDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numMonth" Type="System.Int16" DbType="smallint" CanBeNull="true" />
+      <Column Name="numYear" Type="System.Int16" DbType="smallint" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelVam" Member="ofcPersonelVams">
+    <Type Name="ofcPersonelVam">
+      <Column Name="numVamCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceVam" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numAghsat" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numPriceVamMontly" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateTasviehDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelWorkGroupLog" Member="ofcPersonelWorkGroupLogs">
+    <Type Name="ofcPersonelWorkGroupLog">
+      <Column Name="numWorkgroupLogCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numWorkGroupRef" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="timeRegisterTime" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numContractRef" Type="System.Int32" DbType="int" CanBeNull="true" />
+      <Column Name="numBakhshWorkGroupRef" Type="System.Int32" DbType="int" CanBeNull="true" />
+      <Column Name="numGhesmatWorkgroupRef" Type="System.Int32" DbType="int" CanBeNull="true" />
+      <Column Name="numOnvanWorkGroupRef" Type="System.Int32" DbType="int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcDayWorkIntoMonth" Member="ofcDayWorkIntoMonths">
+    <Type Name="ofcDayWorkIntoMonth">
+      <Column Name="numWorkMonthCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numMonthJob" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numYear" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numCountDay" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="timeRegisterTime" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelMonthlyJob" Member="ofcPersonelMonthlyJobs">
+    <Type Name="ofcPersonelMonthlyJob">
+      <Column Name="numMonthlyJobCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strJobDays" Type="System.String" DbType="NVarChar(7)" CanBeNull="true" />
+      <Column Name="strJobOverTime" Type="System.String" DbType="NVarChar(7)" CanBeNull="true" />
+      <Column Name="strJobFriday" Type="System.String" DbType="NVarChar(7)" CanBeNull="true" />
+      <Column Name="strJobHoliDay" Type="System.String" DbType="NVarChar(7)" CanBeNull="true" />
+      <Column Name="strJobMission" Type="System.String" DbType="NVarChar(7)" CanBeNull="true" />
+      <Column Name="strJobDelay" Type="System.String" DbType="NVarChar(7)" CanBeNull="true" />
+      <Column Name="strJobEarly" Type="System.String" DbType="NVarChar(7)" CanBeNull="true" />
+      <Column Name="strJobAbsent" Type="System.String" DbType="NVarChar(7)" CanBeNull="true" />
+      <Column Name="strJobExit" Storage="_strJobExists" Type="System.String" DbType="NVarChar(7)" CanBeNull="true" />
+      <Column Name="numContractRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="dateStartJobDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateEndJobDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numMonthJob" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numYear" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="smallint" CanBeNull="true" />
+      <Column Name="numContractKindRef" Type="System.Int16" DbType="smallint" CanBeNull="true" />
+      <Column Name="numCountFaraiandProject" Type="System.Int32" DbType="int" CanBeNull="true" />
+      <Column Name="numWorkGroupRef" Type="System.Int16" DbType="smallint" CanBeNull="true" />
+      <Column Name="strJobOverTimeSpecial" Type="System.String" DbType="nvarchar(7)" CanBeNull="true" />
+      <Column Name="strJobOverTimeInMission" Type="System.String" DbType="nvarchar(7)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelMonthlyJobSaati" Member="ofcPersonelMonthlyJobSaatis">
+    <Type Name="ofcPersonelMonthlyJobSaati">
+      <Column Name="numMonthlyJobSaatiCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strJobTime" Type="System.String" DbType="NVarChar(7)" CanBeNull="true" />
+      <Column Name="numContractRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="dateStartJobDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateEndJobDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numMonthJob" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numYear" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numContractKindRef" Type="System.Int16" DbType="smallint" CanBeNull="true" />
+      <Column Name="numWorkGroupRef" Type="System.Int16" DbType="smallint" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelLeave" Member="ofcPersonelLeaves">
+    <Type Name="ofcPersonelLeave">
+      <Column Name="numCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numLeaveRef" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="timeLeaveTime" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numMonth" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numYear" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelLeaveDaily" Member="ofcPersonelLeaveDailies">
+    <Type Name="ofcPersonelLeaveDaily">
+      <Column Name="numCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numLeaveRef" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="dateLeaveDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="timeLeaveTime" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numMonth" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numYear" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelFaraiand" Member="ofcPersonelFaraiands">
+    <Type Name="ofcPersonelFaraiand">
+      <Column Name="numFaraiandCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="dateStartJobDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateEndJobDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numMonthJob" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numYear" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numCountFaraiandProject" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numWorkGroupRef" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numContractRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelFaraiandCalc" Member="ofcPersonelFaraiandCalcs">
+    <Type Name="ofcPersonelFaraiandCalc">
+      <Column Name="numFaraiandCalcCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numCountFaraiandProject" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceOneFaraind" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceCalcFaraindKhales" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numMonthJob" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numYear" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numWorkGroupRef" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numContractRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numFaraiandRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strBankName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strBankAccount" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="dateVarizDate" Type="System.String" DbType="nvarchar(10)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcBWorkGroupBakhsh" Member="ofcBWorkGroupBakhshes">
+    <Type Name="ofcBWorkGroupBakhsh">
+      <Column Name="numBakhshWorkGroupCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strBakhshName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numWorkGroupRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcBWorkGroupGhesmat" Member="ofcBWorkGroupGhesmats">
+    <Type Name="ofcBWorkGroupGhesmat">
+      <Column Name="numGhesmatWorkgroupCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strGhesmatName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numWorkGroupRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numBakhshWorkGroupRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelDailyJob" Member="ofcPersonelDailyJobs">
+    <Type Name="ofcPersonelDailyJob">
+      <Column Name="numDailyJobCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="dateKarkardRozaneDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateInputDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="strStartJobTime" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="dateOutPutDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="strEndJobTime" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="strJobDays" Type="System.String" DbType="NVarChar(7)" CanBeNull="true" />
+      <Column Name="strJobOverTime" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="strUnJobOverTime" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="strJobDelay" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="strJobEarly" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="strUnJobEarly" Type="System.String" DbType="NVarChar(7)" CanBeNull="true" />
+      <Column Name="strJobFriday" Type="System.String" DbType="NVarChar(7)" CanBeNull="true" />
+      <Column Name="strUnJobFriday" Type="System.String" DbType="NVarChar(7)" CanBeNull="true" />
+      <Column Name="strJobHoliDay" Type="System.String" DbType="NVarChar(7)" CanBeNull="true" />
+      <Column Name="strUnJobHoliDay" Type="System.String" DbType="NVarChar(7)" CanBeNull="true" />
+      <Column Name="strJobAbsent" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="strJobMission" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="strJobExit" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="strMorakhasiBedoneHoghogh" Type="System.String" DbType="NVarChar(7)" CanBeNull="true" />
+      <Column Name="strMorakhasiBaHoghogh" Type="System.String" DbType="NVarChar(7)" CanBeNull="true" />
+      <Column Name="numContractRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numMonth" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numYear" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numContractKindRef" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numWorkGroupRef" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="strJobOverTimeSpecial" Type="System.String" DbType="NVarChar(7)" CanBeNull="true" />
+      <Column Name="strJobOverTimeInMission" Type="System.String" DbType="nvarchar(7)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcRoles" Member="ofcRoles">
+    <Type Name="ofcRole">
+      <Column Name="numRoleCode" Type="System.Int16" DbType="smallint NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strRoleName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="strRoleAccess" Type="System.String" DbType="nvarchar(1000)" CanBeNull="true" />
+      <Column Name="strTabsAccess" Type="System.String" DbType="nvarchar(1000)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcUsers" Member="ofcUsers">
+    <Type Name="ofcUser">
+      <Column Name="strUserCode" Type="System.String" DbType="NVarChar(25) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="strUserName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strUserPassword" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="numRoleRef" Type="System.Int16" DbType="smallint" CanBeNull="true" />
+      <Column Name="strUserAccess" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="strUserTabAccess" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcFunction" Member="ofcFunctions">
+    <Type Name="ofcFunction">
+      <Column Name="numFunctionCode" Type="System.Byte" DbType="TinyInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="strFunctionName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcFunctionTabs" Member="ofcFunctionTabs">
+    <Type Name="ofcFunctionTab">
+      <Column Name="numId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPageTab" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="strPageTabName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="numFunctionRef" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="" Member="rwPersianDates">
+    <Type Name="rwPersianDate" Id="ID1">
+      <Column Name="PersianDate" Type="System.String" CanBeNull="false" />
+      <Column Name="PersianTime" Type="System.String" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="op_results">
+    <Type Name="op_result">
+      <Column Name="result" Type="System.String" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcSetting" Member="ofcSettings">
+    <Type Name="ofcSetting">
+      <Column Name="numSettingCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPriceSalary" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceBon" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceHomeSalary" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numYear" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="strUserRegisterRef" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="timeRegisterTime" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcBAmval" Member="ofcBAmvals">
+    <Type Name="ofcBAmval">
+      <Column Name="numAmvalCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strAmvalName" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="strAmvalJens" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="numPriceAmval" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="dateResisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelAmval" Member="ofcPersonelAmvals">
+    <Type Name="ofcPersonelAmval">
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="numAmvalRef" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="strBarChasbCode" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numPricePersonelAmval" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numCountPersonelAmval" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strDesc" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="dateResisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcHavalehAmvalInfoLog" Member="ofcHavalehAmvalInfoLogs">
+    <Type Name="ofcHavalehAmvalInfoLog">
+      <Column Name="numhavalehLogCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numAmvalRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numCountMojodiAmval" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numCountAssignAmval" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceAmval" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="dateResisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="timeRegisterTime" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcHavalehAmvalInfo" Member="ofcHavalehAmvalInfos">
+    <Type Name="ofcHavalehAmvalInfo">
+      <Column Name="numHavaleInfoCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numAmvalHavalehRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numAmvalRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numCountAmval" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceAmval" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strDesc" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="dateResisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="timeRegisterTime" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcBHavalehAmval" Member="ofcBHavalehAmvals">
+    <Type Name="ofcBHavalehAmval">
+      <Column Name="numAmvalHavalehCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strAmvalHavalehName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numNumberZarb" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelVagozarAmval" Member="ofcPersonelVagozarAmvals">
+    <Type Name="ofcPersonelVagozarAmval">
+      <Column Name="numAmvalVagozarCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPersonelRefVagozar" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numAmvalRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strBarChasbCode" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numPricePersonelAmval" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numCountPersonelAmval" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strDesc" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="dateResisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPrePersonelFileUploaded" Member="ofcPrePersonelFileUploadeds">
+    <Type Name="ofcPrePersonelFileUploaded">
+      <Column Name="numFileCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPreRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strUploadImage" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numFileType" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcBCity" Member="ofcBCities">
+    <Type Name="ofcBCity">
+      <Column Name="strCityCode" Type="System.String" DbType="NVarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="numProvinceRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strCityName" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="strPostCenterRef" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="strCityPreTelCode" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcBProvince" Member="ofcBProvinces">
+    <Type Name="ofcBProvince">
+      <Column Name="strProvinceCode" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="strProvinceName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="strPostCenterCode" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPrePersonel" Member="ofcPrePersonels">
+    <Type Name="ofcPrePersonel">
+      <Column Name="numPreCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strPersonelName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strPersonelFamily" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strFatherName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strMelliCode" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="strNumberShenasname" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateBrithdayDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="strExportCityRef" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numJensiatRef" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numMarridRef" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="strPersonelAddress" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="strPostCode" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="strTel" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="strMobile" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="numUniversitySection" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="strSendPostServiceStatus" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numContractKindStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numPricePorsant" Storage="_numPeikWage" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="timeRegisterTime" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="int" CanBeNull="true" />
+      <Column Name="numPriceSalary" Type="System.Int32" DbType="int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcBWorkGroupOnvan" Member="ofcBWorkGroupOnvans">
+    <Type Name="ofcBWorkGroupOnvan">
+      <Column Name="numOnvanWorkGroupCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strOnvanName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numWorkGroupRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numBakhshWorkGroupRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numGhesmatWorkgroupRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcBWorkGroupSemat" Member="ofcBWorkGroupSemats">
+    <Type Name="ofcBWorkGroupSemat">
+      <Column Name="numSematWorkGroupCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strOnvanName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numWorkGroupRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numBakhshWorkGroupRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numGhesmatWorkgroupRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numOnvanWorkGroupRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelLeaveEndYear" Member="ofcPersonelLeaveEndYears">
+    <Type Name="ofcPersonelLeaveEndYear">
+      <Column Name="numLeaveEndYearCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Storage="_numPerosnelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numYear" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numWorkGroupCode" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numContractKindRef" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="strCountLeaveInYear" Storage="_numCountLeaveInYear" Type="System.String" DbType="NVarChar(8)" CanBeNull="true" />
+      <Column Name="strCountLeaveOut" Storage="_numCountLeaveOut" Type="System.String" DbType="NVarChar(8)" CanBeNull="true" />
+      <Column Name="strCountLeaveRemained" Storage="_numCountLeaveRemained" Type="System.String" DbType="NVarChar(8)" CanBeNull="true" />
+      <Column Name="strCountPayableLeave" Storage="_numCountPayableLeave" Type="System.String" DbType="NVarChar(8)" CanBeNull="true" />
+      <Column Name="strCountPayOffLeave" Storage="_numCountPayOffLeave" Type="System.String" DbType="NVarChar(8)" CanBeNull="true" />
+      <Column Name="numPriceRoot" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceSettleLeaveEndYear" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="dateVerifiDate" Type="System.String" DbType="nvarchar(10)" CanBeNull="true" />
+      <Column Name="strBankName" Type="System.String" DbType="nvarchar(50)" CanBeNull="true" />
+      <Column Name="strBankAccount" Type="System.String" DbType="nvarchar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelEidiEndYear" Member="ofcPersonelEidiEndYears">
+    <Type Name="ofcPersonelEidiEndYear">
+      <Column Name="numEidiEndYearCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numYear" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numWorkGroupCode" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numContractKindRef" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numDayInYear" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numPriceRoot" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceEidiOneDay" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceSettleEidiEndYear" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="dateVerifiDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numIsLevelVariz" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="numCountLevel" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="strUniqCodeLevel" Type="System.String" DbType="nvarchar(10)" CanBeNull="true" />
+      <Column Name="strBankName" Type="System.String" DbType="nvarchar(50)" CanBeNull="true" />
+      <Column Name="strBankAccount" Type="System.String" DbType="nvarchar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcBContractState" Member="ofcBContractStates">
+    <Type Name="ofcBContractState">
+      <Column Name="numContractStateCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strContractStateName" Storage="_strContractState" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonel" Member="ofcPersonels">
+    <Type Name="ofcPersonel">
+      <Column Name="numCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelCode" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="strPersonelName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strPersonelFamily" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strFatherName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strPersonalPass" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strMelliCode" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="strNumberShenasname" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="strMosalsalShenasname" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="dateBrithdayDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="strBrithdayCityRef" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strExportCityRef" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numMeliat" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numJensiatRef" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numMilitaryRef" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numReligionRef" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="strGilderName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numBlodRef" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numMarridRef" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="strPersonelPic" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strSignaturePic" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strProvinceRef" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="strCityRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numHosingRef" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="strPersonelAddress" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="strPostCode" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="strTel" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="strMobile" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="strTelNecessary" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="strEmail" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numEmployerRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strWorkProvinceRef" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="strWorkCityRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numWorkGroupRef" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="timeRegisterTime" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numPerosnelCharacter" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="strCompanyName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strCompanyRegNumber" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="numCompanyType" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numSematInCompany" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Association Name="ofcPersonel_ofcPersonelChartPosition" Member="ofcPersonelChartPositions" ThisKey="numPersonelCode" OtherKey="numPersonelRef" Type="ofcPersonelChartPosition" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelPreInvoice" Member="ofcPersonelPreInvoices">
+    <Type Name="ofcPersonelPreInvoice">
+      <Column Name="numInvoiceCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numCntChild" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strJobDays" Type="System.String" DbType="NVarChar(7)" CanBeNull="true" />
+      <Column Name="strJobOverTime" Type="System.String" DbType="NVarChar(7)" CanBeNull="true" />
+      <Column Name="numPersonelSalary" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPersonelHomeSalary" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPersonelBon" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceEzafeKar" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceJomeKar" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceTatilKar" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceAyabzahab" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceHaghModiriat" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceCalcHoghogh1" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPersonelChildSalary" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceMamoriat" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPersonelPadash" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPersonelPadashSaier" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceEidi" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPersonelSanavat" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceCalcHoghogh2" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPricePersonelMaliat" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPricePersonelBimeh" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceBimeTakmili" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceVamMontly" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceMosaede" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceTakhir" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceTajil" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceGhibat" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceJarimeMotefareghe" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceKhorojGhireMojaz" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceMorakhasiBiHoghogh" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceMorakhasiUni" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceCalcKosorat" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceCalcHoghoghKhales" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strBankAccount" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numWorkGroupCode" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strInvoiceMonth" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="strInvoiceYear" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="strVamRef" Storage="_numVamRef" Type="System.String" DbType="nvarchar(50)" CanBeNull="true" />
+      <Column Name="strMosaedeRef" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strPadashRef" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strJarimehRef" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numContractKindRef" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="dateVarizDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numContractRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numMonthlyJobRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceSaier" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strBankName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strMandeAzMaheGhablTafkiki" Type="System.String" DbType="NVarChar(150)" CanBeNull="true" />
+      <Column Name="numPriceMoavaghe" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strMoavagheRef" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strDescSaier" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="numPriceEzafeKarVijeh" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strJobOverTimeSpecial" Type="System.String" DbType="NVarChar(7)" CanBeNull="true" />
+      <Column Name="numPriceEzafeKarInMission" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strJobOverTimeInMission" Type="System.String" DbType="NVarChar(7)" CanBeNull="true" />
+      <Column Name="numPriceReBuyLeave" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceBuyCo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strBuyCoRef" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numPriceMonth31" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceMonth29" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPricePorsantTozi" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPricePorsantKharjMahdode" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPricePrintMoadeli" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceGhoboz" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceKosorMotefareghe" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strKosorMotefaregheRef" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numPriceJarimehTakhir8Saat" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numIsKarakardPriceOnly" Type="System.Byte" DbType="tinyint" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelPreInvoiceSaati" Member="ofcPersonelPreInvoiceSaatis">
+    <Type Name="ofcPersonelPreInvoiceSaati">
+      <Column Name="numInvoiceSaatiCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strJobTime" Type="System.String" DbType="NVarChar(7)" CanBeNull="true" />
+      <Column Name="numPriceSaati" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPersonelSalary" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPersonelPadashSaier" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceCalcHoghogh1" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPricePersonelMaliat" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPricePersonelBimeh" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceBimeTakmili" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceVamMontly" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceMosaede" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceJarimeMotefareghe" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceCalcKosorat" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceCalcHoghoghKhales" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strBankAccount" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numWorkGroupCode" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strInvoiceMonth" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="strInvoiceYear" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="strVamRef" Storage="_numVamRef" Type="System.String" DbType="nvarchar(50)" CanBeNull="true" />
+      <Column Name="strMosaedeRef" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strPadashRef" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strJarimehRef" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numContractKindRef" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="dateVarizDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numContractRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numMonthlyJobSaatiRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceSaier" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strBankName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strMandeAzMaheGhablTafkiki" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="numPriceMoavaghe" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strMoavagheRef" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="strDescSaier" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="numPriceEidi" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceReBuyLeave" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceBuyCo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strBuyCoRef" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numPriceKosorMotefareghe" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strKosorMotefaregheRef" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numPriceAyabzahab" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numIsKarakardPriceOnly" Type="System.Byte" DbType="tinyint" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcOrgChart" Member="ofcOrgCharts">
+    <Type Name="ofcOrgChart">
+      <Column Name="numOrgChartCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strOrgChartName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="numOrgChartParentID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="ofcOrgChart_ofcOrgChart" Member="ofcOrgCharts" ThisKey="numOrgChartCode" OtherKey="numOrgChartParentID" Type="ofcOrgChart" />
+      <Association Name="ofcOrgChart_ofcChartPosition" Member="ofcChartPositions" ThisKey="numOrgChartCode" OtherKey="numOrgChartRef" Type="ofcChartPosition" />
+      <Association Name="ofcOrgChart_ofcOrgChart" Member="ofcOrgChart1" ThisKey="numOrgChartParentID" OtherKey="numOrgChartCode" Type="ofcOrgChart" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcOrgPosition" Member="ofcOrgPositions">
+    <Type Name="ofcOrgPosition">
+      <Column Name="numOrgPositionCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strOrgPositionName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="ofcOrgPosition_ofcChartPosition" Member="ofcChartPositions" ThisKey="numOrgPositionCode" OtherKey="numOrgPositionRef" Type="ofcChartPosition" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcChartPosition" Member="ofcChartPositions">
+    <Type Name="ofcChartPosition">
+      <Column Name="numChartPositionCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numOrgChartRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numOrgPositionRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="ofcOrgChart_ofcChartPosition" Member="ofcOrgChart" ThisKey="numOrgChartRef" OtherKey="numOrgChartCode" Type="ofcOrgChart" IsForeignKey="true" />
+      <Association Name="ofcOrgPosition_ofcChartPosition" Member="ofcOrgPosition" ThisKey="numOrgPositionRef" OtherKey="numOrgPositionCode" Type="ofcOrgPosition" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelChartPosition" Member="ofcPersonelChartPositions">
+    <Type Name="ofcPersonelChartPosition">
+      <Column Name="numPersonelPositionCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numChartPositionRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numContractRef" Type="System.Int32" DbType="int" CanBeNull="true" />
+      <Association Name="ofcPersonel_ofcPersonelChartPosition" Member="ofcPersonel" ThisKey="numPersonelRef" OtherKey="numPersonelCode" Type="ofcPersonel" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelAssignAgent" Member="ofcPersonelAssignAgents">
+    <Type Name="ofcPersonelAssignAgent">
+      <Column Name="numAssignAgentCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strPersonMelliRef" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="numContractRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelContract" Member="ofcPersonelContracts">
+    <Type Name="ofcPersonelContract">
+      <Column Name="numContractCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="StrContractUniqCode" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numUnitOrganizationRef" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="strOrganizationJobName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="numContractKindRef" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="dateStartContractDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateEndContractDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateUnvalidContractDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterContractDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateCutWorkDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateEstekhdamDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numJobStatusRef" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numPersonelAdminRef" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numPersonelSalary" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPersonelHomeSalary" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPersonelBon" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPersonelChildSalary" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPersonelPadash" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceHaghModiriat" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceAyabZahab" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPersonelSaier" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPersonelSanavat" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceEidi" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceLeave" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strContractMonth" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="strContractDay" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="StrKarKardTime" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateDoreFromDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateDoreToDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="strKhadamatDescription" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="strRegisterUserRef" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="dateRegisterDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="timeRegisterTime" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="numStatus" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="strTitleFaraiand" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="numEndOfKind" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numWorkGroupRef" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="numBakhshWorkGroupRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numGhesmatWorkgroupRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numOnvanWorkGroupRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceJariEjareh" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceJariTel" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceJariNet" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPriceJariAbogaz" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPricePorsantToziShode" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPricePorsantKharejMahdode" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numPricePorsantMoadeli" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numContractStateRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numAgentArea" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numAnbarArea" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strZemanatType" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numZemanatPrice" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numCountZemanatSafteh" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="strZemanatAllInfoSafteh" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="numCountZemanatCheck" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="strZemanatAllInfoCheck" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelTransporterKind" Member="ofcPersonelTransporterKinds">
+    <Type Name="ofcPersonelTransporterKind">
+      <Column Name="numTransporterKindCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numPersonelRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numTransporterKind" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="strOwnerName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="strModel" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="strColor" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="strNumShahrbani" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="strNumShasi" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="strNumBody" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="numContractRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ofcPersonelHaghBimeh" Member="ofcPersonelHaghBimehs">
+    <Type Name="ofcPersonelHaghBimeh">
+      <Column Name="numHaghBimehCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numMonth" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numYear" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numHaghBimehPrice" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="dateInsertDate" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="numUserInsertRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.wsGetPersianDateTimeFloat" Method="wsGetPersianDateTimeFloat">
+    <Parameter Name="AddedDay" Parameter="addedDay" Type="System.Int32" DbType="Int" />
+    <ElementType IdRef="ID1" />
+  </Function>
+  <Function Name="dbo.CountdateBetweenDate" Method="CountdateBetweenDate" IsComposable="true">
+    <Parameter Name="strDateFrom" Type="System.String" DbType="NChar(10)" />
+    <Parameter Name="strDateTo" Type="System.String" DbType="NChar(10)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.UDF_Julian_To_Gregorian" Method="UDF_Julian_To_Gregorian" IsComposable="true">
+    <Parameter Name="jdn" Type="System.Int64" DbType="BigInt" />
+    <Return Type="System.String" />
+  </Function>
+  <Function Name="dbo.UDF_Persian_To_Julian" Method="UDF_Persian_To_Julian" IsComposable="true">
+    <Parameter Name="iYear" Type="System.Int32" DbType="Int" />
+    <Parameter Name="iMonth" Type="System.Int32" DbType="Int" />
+    <Parameter Name="iDay" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int64" />
+  </Function>
+</Database>

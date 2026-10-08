@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="User" Class="UsersDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=5.61.27.198\SQLSERVER2008R2;Initial Catalog=User;Persist Security Info=True;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="UserConnectionString1" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.usrMessage" Member="usrMessages">
+    <Type Name="usrMessage">
+      <Column Name="numMsgCode" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="numUserRefFrom" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numUserRefTo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strMsgSubject" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="strMsgBody" Type="System.String" DbType="NVarChar(2000)" CanBeNull="true" />
+      <Column Name="numMsgStatus" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="dateMsgRegisterDate" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="dateMsgRegisterTime" Type="System.String" DbType="NChar(5)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.usrInsertMessage" Method="usrInsertMessage">
+    <Parameter Name="numUserRefFrom" Type="System.Int32" DbType="Int" />
+    <Parameter Name="GRnumUserRefTo" Parameter="gRnumUserRefTo" Type="System.String" DbType="NVarChar(1000)" />
+    <Parameter Name="strMsgSubject" Type="System.String" DbType="NVarChar(200)" />
+    <Parameter Name="strMsgBody" Type="System.String" DbType="NVarChar(2000)" />
+    <Parameter Name="numMsgStatus" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+</Database>

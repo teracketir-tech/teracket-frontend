@@ -1,0 +1,508 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 16.375, 10" name="Office">
+  <DataContextMoniker Name="/OfficeDataContext" />
+  <nestedChildShapes>
+    <classShape Id="e6575e39-49c4-4033-8402-b6b8943b47b5" isExpanded="false" absoluteBounds="2.875, 4.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcBBlod" />
+      <nestedChildShapes>
+        <elementListCompartment Id="43cb29a3-93db-4768-af6b-4d901825c4b0" absoluteBounds="2.89, 4.71, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="651ad300-27c7-4265-8707-0483c5cb07e6" isExpanded="false" absoluteBounds="2.875, 0.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelSkill" />
+      <nestedChildShapes>
+        <elementListCompartment Id="556c1159-7ed0-42d6-bdfe-b3216a0fec81" absoluteBounds="2.8900000000000006, 1.21, 1.9700000000000002, 1.7878011067708333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="2f5024ed-8995-4e03-915b-893fd490ffab" isExpanded="false" absoluteBounds="0.75, 1.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcBContractKind" />
+      <nestedChildShapes>
+        <elementListCompartment Id="b249c31d-cbf6-45c2-931f-720608cff5fc" absoluteBounds="0.765, 1.71, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="a89e77b9-0289-400e-8d1f-2279bdbd1b33" isExpanded="false" absoluteBounds="2.875, 1.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcBHosingStatus" />
+      <nestedChildShapes>
+        <elementListCompartment Id="33e21f75-a7d0-4cab-9dc1-3dcba628cd96" absoluteBounds="2.89, 1.71, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="450cd1da-6f33-4673-a003-bfc17837801b" isExpanded="false" absoluteBounds="0.75, 3.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcBJensiat" />
+      <nestedChildShapes>
+        <elementListCompartment Id="014963ab-9d51-4997-929b-9146af02be62" absoluteBounds="0.76499999999999968, 3.71, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="321686bf-9742-466d-b87a-5bd8654a99f2" isExpanded="false" absoluteBounds="0.75, 1.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcBJobStatus" />
+      <nestedChildShapes>
+        <elementListCompartment Id="c10f909e-536b-4046-b2c3-2803e0047e96" absoluteBounds="0.765, 2.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="3b6306f6-f2c4-40a9-8380-34c229d6f758" isExpanded="false" absoluteBounds="0.75, 4.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcBLanguageState" />
+      <nestedChildShapes>
+        <elementListCompartment Id="065fcae6-b733-4eeb-b2c5-dd415571f93f" absoluteBounds="0.76499999999999968, 4.71, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="e58e5bce-2dee-4e91-ba64-ffdcebde4667" isExpanded="false" absoluteBounds="2.875, 1.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcBMarrid" />
+      <nestedChildShapes>
+        <elementListCompartment Id="9d0e5a3c-9b3e-49da-a549-7f92218d7484" absoluteBounds="2.89, 2.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="1cb6ecab-8d98-4807-9d88-737b24f6d7e7" isExpanded="false" absoluteBounds="0.75, 4.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcBMarridRelation" />
+      <nestedChildShapes>
+        <elementListCompartment Id="c3a00fc7-89eb-4923-8f7b-f6081e2a898d" absoluteBounds="0.76499999999999968, 5.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="b7a44bea-041a-49f3-bd88-d7d848f26405" isExpanded="false" absoluteBounds="0.75, 3.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcBMilitaryExempt" />
+      <nestedChildShapes>
+        <elementListCompartment Id="042a482e-f61f-42b8-b769-402bfdc11548" absoluteBounds="0.76500000000000057, 4.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="439ea311-8799-4223-9c7e-9508d3786ca2" isExpanded="false" absoluteBounds="0.75, 2.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcBReligion" />
+      <nestedChildShapes>
+        <elementListCompartment Id="df3c4db7-3543-4c23-a413-6238d2eae0e4" absoluteBounds="0.765, 2.7100000000000009, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="51404453-5949-48c3-b393-bf1d089cbe75" isExpanded="false" absoluteBounds="0.75, 5.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcBUnitOrganization" />
+      <nestedChildShapes>
+        <elementListCompartment Id="3df77dd3-e871-4cc0-9a3d-2d2a3bc289fd" absoluteBounds="0.76500000000000057, 5.71, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="dc856a58-94fc-4e50-aea1-2032b6a9808b" isExpanded="false" absoluteBounds="2.875, 2.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcBUniversitySection" />
+      <nestedChildShapes>
+        <elementListCompartment Id="360410ca-2785-4c6f-ab86-7b0cc33d5c01" absoluteBounds="2.89, 2.7100000000000009, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="847400d8-41f3-41ad-99a5-65971f4c2812" isExpanded="false" absoluteBounds="2.875, 4.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelLanguage" />
+      <nestedChildShapes>
+        <elementListCompartment Id="71c40714-bfed-4090-af4a-3e5404ab91f6" absoluteBounds="2.8900000000000006, 5.2100000000000009, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="020e42f9-d456-4501-b3ad-a0490c58d6ad" isExpanded="false" absoluteBounds="2.875, 3.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelReagent" />
+      <nestedChildShapes>
+        <elementListCompartment Id="e92be8a6-32a2-4ef8-b6a6-aa1060462a52" absoluteBounds="2.8900000000000006, 3.71, 1.9700000000000002, 2.5570068359375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="e2f7f3e6-24fb-4085-9601-df6bfb5a4979" isExpanded="false" absoluteBounds="2.875, 3.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelServiceTraining" />
+      <nestedChildShapes>
+        <elementListCompartment Id="6ba56b88-e229-4821-adc0-d15f01e3a640" absoluteBounds="2.8900000000000006, 4.21, 1.9700000000000002, 2.5570068359375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="3b998a08-f01e-4140-8835-1eaa26863171" isExpanded="false" absoluteBounds="5, 0.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelUniversity" />
+      <nestedChildShapes>
+        <elementListCompartment Id="5967f3a9-6ffa-45cd-93a8-87556339aa33" absoluteBounds="5.015, 1.2100000000000009, 1.9700000000000002, 2.5570068359375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="3b092d79-8ce2-4c82-9010-e8bbc005bfe7" isExpanded="false" absoluteBounds="5, 5.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelChildInfo" />
+      <nestedChildShapes>
+        <elementListCompartment Id="e45d075a-ac6a-45f1-a2b1-37e1b0a159e6" absoluteBounds="5.015, 6.21, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="e81d586f-1032-48b2-bac7-5d1eaa1752e2" isExpanded="false" absoluteBounds="2.875, 5.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelMarridInfo" />
+      <nestedChildShapes>
+        <elementListCompartment Id="3e79149f-694c-49ec-87fd-2e08437cf47a" absoluteBounds="2.8899999999999997, 5.71, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="7ef474a4-3fd7-4b8a-b424-b985661594c2" isExpanded="false" absoluteBounds="0.75, 2.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelEducation" />
+      <nestedChildShapes>
+        <elementListCompartment Id="b6cafdb3-d79e-4570-9c7e-5181c05060be" absoluteBounds="0.76499999999999968, 3.21, 1.9700000000000002, 2.364705403645833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="8ea7245a-f1cb-4240-816e-270712aaca50" isExpanded="false" absoluteBounds="5, 2.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelFileUploaded" />
+      <nestedChildShapes>
+        <elementListCompartment Id="c925e0e2-4ba5-482e-9b86-e71df478b4c8" absoluteBounds="5.015, 2.71, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="21644a09-ba03-49d3-87bd-5bf1948798a4" isExpanded="false" absoluteBounds="5, 2.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcBEmployer" />
+      <nestedChildShapes>
+        <elementListCompartment Id="ea3b4ca6-842b-48bb-837b-609b6aacdd8c" absoluteBounds="5.015, 3.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="2a24ecc8-89ce-4682-92c4-457d29b04727" isExpanded="false" absoluteBounds="5, 3.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelTimeWorkSpecial" />
+      <nestedChildShapes>
+        <elementListCompartment Id="d2b5d42a-21b2-45ce-9030-4bb6ac16b99e" absoluteBounds="5.015, 3.71, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="c1115e88-3f4a-4cbc-ae45-4349a7f89864" isExpanded="false" absoluteBounds="5, 3.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelTimeWork" />
+      <nestedChildShapes>
+        <elementListCompartment Id="3f16fdde-b156-435c-a83f-111f69c09fc8" absoluteBounds="5.015, 4.2100000000000009, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="3c5e509f-bcc9-4236-90bc-42bc2be705df" isExpanded="false" absoluteBounds="5, 4.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcBWorkGroup" />
+      <nestedChildShapes>
+        <elementListCompartment Id="9df2e82c-cf71-41bc-9ae2-9bcafbd4db1b" absoluteBounds="5.015, 5.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="0de3ec72-0e75-475f-9243-1e79957ef17b" isExpanded="false" absoluteBounds="5, 4.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcBleave" />
+      <nestedChildShapes>
+        <elementListCompartment Id="524ba1a8-689b-4364-83e0-effaeb7e4c2f" absoluteBounds="5.015, 4.71, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="40c4dea4-4cf0-46ee-9e64-7698f8ea48a0" isExpanded="false" absoluteBounds="7.125, 0.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcBMission" />
+      <nestedChildShapes>
+        <elementListCompartment Id="d6502a3e-f05b-4f89-8c53-cb35adf106d0" absoluteBounds="7.14, 1.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="fda534c8-d681-44f1-b85c-eebfbf4b7d07" isExpanded="false" absoluteBounds="7.125, 1.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelMission" />
+      <nestedChildShapes>
+        <elementListCompartment Id="c1edc97a-8fa9-4839-96eb-a8bdd95a1e29" absoluteBounds="7.1400000000000006, 1.71, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="64b3790e-4535-4bef-b734-87c9c207bdf2" isExpanded="false" absoluteBounds="7.125, 3.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelBimeh" />
+      <nestedChildShapes>
+        <elementListCompartment Id="84d5b25b-ea5b-4906-b8c1-cee263e444a8" absoluteBounds="7.1400000000000006, 3.7100000000000009, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="8088e7d1-a2b9-4b62-8665-b3db7ed57487" isExpanded="false" absoluteBounds="2.875, 2.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelHistoryJob" />
+      <nestedChildShapes>
+        <elementListCompartment Id="407ce41c-1828-4c6a-bd65-0fd58d6925ef" absoluteBounds="2.8899999999999997, 3.21, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="85e857f1-2a98-4622-9b3a-eb67022f12d1" isExpanded="false" absoluteBounds="7.125, 2.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelBankInfo" />
+      <nestedChildShapes>
+        <elementListCompartment Id="141273a9-3e8c-464d-ae77-0835cc775f66" absoluteBounds="7.1400000000000006, 3.21, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="8ed821df-d95b-4d38-812f-2c5d6f8a4aec" isExpanded="false" absoluteBounds="7.125, 5.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelTasviehVam" />
+      <nestedChildShapes>
+        <elementListCompartment Id="a34bcbca-e1c1-49bd-a4bb-8edb9b902332" absoluteBounds="7.14, 5.71, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="469f0aa9-87b9-4d40-9ea2-7b32f1d03c85" isExpanded="false" absoluteBounds="7.125, 4.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelMosaede" />
+      <nestedChildShapes>
+        <elementListCompartment Id="9870a2a4-4565-47ba-bccd-98f6a1731f56" absoluteBounds="7.1400000000000006, 4.71, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="f6483db4-75fd-44ee-a85f-516b68e76afb" isExpanded="false" absoluteBounds="7.125, 4.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelPadashAndJarimeh" />
+      <nestedChildShapes>
+        <elementListCompartment Id="4bb7ed52-534b-4f66-89c3-14f4945b6bf5" absoluteBounds="7.1400000000000006, 5.2100000000000009, 1.9700000000000002, 2.364705403645833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="2274cca5-6cdb-4dfe-b887-68d8e7c98f95" isExpanded="false" absoluteBounds="7.125, 5.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelVam" />
+      <nestedChildShapes>
+        <elementListCompartment Id="c94ca9f0-4fc9-4e3d-a3d7-fb93d487281f" absoluteBounds="7.14, 6.2100000000000009, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="4d38f009-e5f0-4fe6-8b5b-42cc7162de48" isExpanded="false" absoluteBounds="9.25, 1.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelWorkGroupLog" />
+      <nestedChildShapes>
+        <elementListCompartment Id="9ae828d9-de6b-4bae-8f3b-c026017f4b75" absoluteBounds="9.265, 1.71, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="fe3982a1-0386-4c0a-ba8d-3cdfcd180b81" isExpanded="false" absoluteBounds="9.25, 1.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcDayWorkIntoMonth" />
+      <nestedChildShapes>
+        <elementListCompartment Id="8e219fec-16f3-4fe1-940a-dc4f81d0729d" absoluteBounds="9.265, 2.21, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="ee470e56-70e6-4d4b-b8d1-de12754877d0" isExpanded="false" absoluteBounds="7.125, 2.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelMonthlyJob" />
+      <nestedChildShapes>
+        <elementListCompartment Id="87d4ffe6-596f-404f-acfc-2fff2dbd408b" absoluteBounds="7.1400000000000006, 2.71, 1.9700000000000002, 4.8646240234375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="291efaa1-7df7-481e-880e-a1e8d3d25d36" isExpanded="false" absoluteBounds="9.25, 2.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelMonthlyJobSaati" />
+      <nestedChildShapes>
+        <elementListCompartment Id="7f3d7f02-bafd-403a-b99a-7f6963afd182" absoluteBounds="9.265, 2.71, 1.9700000000000002, 2.7493082682291665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="d1c55a55-09ea-4705-9e95-ff934d2b938e" isExpanded="false" absoluteBounds="5, 5.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelLeave" />
+      <nestedChildShapes>
+        <elementListCompartment Id="670f9a4f-8a67-4c54-8a63-4dc89ff46bb6" absoluteBounds="5.015, 5.71, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="d6a2f827-8725-4b96-9662-3e81f2e49300" isExpanded="false" absoluteBounds="2.875, 5.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelLeaveDaily" />
+      <nestedChildShapes>
+        <elementListCompartment Id="cab07243-d9b9-43e6-8e4d-dd2841f3c43b" absoluteBounds="2.89, 6.2100000000000009, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="18a633c1-bf13-435a-ad0c-ed5d9401a737" isExpanded="false" absoluteBounds="9.25, 3.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelFaraiand" />
+      <nestedChildShapes>
+        <elementListCompartment Id="0df3c506-b23a-4422-a956-7849802f3000" absoluteBounds="9.265, 3.71, 1.9700000000000002, 2.5570068359375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="da05235a-b5ff-4cb0-94f6-eda50e213314" isExpanded="false" absoluteBounds="9.25, 3.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelFaraiandCalc" />
+      <nestedChildShapes>
+        <elementListCompartment Id="cc3bea9f-38b1-44fc-8a0f-4175edc5a0d1" absoluteBounds="9.265, 4.21, 1.9700000000000002, 3.3262125651041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="db58cdda-6f17-48ae-ac94-f8ede1d84ef7" isExpanded="false" absoluteBounds="9.25, 4.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcBWorkGroupBakhsh" />
+      <nestedChildShapes>
+        <elementListCompartment Id="f78bee8c-f53d-40eb-b3f0-43783590c7af" absoluteBounds="9.265, 4.71, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="17e33f07-77e1-4436-9a57-123bfe6c2097" isExpanded="false" absoluteBounds="9.25, 4.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcBWorkGroupGhesmat" />
+      <nestedChildShapes>
+        <elementListCompartment Id="45f22ee9-57bd-4c8e-9989-2a873f482c89" absoluteBounds="9.265, 5.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="214681e7-9557-46c8-b520-ab113287e129" isExpanded="false" absoluteBounds="7.125, 3.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelDailyJob" />
+      <nestedChildShapes>
+        <elementListCompartment Id="29eba3fe-9d25-4339-b1c0-96b4d8c7b54a" absoluteBounds="7.1400000000000006, 4.21, 1.9700000000000002, 6.403035481770833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="aee09521-a625-448b-a533-e50be1bbee48" isExpanded="false" absoluteBounds="9.25, 5.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcRole" />
+      <nestedChildShapes>
+        <elementListCompartment Id="85bb2ca5-e829-4baa-b3eb-615a61bd9ed5" absoluteBounds="9.265, 6.2100000000000009, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="1a32b5db-f757-4a7e-a90d-9c432756c2c1" isExpanded="false" absoluteBounds="9.25, 5.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcUser" />
+      <nestedChildShapes>
+        <elementListCompartment Id="5e676471-edf0-4ec5-9787-324fc6affb87" absoluteBounds="9.265, 5.7100000000000009, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="8cc096f8-f3e5-4fc6-8a8c-e98b3ded807d" isExpanded="false" absoluteBounds="0.75, 5.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcFunction" />
+      <nestedChildShapes>
+        <elementListCompartment Id="145dd8da-04c9-4848-bb89-442058c6b133" absoluteBounds="0.765, 6.2100000000000009, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="34360c09-1b2c-4edf-aebc-c4764ff66b4d" isExpanded="false" absoluteBounds="0.75, 6.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcFunctionTab" />
+      <nestedChildShapes>
+        <elementListCompartment Id="6e924ff7-9b43-443d-969f-12a368e7db87" absoluteBounds="0.76500000000000012, 6.7100000000000009, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="8787a763-bbe5-4aab-984b-e15eca297842" isExpanded="false" absoluteBounds="11.375, 0.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/rwPersianDate" />
+      <nestedChildShapes>
+        <elementListCompartment Id="5753eab0-1035-4500-8e2d-1b3ebc2d392b" absoluteBounds="11.39, 1.21, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="7c683f72-3995-4d62-a067-88944f678753" isExpanded="false" absoluteBounds="2.875, 6.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/op_result" />
+      <nestedChildShapes>
+        <elementListCompartment Id="1dd7102d-8143-44ac-8aa4-53f59100b442" absoluteBounds="2.89, 6.7100000000000009, 1.9700000000000002, 0.44169108072916669" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="3d78ade1-7fdf-462d-937c-a71afcca0f97" isExpanded="false" absoluteBounds="5, 6.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcSetting" />
+      <nestedChildShapes>
+        <elementListCompartment Id="50fb38ee-0e5a-496e-ab01-3833d2118b0b" absoluteBounds="5.015, 6.71, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="9a260786-1141-41d9-bd1f-2c26ca8cd9ed" isExpanded="false" absoluteBounds="0.75, 7.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcBAmval" />
+      <nestedChildShapes>
+        <elementListCompartment Id="de5215e4-47b2-4f8c-935e-e4418ef54c4e" absoluteBounds="0.765, 8.21, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="a5f0f548-483e-4ba5-8f16-0e9401231365" isExpanded="false" absoluteBounds="0.75, 8.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelAmval" />
+      <nestedChildShapes>
+        <elementListCompartment Id="02dc27fe-1211-4d8b-89f2-92a5b66ddd88" absoluteBounds="0.76500000000000012, 8.71, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="32bc5788-79ab-4b62-ad01-3002e07e8a80" isExpanded="false" absoluteBounds="3.375, 7.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcHavalehAmvalInfoLog" />
+      <nestedChildShapes>
+        <elementListCompartment Id="6e80df21-315a-4295-ba25-21cfcb47eaf4" absoluteBounds="3.39, 8.21, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="0dab39b9-d659-46b1-8347-afc674d8b7c8" isExpanded="false" absoluteBounds="3.375, 8.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcHavalehAmvalInfo" />
+      <nestedChildShapes>
+        <elementListCompartment Id="d4a5bc64-4c9e-4423-a724-36068ca848a0" absoluteBounds="3.3899999999999997, 8.71, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="4ddb1146-6638-4f8c-8a86-9edbce75926e" isExpanded="false" absoluteBounds="7.125, 6.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcBHavalehAmval" />
+      <nestedChildShapes>
+        <elementListCompartment Id="3e549ad8-016d-4b07-a536-31512b09c66a" absoluteBounds="7.1400000000000006, 6.71, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="7500b599-620c-411a-997c-a36c1b285a8e" isExpanded="false" absoluteBounds="9.25, 6.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelVagozarAmval" />
+      <nestedChildShapes>
+        <elementListCompartment Id="5c575a6a-2bb9-40f7-b542-d868ad210593" absoluteBounds="9.265, 6.71, 1.9700000000000002, 2.364705403645833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="4b64f1d7-1a85-4597-ba26-7621a8021837" isExpanded="false" absoluteBounds="5.625, 8.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPrePersonelFileUploaded" />
+      <nestedChildShapes>
+        <elementListCompartment Id="60641250-07fc-4ba2-8033-59dafa74e390" absoluteBounds="5.64, 8.71, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="eb4543dc-a362-48c6-810f-7f2b266e5930" isExpanded="false" absoluteBounds="5, 1.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcBCity" />
+      <nestedChildShapes>
+        <elementListCompartment Id="e80515e7-31f9-4047-8539-656455fbae90" absoluteBounds="5.0150000000000006, 1.7100000000000009, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="2bb6e52d-8f8f-4393-9af6-7b1460a51b69" isExpanded="false" absoluteBounds="5, 1.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcBProvince" />
+      <nestedChildShapes>
+        <elementListCompartment Id="39762161-764b-443a-ac42-9b04fc6d1406" absoluteBounds="5.0150000000000006, 2.2100000000000009, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="c0f62817-5087-48f5-aac2-5d9856251667" isExpanded="false" absoluteBounds="5.625, 7.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPrePersonel" />
+      <nestedChildShapes>
+        <elementListCompartment Id="ccccbcf6-b8e9-4f65-90f4-07841e3ae746" absoluteBounds="5.6400000000000006, 8.21, 1.9700000000000002, 4.8646240234375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="c01fbbe4-0e1f-4f96-9691-df8d6028b0d4" isExpanded="false" absoluteBounds="8, 7.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcBWorkGroupOnvan" />
+      <nestedChildShapes>
+        <elementListCompartment Id="27665685-b552-4028-a261-097b61a9c27d" absoluteBounds="8.015, 8.21, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="7c51fd26-1a73-4ded-b02d-f5a09e883373" isExpanded="false" absoluteBounds="8, 8.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcBWorkGroupSemat" />
+      <nestedChildShapes>
+        <elementListCompartment Id="3ae41859-651b-4b89-b00c-42dccebf1991" absoluteBounds="8.015, 8.71, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="06b31b47-4d9b-44ef-b534-eda114644f75" isExpanded="false" absoluteBounds="0.75, 8.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelLeaveEndYear" />
+      <nestedChildShapes>
+        <elementListCompartment Id="6ad182c5-d09f-4cad-954d-6ce91be37d99" absoluteBounds="0.765, 9.21, 1.9700000000000002, 3.7108154296875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="5182febb-ccd7-41a8-84d4-e4a688f87acf" isExpanded="false" absoluteBounds="0.75, 9.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelEidiEndYear" />
+      <nestedChildShapes>
+        <elementListCompartment Id="cf6487fd-e5f3-4380-8567-b1943bd21360" absoluteBounds="0.76499999999999968, 9.71, 1.9700000000000002, 3.7108154296875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="15322f98-655a-4b0e-8718-63a3ad19dc1d" isExpanded="false" absoluteBounds="7.125, 1.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcBContractState" />
+      <nestedChildShapes>
+        <elementListCompartment Id="302cbbd2-6467-4c91-949f-012f2303df61" absoluteBounds="7.1400000000000006, 2.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="be99786e-94f5-4442-9ebf-4c8f4719a5a6" isExpanded="false" absoluteBounds="11.375, 2.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonel" />
+      <nestedChildShapes>
+        <elementListCompartment Id="3c9bc9cf-6a10-40c9-903a-487e779f89fa" absoluteBounds="11.39, 2.7100000000000009, 1.9700000000000002, 8.5183512369791661" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="9f7d55f4-9b3f-4a61-9351-517e6921590b" isExpanded="false" absoluteBounds="11.375, 1.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelPreInvoice" />
+      <nestedChildShapes>
+        <elementListCompartment Id="30af8b0c-3eb9-467d-bd77-5b6b88661c1e" absoluteBounds="11.39, 1.71, 1.9700000000000002, 14.287394205729166" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="2cf4ebcf-44b0-4aaf-b1a2-822422717772" isExpanded="false" absoluteBounds="11.375, 1.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelPreInvoiceSaati" />
+      <nestedChildShapes>
+        <elementListCompartment Id="682fd660-bc02-4e9c-a623-63d6901ff44f" absoluteBounds="11.39, 2.21, 1.9700000000000002, 8.7106526692708321" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="f39c16a9-83dd-40b2-ad5d-a4fdce5f06c9" isExpanded="false" absoluteBounds="14.125, 2.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcOrgChart" />
+      <nestedChildShapes>
+        <elementListCompartment Id="3a25ea82-40b4-4111-b08b-7405cd658692" absoluteBounds="14.14, 3.2100000000000009, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="cf2d66ab-1355-40ce-953d-e719013d4b18" isExpanded="false" absoluteBounds="14.125, 3.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcOrgPosition" />
+      <nestedChildShapes>
+        <elementListCompartment Id="f9dc67f4-6c17-4aff-9571-45ace4d684f1" absoluteBounds="14.14, 4.2100000000000009, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="e75b6ba1-0f0f-4532-b801-d251e866df75" isExpanded="false" absoluteBounds="14.125, 3.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcChartPosition" />
+      <nestedChildShapes>
+        <elementListCompartment Id="5c10d45c-fd7a-49fe-a135-bb0b9896d537" absoluteBounds="14.14, 3.7100000000000009, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="b1dc1516-a389-4fd2-9c2f-4991b47e8841" isExpanded="false" absoluteBounds="14.125, 2.25, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelChartPosition" />
+      <nestedChildShapes>
+        <elementListCompartment Id="fc235fd6-f79c-4111-ab61-b24fd438842a" absoluteBounds="14.14, 2.71, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(14.8091923076923 : 3.2); (14.8091923076923 : 3.45); (15.4558461538462 : 3.45); (15.4558461538462 : 3.2)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/OfficeDataContext/ofcOrgChart/ofcOrgChart_ofcOrgChart" />
+      <nodes>
+        <classShapeMoniker Id="f39c16a9-83dd-40b2-ad5d-a4fdce5f06c9" />
+        <classShapeMoniker Id="f39c16a9-83dd-40b2-ad5d-a4fdce5f06c9" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(14.4045961538462 : 3.2); (14.4045961538462 : 3.25)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/OfficeDataContext/ofcOrgChart/ofcOrgChart_ofcChartPosition" />
+      <nodes>
+        <classShapeMoniker Id="f39c16a9-83dd-40b2-ad5d-a4fdce5f06c9" />
+        <classShapeMoniker Id="e75b6ba1-0f0f-4532-b801-d251e866df75" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(15.40625 : 3.75); (15.40625 : 3.7)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/OfficeDataContext/ofcOrgPosition/ofcOrgPosition_ofcChartPosition" />
+      <nodes>
+        <classShapeMoniker Id="cf2d66ab-1355-40ce-953d-e719013d4b18" />
+        <classShapeMoniker Id="e75b6ba1-0f0f-4532-b801-d251e866df75" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(13.375 : 2.475); (14.125 : 2.475)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/OfficeDataContext/ofcPersonel/ofcPersonel_ofcPersonelChartPosition" />
+      <nodes>
+        <classShapeMoniker Id="be99786e-94f5-4442-9ebf-4c8f4719a5a6" />
+        <classShapeMoniker Id="b1dc1516-a389-4fd2-9c2f-4991b47e8841" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="6a0db535-eb6f-47de-963c-2e6bb9fca6db" isExpanded="false" absoluteBounds="3.375, 8.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelAssignAgent" />
+      <nestedChildShapes>
+        <elementListCompartment Id="b324581d-cc43-41be-893b-4540db180f7f" absoluteBounds="3.3899999999999997, 9.21, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="03deef9e-2404-4d9b-a0ff-9092f3fb784f" isExpanded="false" absoluteBounds="11.375, 2.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelContract" />
+      <nestedChildShapes>
+        <elementListCompartment Id="0aafe3cf-ddba-4d0c-86f1-09ad82cf33a3" absoluteBounds="11.39, 3.21, 1.9700000000000002, 11.2105712890625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="f0bf8916-3e67-4895-aafe-8a67696302b4" isExpanded="false" absoluteBounds="0.75, 0.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelTransporterKind" />
+      <nestedChildShapes>
+        <elementListCompartment Id="7c1838fb-e77d-4231-b2f4-c8bfa8716764" absoluteBounds="0.76499999999999968, 1.21, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="b26e2693-b386-4acd-bd24-d2bf2f8e0fe4" isExpanded="false" absoluteBounds="0.75, 6.75, 2, 0.45">
+      <DataClassMoniker Name="/OfficeDataContext/ofcPersonelHaghBimeh" />
+      <nestedChildShapes>
+        <elementListCompartment Id="ca83da4e-79e6-4cec-852a-c1af0f4fcb93" absoluteBounds="0.76499999999999968, 7.21, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>
