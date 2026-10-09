@@ -33,6 +33,11 @@ const getCurrentPersianYear = () => {
 };
 
 // ============== Validation Schema ==============
+const normalizeDigits = (value) =>
+    String(value ?? "")
+        .replace(/[۰-۹]/g, (digit) => String("۰۱۲۳۴۵۶۷۸۹".indexOf(digit)))
+        .replace(/[٠-٩]/g, (digit) => String("٠١٢٣٤٥٦٧٨٩".indexOf(digit)));
+
 const calculateSchema = yup.object({
     user_id: yup.string().required("انتخاب پرسنل الزامی است"),
     year: yup.string().required("سال الزامی است"),
@@ -44,6 +49,8 @@ export default function VacationBuyback() {
     const [loading, setLoading] = useState(false);
     const [listLoading, setListLoading] = useState(false);
     const [users, setUsers] = useState([]);
+    const [personnelCodeSearch, setPersonnelCodeSearch] = useState("");
+    const [searchedPersonnelCode, setSearchedPersonnelCode] = useState("");
     const [data, setData] = useState({ data: [], pages: 0, totalCount: 0 });
     const [showResult, setShowResult] = useState(false);
     const [calculatedData, setCalculatedData] = useState(null);
@@ -87,7 +94,7 @@ export default function VacationBuyback() {
     // ============== دریافت لیست کاربران ==============
     const fetchUsers = async () => {
         try {
-            const usersRes = await api("user?per-page=100", "GET");
+            const usersRes = await api("user?per-page=1000", "GET");
             if (usersRes?.data) {
                 setUsers(usersRes.data);
             }
@@ -198,8 +205,8 @@ export default function VacationBuyback() {
     };
 
     // ✅ اصلاح: استفاده از selectedOption به جای selectedOption?.value
-    const handleFilterSelectChange = (name, selectedOption) => {
-        setFilters(prev => ({ ...prev, [name]: selectedOption || "" }));
+    const handleFilterSelectChange = (name, selectedValue) => {
+        setFilters(prev => ({ ...prev, [name]: selectedValue || "" }));
     };
 
     const handleSearch = () => fetchData();
@@ -214,10 +221,51 @@ export default function VacationBuyback() {
     };
 
     // ============== تبدیل داده‌ها ==============
-    const userOptions = users.map((item) => ({
-        value: String(item.id),
-        label: `${item.first_name || ""} ${item.last_name || ""}`.trim() || item.phone_number || `کاربر ${item.id}`,
-    }));
+    const userOptions = users.map((item) => {
+        const fullName = `${item.first_name || ""} ${item.last_name || ""}`.trim();
+        const personnelCode = String(item.personnel_code || "");
+        return {
+            value: String(item.id),
+            label: `${fullName || item.phone_number || `کاربر ${item.id}`}${personnelCode ? ` (${personnelCode})` : ""}`,
+            personnelCode,
+        };
+    });
+
+    const filteredUserOptions = searchedPersonnelCode
+        ? userOptions.filter((item) =>
+              normalizeDigits(item.personnelCode).includes(searchedPersonnelCode)
+          )
+        : userOptions;
+
+    const handlePersonnelSearch = () => {
+        const code = normalizeDigits(personnelCodeSearch).trim();
+
+        if (!code) {
+            setSearchedPersonnelCode("");
+            toast.info("کد پرسنلی را وارد کنید");
+            return;
+        }
+
+        setSearchedPersonnelCode(code);
+
+        const matches = userOptions.filter(
+            (item) => item.personnelCode && normalizeDigits(item.personnelCode).includes(code)
+        );
+
+        if (matches.length === 0) {
+            toast.error("پرسنلی با این کد پرسنلی پیدا نشد");
+            return;
+        }
+
+        if (matches.length === 1) {
+            formik.setFieldValue("user_id", matches[0].value);
+            toast.success("پرسنل انتخاب شد");
+            return;
+        }
+
+        formik.setFieldValue("user_id", "");
+        toast.info("چند پرسنل پیدا شد؛ از لیست انتخاب کنید");
+    };
 
     const statusOptions = [
         { value: "", label: "همه وضعیت‌ها" },
@@ -263,36 +311,84 @@ export default function VacationBuyback() {
                 </CardHeader>
 
                 <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <Select
-                            name="user_id"
-                            title="پرسنل"
-                            formik={formik}
-                            options={userOptions}
-                            placeholder="انتخاب پرسنل"
-                            required
-                            onChange={(selectedOption) => {
-                                formik.setFieldValue("user_id", selectedOption?.value || "");
-                            }}
-                        />
+                    <div className="mb-5 rounded-lg border border-gray-200 bg-gray-50 p-4">
+                        <div className="mb-1 text-sm font-semibold text-gray-800">انتخاب پرسنل</div>
+                        <p className="mb-4 text-xs text-gray-500">
+                            پرسنل را با کد پرسنلی جستجو یا از لیست انتخاب کنید
+                        </p>
 
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            <div className="flex flex-col">
+                                <label className="mb-1 text-sm font-medium text-gray-700">
+                                    کد پرسنلی
+                                </label>
+                                <div className="flex gap-2">
+                                    <input
+                                        type="text"
+                                        value={personnelCodeSearch}
+                                        onChange={(e) => setPersonnelCodeSearch(e.target.value)}
+                                        onKeyDown={(e) => {
+                                            if (e.key === "Enter") {
+                                                e.preventDefault();
+                                                handlePersonnelSearch();
+                                            }
+                                        }}
+                                        placeholder="کد پرسنلی را وارد کنید"
+                                        className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-transparent focus:ring-2 focus:ring-blue-500"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={handlePersonnelSearch}
+                                        className="inline-flex shrink-0 items-center justify-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-sm text-white transition hover:bg-blue-700"
+                                    >
+                                        <Search className="h-4 w-4" />
+                                        جستجو
+                                    </button>
+                                </div>
+                            </div>
+
+                            <Select
+                                name="user_id"
+                                title="انتخاب کاربر از لیست"
+                                formik={formik}
+                                options={filteredUserOptions}
+                                placeholder="انتخاب پرسنل"
+                                required
+                            />
+                        </div>
+
+                        {searchedPersonnelCode && (
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setPersonnelCodeSearch("");
+                                    setSearchedPersonnelCode("");
+                                }}
+                                className="mt-2 text-xs text-blue-600 hover:text-blue-800"
+                            >
+                                نمایش همه پرسنل
+                            </button>
+                        )}
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <div className="flex flex-col">
-                            <label className="text-sm font-medium text-gray-700 mb-1">سال (شمسی)</label>
+                            <label className="mb-1 text-sm font-medium text-gray-700">سال (شمسی)</label>
                             <input
                                 type="number"
                                 name="year"
                                 value={formik.values.year}
                                 onChange={(e) => formik.setFieldValue("year", e.target.value)}
                                 placeholder="مثال: ۱۴۰۴"
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-transparent focus:ring-2 focus:ring-blue-500"
                                 min={1300}
                             />
                             {formik.touched.year && formik.errors.year && (
-                                <div className="text-xs text-red-500 mt-1">{formik.errors.year}</div>
+                                <div className="mt-1 text-xs text-red-500">{formik.errors.year}</div>
                             )}
                         </div>
 
-                        <div className="flex items-end gap-2">
+                        <div className="flex items-end justify-start gap-2">
                             <Button
                                 onClick={formik.handleSubmit}
                                 isLoading={loading}
