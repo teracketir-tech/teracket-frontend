@@ -243,6 +243,7 @@ export default function BonusSettlement() {
         }
 
         setSearchedPersonnelCode(code);
+        formik.setFieldValue("user_id", "");
 
         const matches = userOptions.filter(
             (item) => item.personnelCode && normalizeDigits(item.personnelCode).includes(code)
