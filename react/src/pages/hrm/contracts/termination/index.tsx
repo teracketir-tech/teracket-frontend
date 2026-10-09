@@ -309,8 +309,69 @@ export default function ContractTermination() {
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
+                    <div className="mb-5 rounded-lg border border-gray-200 bg-gray-50 p-4">
+                        <div className="mb-1 text-sm font-semibold text-gray-800">انتخاب پرسنل</div>
+                        <p className="mb-4 text-xs text-gray-500">
+                            پرسنل را با کد پرسنلی جستجو یا از لیست انتخاب کنید
+                        </p>
+
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            <div className="flex flex-col">
+                                <label className="mb-1 text-sm font-medium text-gray-700">
+                                    کد پرسنلی
+                                </label>
+                                <div className="flex gap-2">
+                                    <input
+                                        type="text"
+                                        value={personnelCodeSearch}
+                                        onChange={(e) => setPersonnelCodeSearch(e.target.value)}
+                                        onKeyDown={(e) => {
+                                            if (e.key === "Enter") {
+                                                e.preventDefault();
+                                                handlePersonnelSearch();
+                                            }
+                                        }}
+                                        placeholder="کد پرسنلی را وارد کنید"
+                                        className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-transparent focus:ring-2 focus:ring-blue-500"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={handlePersonnelSearch}
+                                        className="inline-flex shrink-0 items-center justify-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-sm text-white transition hover:bg-blue-700"
+                                    >
+                                        <Search className="h-4 w-4" />
+                                        جستجو
+                                    </button>
+                                </div>
+                            </div>
+
+                            <Select
+                                name="user_id"
+                                title="انتخاب کاربر از لیست"
+                                value={filters.user_id}
+                                onChange={(selectedValue) => handleFilterSelectChange("user_id", selectedValue)}
+                                options={filteredUserOptions}
+                                placeholder="انتخاب پرسنل"
+                                required={false}
+                            />
+                        </div>
+
+                        {searchedPersonnelCode && (
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setPersonnelCodeSearch("");
+                                    setSearchedPersonnelCode("");
+                                }}
+                                className="mt-2 text-xs text-blue-600 hover:text-blue-800"
+                            >
+                                نمایش همه پرسنل
+                            </button>
+                        )}
+                    </div>
+
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-                        <div className="flex min-w-0 flex-col">
+                        <div className="flex flex-col">
                             <label className="mb-1 text-sm font-medium text-gray-700">از تاریخ</label>
                             <DatePicker
                                 calendar={persian}
@@ -326,7 +387,7 @@ export default function ContractTermination() {
                             />
                         </div>
 
-                        <div className="flex min-w-0 flex-col">
+                        <div className="flex flex-col">
                             <label className="mb-1 text-sm font-medium text-gray-700">تا تاریخ</label>
                             <DatePicker
                                 calendar={persian}
@@ -342,58 +403,7 @@ export default function ContractTermination() {
                             />
                         </div>
 
-                        <div className="flex min-w-0 flex-col">
-                            <label className="mb-1 text-sm font-medium text-gray-700">جستجو با کد پرسنلی</label>
-                            <div className="flex min-w-0 gap-2">
-                                <input
-                                    type="text"
-                                    value={personnelCodeSearch}
-                                    onChange={(e) => setPersonnelCodeSearch(e.target.value)}
-                                    onKeyDown={(e) => {
-                                        if (e.key === "Enter") {
-                                            e.preventDefault();
-                                            handlePersonnelSearch();
-                                        }
-                                    }}
-                                    placeholder="کد پرسنلی"
-                                    className="w-full min-w-0 rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-transparent focus:ring-2 focus:ring-blue-500"
-                                />
-                                <Button
-                                    type="button"
-                                    onClick={handlePersonnelSearch}
-                                    className="flex shrink-0 items-center justify-center gap-1 px-3"
-                                >
-                                    <Search className="h-4 w-4" />
-                                    جستجو
-                                </Button>
-                            </div>
-                            {searchedPersonnelCode && (
-                                <button
-                                    type="button"
-                                    onClick={() => {
-                                        setPersonnelCodeSearch("");
-                                        setSearchedPersonnelCode("");
-                                    }}
-                                    className="mt-1 self-start text-xs text-blue-600 hover:text-blue-800"
-                                >
-                                    نمایش همه پرسنل
-                                </button>
-                            )}
-                        </div>
-
-                        <div className="min-w-0">
-                            <Select
-                                name="user_id"
-                                title="پرسنل"
-                                value={filters.user_id}
-                                onChange={(selectedValue) => handleFilterSelectChange("user_id", selectedValue)}
-                                options={filteredUserOptions}
-                                placeholder="همه پرسنل"
-                                required={false}
-                            />
-                        </div>
-
-                        <div className="flex min-w-0 flex-col">
+                        <div className="flex flex-col">
                             <label className="mb-1 text-sm font-medium text-gray-700">نام کارمند</label>
                             <input
                                 type="text"
@@ -405,7 +415,7 @@ export default function ContractTermination() {
                             />
                         </div>
 
-                        <div className="flex min-w-0 flex-col">
+                        <div className="flex flex-col">
                             <label className="mb-1 text-sm font-medium text-gray-700">کد ملی</label>
                             <input
                                 type="text"
@@ -417,31 +427,27 @@ export default function ContractTermination() {
                             />
                         </div>
 
-                        <div className="min-w-0">
-                            <Select
-                                name="employer_id"
-                                title="کارفرما"
-                                value={employerOptions.find(opt => opt.value === filters.employer_id) || null}
-                                onChange={(selectedOption) => handleFilterSelectChange("employer_id", selectedOption)}
-                                options={employerOptions}
-                                placeholder="همه کارفرمایان"
-                                isClearable
-                            />
-                        </div>
+                        <Select
+                            name="employer_id"
+                            title="کارفرما"
+                            value={employerOptions.find(opt => opt.value === filters.employer_id) || null}
+                            onChange={(selectedOption) => handleFilterSelectChange("employer_id", selectedOption)}
+                            options={employerOptions}
+                            placeholder="همه کارفرمایان"
+                            isClearable
+                        />
 
-                        <div className="min-w-0">
-                            <Select
-                                name="contract_type"
-                                title="نوع قرارداد"
-                                value={contractTypeOptions.find(opt => opt.value === filters.contract_type) || null}
-                                onChange={(selectedOption) => handleFilterSelectChange("contract_type", selectedOption)}
-                                options={contractTypeOptions}
-                                placeholder="همه انواع"
-                                isClearable
-                            />
-                        </div>
+                        <Select
+                            name="contract_type"
+                            title="نوع قرارداد"
+                            value={contractTypeOptions.find(opt => opt.value === filters.contract_type) || null}
+                            onChange={(selectedOption) => handleFilterSelectChange("contract_type", selectedOption)}
+                            options={contractTypeOptions}
+                            placeholder="همه انواع"
+                            isClearable
+                        />
 
-                        <div className="flex flex-wrap items-end gap-2 border-t border-gray-100 pt-4 md:col-span-2 lg:col-span-4">
+                        <div className="flex items-end gap-2 md:col-span-2 lg:col-span-4">
                             <Button onClick={handleSearch} className="flex items-center gap-2">
                                 <Search className="w-4 h-4" />
                                 جستجو
