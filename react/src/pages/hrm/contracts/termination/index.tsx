@@ -25,6 +25,11 @@ const terminationSchema = yup.object({
     termination_reason: yup.string().nullable(),
 });
 
+const normalizeDigits = (value) =>
+    String(value ?? "")
+        .replace(/[۰-۹]/g, (digit) => String("۰۱۲۳۴۵۶۷۸۹".indexOf(digit)))
+        .replace(/[٠-٩]/g, (digit) => String("٠١٢٣٤٥٦٧٨٩".indexOf(digit)));
+
 // دریافت تاریخ امروز به صورت شمسی
 const getTodayPersian = () => {
     return formatDateToFa(new Date().toString());
@@ -39,6 +44,8 @@ export default function ContractTermination() {
     const [showTerminateModal, setShowTerminateModal] = useState(false);
     
     const [users, setUsers] = useState([]);
+    const [personnelCodeSearch, setPersonnelCodeSearch] = useState("");
+    const [searchedPersonnelCode, setSearchedPersonnelCode] = useState("");
     const [employers, setEmployers] = useState([]);
     const [contractTypes, setContractTypes] = useState([]);
 
@@ -101,7 +108,7 @@ export default function ContractTermination() {
     const fetchOptions = async () => {
         try {
             const [usersRes, employersRes, typesRes] = await Promise.all([
-                api("user?per-page=100", "GET"),
+                api("user?per-page=1000", "GET"),
                 api("hrm-contract/employers", "GET"),
                 api("hrm-contract/types", "GET"),
             ]);
@@ -184,9 +191,39 @@ export default function ContractTermination() {
         setFilters(prev => ({ ...prev, [name]: value }));
     };
 
-    // ===== اصلاح: selectedOption رو مستقیم میگیریم =====
-    const handleFilterSelectChange = (name, selectedOption) => {
-        setFilters(prev => ({ ...prev, [name]: selectedOption || "" }));
+    const handleFilterSelectChange = (name, selectedValue) => {
+        setFilters(prev => ({ ...prev, [name]: selectedValue || "" }));
+    };
+
+    const handlePersonnelSearch = () => {
+        const code = normalizeDigits(personnelCodeSearch).trim();
+
+        if (!code) {
+            setSearchedPersonnelCode("");
+            toast.info("کد پرسنلی را وارد کنید");
+            return;
+        }
+
+        setSearchedPersonnelCode(code);
+
+        const matches = userOptions.filter(
+            (item) => item.personnelCode && normalizeDigits(item.personnelCode).includes(code)
+        );
+
+        if (matches.length === 0) {
+            setFilters((prev) => ({ ...prev, user_id: "" }));
+            toast.error("پرسنلی با این کد پرسنلی پیدا نشد");
+            return;
+        }
+
+        if (matches.length === 1) {
+            setFilters((prev) => ({ ...prev, user_id: matches[0].value }));
+            toast.success("پرسنل انتخاب شد");
+            return;
+        }
+
+        setFilters((prev) => ({ ...prev, user_id: "" }));
+        toast.info("چند پرسنل پیدا شد؛ از لیست انتخاب کنید");
     };
 
     const handleSearch = () => {
@@ -208,10 +245,22 @@ export default function ContractTermination() {
     };
 
     // ============== تبدیل داده‌ها ==============
-    const userOptions = users.map((item) => ({
-        value: String(item.id),
-        label: `${item.first_name || ''} ${item.last_name || ''}`.trim() || item.phone_number || `کاربر ${item.id}`,
-    }));
+    const userOptions = users.map((item) => {
+        const fullName = `${item.first_name || ""} ${item.last_name || ""}`.trim();
+        const personnelCode = String(item.personnel_code || "");
+
+        return {
+            value: String(item.id),
+            label: `${fullName || item.phone_number || `کاربر ${item.id}`}${personnelCode ? ` (${personnelCode})` : ""}`,
+            personnelCode,
+        };
+    });
+
+    const filteredUserOptions = searchedPersonnelCode
+        ? userOptions.filter((item) =>
+              normalizeDigits(item.personnelCode).includes(searchedPersonnelCode)
+          )
+        : userOptions;
 
     const employerOptions = employers.map((item) => ({
         value: String(item.id),
@@ -293,15 +342,58 @@ export default function ContractTermination() {
                             />
                         </div>
 
-                        <Select
-                            name="user_id"
-                            title="کد پرسنلی"
-                            value={userOptions.find(opt => opt.value === filters.user_id) || null}
-                            onChange={(selectedOption) => handleFilterSelectChange("user_id", selectedOption)}
-                            options={userOptions}
-                            placeholder="همه پرسنل"
-                            isClearable
-                        />
+                        <div className="flex flex-col gap-2">
+                            <label className="text-sm font-medium text-gray-700">
+                                انتخاب پرسنل
+                            </label>
+                            <p className="text-xs text-gray-500">
+                                پرسنل را با کد پرسنلی جستجو یا از لیست انتخاب کنید
+                            </p>
+                            <div className="flex gap-2">
+                                <input
+                                    type="text"
+                                    value={personnelCodeSearch}
+                                    onChange={(e) => setPersonnelCodeSearch(e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === "Enter") {
+                                            e.preventDefault();
+                                            handlePersonnelSearch();
+                                        }
+                                    }}
+                                    placeholder="کد پرسنلی را وارد کنید"
+                                    className="w-full min-w-0 rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-transparent focus:ring-2 focus:ring-blue-500"
+                                />
+                                <Button
+                                    type="button"
+                                    onClick={handlePersonnelSearch}
+                                    className="flex shrink-0 items-center gap-2"
+                                >
+                                    <Search className="h-4 w-4" />
+                                    جستجو
+                                </Button>
+                            </div>
+                            <Select
+                                name="user_id"
+                                title="انتخاب کاربر از لیست"
+                                value={filters.user_id}
+                                onChange={(selectedValue) => handleFilterSelectChange("user_id", selectedValue)}
+                                options={filteredUserOptions}
+                                placeholder="انتخاب پرسنل"
+                                required={false}
+                            />
+                            {searchedPersonnelCode && (
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setPersonnelCodeSearch("");
+                                        setSearchedPersonnelCode("");
+                                    }}
+                                    className="self-start text-xs text-blue-600 hover:text-blue-800"
+                                >
+                                    نمایش همه پرسنل
+                                </button>
+                            )}
+                        </div>
 
                         <div className="flex flex-col">
                             <label className="text-sm font-medium text-gray-700 mb-1">نام کارمند</label>
