@@ -36,14 +36,7 @@ const getCurrentPersianMonth = () => {
     return parseInt(persianDate.split('/')[1]);
 };
 
-const yearsList = () => {
-    const currentYear = 1405;
-    const YearsArray = [];
-    for (let year = currentYear - 15; year <= currentYear + 15; year++) {
-        YearsArray.push(year);
-    }
-    return YearsArray;
-};
+
 
 // ============== گزینه‌های نوع قرارداد ==============
 const CONTRACT_TYPE_OPTIONS = [
@@ -70,12 +63,15 @@ export default function SalarySlip() {
     const [selectedItems, setSelectedItems] = useState([]);
     const [selectAll, setSelectAll] = useState(true);
     const [onlyWork, setOnlyWork] = useState(false);
+    const [financialYears, setFinancialYears] = useState<any[]>([]);
+    const [activeFinancialYear, setActiveFinancialYear] = useState("");
+    const [financialYearLoaded, setFinancialYearLoaded] = useState(false);
 
     const currentYear = getCurrentPersianYear();
     const currentMonth = getCurrentPersianMonth();
-    const yearOptions = yearsList().map((item) => ({
-        value: String(item),
-        label: String(item),
+    const yearOptions = financialYears.map((item: any) => ({
+        value: String(item.year),
+        label: String(item.year),
     }));
 
     // فیلترها
@@ -142,6 +138,29 @@ export default function SalarySlip() {
         setListLoading(false);
     };
 
+    // ============== دریافت سال‌های مالی ==============
+    const fetchFinancialYears = async () => {
+        try {
+            const res = await api("hrm-financial-year?per-page=100", "GET");
+            const items = Array.isArray(res?.data) ? res.data : [];
+            setFinancialYears(items);
+
+            const activeYear = items.find((item: any) => Number(item.status) === 1);
+            const activeYearValue = activeYear ? String(activeYear.year) : "";
+
+            setActiveFinancialYear(activeYearValue);
+            setFilters((prev: any) => ({
+                ...prev,
+                year: prev.year || activeYearValue,
+            }));
+        } catch (error) {
+            console.error("Error fetching financial years:", error);
+            toast.error("خطا در دریافت سال‌های مالی");
+        } finally {
+            setFinancialYearLoaded(true);
+        }
+    };
+
     // ============== دریافت لیست کاربران ==============
     const fetchUsers = async () => {
         try {
@@ -173,13 +192,15 @@ export default function SalarySlip() {
 
     // ============== useEffect ==============
     useEffect(() => {
+        if (!financialYearLoaded) return;
         const timer = setTimeout(() => {
             fetchData();
         }, 300);
         return () => clearTimeout(timer);
-    }, [filters, activeButton]);
+    }, [filters, activeButton, financialYearLoaded]);
 
     useEffect(() => {
+        fetchFinancialYears();
         fetchUsers();
         fetchWorkgroups();
     }, []);
@@ -231,7 +252,7 @@ export default function SalarySlip() {
             national_code: "",
             workgroup_ids: [],
             month: "",
-            year: "",
+            year: activeFinancialYear,
             contract_type: "",
         });
         setSearchParams({});
