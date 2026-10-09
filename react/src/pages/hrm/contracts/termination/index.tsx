@@ -309,6 +309,67 @@ export default function ContractTermination() {
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
+                    <div className="mb-5 rounded-lg border border-gray-200 bg-gray-50 p-4">
+                        <div className="mb-1 text-sm font-semibold text-gray-800">انتخاب پرسنل</div>
+                        <p className="mb-4 text-xs text-gray-500">
+                            پرسنل را با کد پرسنلی جستجو یا از لیست انتخاب کنید
+                        </p>
+
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            <div className="flex flex-col">
+                                <label className="mb-1 text-sm font-medium text-gray-700">
+                                    کد پرسنلی
+                                </label>
+                                <div className="flex gap-2">
+                                    <input
+                                        type="text"
+                                        value={personnelCodeSearch}
+                                        onChange={(e) => setPersonnelCodeSearch(e.target.value)}
+                                        onKeyDown={(e) => {
+                                            if (e.key === "Enter") {
+                                                e.preventDefault();
+                                                handlePersonnelSearch();
+                                            }
+                                        }}
+                                        placeholder="کد پرسنلی را وارد کنید"
+                                        className="w-full min-w-0 rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-transparent focus:ring-2 focus:ring-blue-500"
+                                    />
+                                    <Button
+                                        type="button"
+                                        onClick={handlePersonnelSearch}
+                                        className="flex shrink-0 items-center gap-2"
+                                    >
+                                        <Search className="h-4 w-4" />
+                                        جستجو
+                                    </Button>
+                                </div>
+                            </div>
+
+                            <Select
+                                name="user_id"
+                                title="انتخاب کاربر از لیست"
+                                value={filters.user_id}
+                                onChange={(selectedValue) => handleFilterSelectChange("user_id", selectedValue)}
+                                options={filteredUserOptions}
+                                placeholder="انتخاب پرسنل"
+                                required={false}
+                            />
+                        </div>
+
+                        {searchedPersonnelCode && (
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setPersonnelCodeSearch("");
+                                    setSearchedPersonnelCode("");
+                                }}
+                                className="mt-2 text-xs text-blue-600 hover:text-blue-800"
+                            >
+                                نمایش همه پرسنل
+                            </button>
+                        )}
+                    </div>
+
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         <div className="flex flex-col">
                             <label className="text-sm font-medium text-gray-700 mb-1">از تاریخ</label>
@@ -340,59 +401,6 @@ export default function ContractTermination() {
                                 inputClass="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm bg-white"
                                 placeholder="انتخاب تاریخ"
                             />
-                        </div>
-
-                        <div className="flex flex-col gap-2">
-                            <label className="text-sm font-medium text-gray-700">
-                                انتخاب پرسنل
-                            </label>
-                            <p className="text-xs text-gray-500">
-                                پرسنل را با کد پرسنلی جستجو یا از لیست انتخاب کنید
-                            </p>
-                            <div className="flex gap-2">
-                                <input
-                                    type="text"
-                                    value={personnelCodeSearch}
-                                    onChange={(e) => setPersonnelCodeSearch(e.target.value)}
-                                    onKeyDown={(e) => {
-                                        if (e.key === "Enter") {
-                                            e.preventDefault();
-                                            handlePersonnelSearch();
-                                        }
-                                    }}
-                                    placeholder="کد پرسنلی را وارد کنید"
-                                    className="w-full min-w-0 rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-transparent focus:ring-2 focus:ring-blue-500"
-                                />
-                                <Button
-                                    type="button"
-                                    onClick={handlePersonnelSearch}
-                                    className="flex shrink-0 items-center gap-2"
-                                >
-                                    <Search className="h-4 w-4" />
-                                    جستجو
-                                </Button>
-                            </div>
-                            <Select
-                                name="user_id"
-                                title="انتخاب کاربر از لیست"
-                                value={filters.user_id}
-                                onChange={(selectedValue) => handleFilterSelectChange("user_id", selectedValue)}
-                                options={filteredUserOptions}
-                                placeholder="انتخاب پرسنل"
-                                required={false}
-                            />
-                            {searchedPersonnelCode && (
-                                <button
-                                    type="button"
-                                    onClick={() => {
-                                        setPersonnelCodeSearch("");
-                                        setSearchedPersonnelCode("");
-                                    }}
-                                    className="self-start text-xs text-blue-600 hover:text-blue-800"
-                                >
-                                    نمایش همه پرسنل
-                                </button>
-                            )}
                         </div>
 
                         <div className="flex flex-col">
