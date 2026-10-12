@@ -59,7 +59,10 @@ export default function SalaryStep({
             formik.setValues({
                 ...formik.values,
                 base_salary: targetYear.salary || "",
-                child_allowance: targetYear.child_allowance || "",
+                child_allowance:
+                    formik.values.marital_status === "2" && Number(formik.values.child_count) > 0
+                        ? targetYear.child_allowance || 0
+                        : 0,
                 housing_allowance: targetYear.housing_benefits || "",
                 welfare_allowance: targetYear.welfare_allowance || "",
                 seniority_allowance: targetYear.seniority_allowance || "",
@@ -76,7 +79,10 @@ export default function SalaryStep({
                 hourly_salary: targetYear.salary || "",
                 hourly_housing_allowance: targetYear.housing_benefits || "",
                 hourly_welfare_allowance: targetYear.welfare_allowance || "",
-                hourly_child_allowance: targetYear.child_allowance || "",
+                hourly_child_allowance:
+                    formik.values.marital_status === "2" && Number(formik.values.child_count) > 0
+                        ? Math.round((parseFloat(targetYear.child_allowance) || 0) / 176)
+                        : 0,
                 hourly_seniority_allowance: targetYear.seniority_allowance || "",
                 hourly_performance_bonus: targetYear.performance_bonus || "",
             });
