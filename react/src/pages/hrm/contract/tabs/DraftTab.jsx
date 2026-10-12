@@ -145,11 +145,19 @@ export default function DraftTab() {
         const fetchFinancialYear = async () => {
             try {
                 const res = await api("hrm-financial-year/active", "GET");
-                if (res?.success && res?.data) {
-                    setFinancialYear(res.data);
-                }
+                const payload = res?.data ?? res;
+                const years = Array.isArray(payload)
+                    ? payload
+                    : Array.isArray(payload?.data)
+                        ? payload.data
+                        : payload && typeof payload === "object"
+                            ? [payload]
+                            : [];
+                const activeYear = years.find((item) => String(item?.status) === "1") || years[0] || null;
+                setFinancialYear(activeYear);
             } catch (error) {
                 console.error("Error fetching financial year:", error);
+                setFinancialYear(null);
             }
         };
         fetchFinancialYear();
@@ -261,7 +269,7 @@ export default function DraftTab() {
             }
         }
 
-        if (String(values.contract_type) === "1") {
+        if (String(formik.values.contract_type) === "1") {
             // ===== نوع موقت =====
             formik.setValues({
                 ...formik.values,
@@ -274,7 +282,7 @@ export default function DraftTab() {
                 responsibility_allowance: financialYearData.responsibility_allowance || "",
                 transportation_allowance: financialYearData.transportation_allowance || "",
             });
-        } else if (String(values.contract_type) === "2") {
+        } else if (String(formik.values.contract_type) === "2") {
             // ===== نوع ساعتی =====
             const monthlySalary = parseFloat(financialYearData.salary) || 0;
             const hourlySalary = Math.round(monthlySalary / 176);
@@ -318,11 +326,21 @@ export default function DraftTab() {
 
             try {
                 const res = await api(`hrm-financial-year?year=${year}`, "GET");
-                if (res?.data && res.data.length > 0) {
-                    const foundYear = res.data.find(item => item.status === 1) || res.data[0];
+                const payload = res?.data ?? res;
+                const years = Array.isArray(payload)
+                    ? payload
+                    : Array.isArray(payload?.data)
+                        ? payload.data
+                        : payload && typeof payload === "object"
+                            ? [payload]
+                            : [];
+
+                if (years.length > 0) {
+                    const foundYear =
+                        years.find((item) => String(item?.status) === "1") || years[0];
                     setSelectedFinancialYear(foundYear);
 
-                    if (selectedContractType !== "3" && foundYear) {
+                    if (String(formik.values.contract_type || selectedContractType) !== "3") {
                         fillSalaryFields(foundYear);
                     }
                 } else {
