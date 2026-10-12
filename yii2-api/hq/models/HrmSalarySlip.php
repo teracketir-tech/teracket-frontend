@@ -548,8 +548,16 @@ class HrmSalarySlip extends ActiveRecord
             ->orderBy(['id' => SORT_DESC])
             ->one();
 
-        if ($contract && $contract->base_salary > 0) {
-            $baseSalary = $contract->base_salary;
+        $contractType = $contract ? (int) $contract->contract_type : null;
+        $isHourlyContract = $contractType === HrmContract::TYPE_HOURLY;
+
+        if ($contract && $isHourlyContract && (float) $contract->hourly_salary > 0) {
+            // در قرارداد ساعتی، نرخ ثبت‌شده مستقیماً مزد هر ساعت است.
+            $baseSalary = (float) $contract->hourly_salary
+                * $standardHoursPerDay
+                * $standardDaysPerMonth;
+        } elseif ($contract && (float) $contract->base_salary > 0) {
+            $baseSalary = (float) $contract->base_salary;
         }
 
         if ($baseSalary == 0) {
@@ -577,9 +585,14 @@ class HrmSalarySlip extends ActiveRecord
             return ['success' => false, 'message' => 'هیچ حقوق پایه‌ای یافت نشد'];
         }
 
-        // محاسبه روزانه و ساعتی
-        $dailySalary = $baseSalary / $standardDaysPerMonth;
-        $hourlySalary = $dailySalary / $standardHoursPerDay;
+        // محاسبه روزانه و ساعتی؛ در قرارداد ساعتی از نرخ خود قرارداد استفاده می‌شود.
+        if ($isHourlyContract && $contract && (float) $contract->hourly_salary > 0) {
+            $hourlySalary = (float) $contract->hourly_salary;
+            $dailySalary = $hourlySalary * $standardHoursPerDay;
+        } else {
+            $dailySalary = $baseSalary / $standardDaysPerMonth;
+            $hourlySalary = $dailySalary / $standardHoursPerDay;
+        }
 
         // ====== ۲. دریافت خلاصه ماهانه ======
         $summary = HrmMonthlySummary::find()
@@ -660,8 +673,62 @@ class HrmSalarySlip extends ActiveRecord
         $missionPay = $missionHours * $hourlySalary;
         $absentDeduction = $absentHours * $hourlySalary;
 
-        // جمع اضافات
-        $totalAdditions = $basePay + $overtimePay + $vacationPay + $missionPay + $bonusAmount + $arrearsAmount + $transportationAllowance;
+        // ====== ۵.۱ مزایای ثبت‌شده در قرارداد ======
+        $maritalStatus = $contract ? (int) $contract->marital_status : null;
+        $childCount = $contract ? max(0, (int) $contract->child_count) : 0;
+
+        $housingAllowance = 0;
+        $foodAllowance = 0;
+        $childAllowance = 0;
+        $seniorityAllowance = 0;
+        $performanceBonus = 0;
+        $responsibilityAllowance = 0;
+        $otherAllowance = 0;
+
+        if ($contract) {
+            if ($isHourlyContract) {
+                // فیلدهای قرارداد ساعتی، نرخ به‌ازای هر ساعت هستند.
+                $housingAllowance = (float) $contract->hourly_housing_allowance * $workHours;
+                $foodAllowance = (float) $contract->hourly_welfare_allowance * $workHours;
+                $childAllowance = $childCount > 0
+                    ? (float) $contract->hourly_child_allowance * $workHours
+                    : 0;
+                $seniorityAllowance = (float) $contract->hourly_seniority_allowance * $workHours;
+                $performanceBonus = (float) $contract->hourly_performance_bonus * $workHours;
+                // ایاب‌وذهاب در فرم قرارداد ساعتی به‌صورت مبلغ ثابت ثبت می‌شود.
+                $transportationAllowance += (float) $contract->transportation_allowance;
+            } elseif ($contractType === HrmContract::TYPE_TEMPORARY) {
+                $housingAllowance = (float) $contract->housing_allowance;
+                $foodAllowance = (float) $contract->welfare_allowance;
+                $childAllowance = $childCount > 0 ? (float) $contract->child_allowance : 0;
+                $seniorityAllowance = (float) $contract->seniority_allowance;
+                $performanceBonus = (float) $contract->performance_bonus;
+                $responsibilityAllowance = (float) $contract->responsibility_allowance;
+                $otherAllowance = (float) $contract->other_allowance;
+                $transportationAllowance += (float) $contract->transportation_allowance;
+            }
+        }
+
+        // طبق قاعده اعلام‌شده شرکت، برای پرسنل مجرد حق مسکن محاسبه نمی‌شود.
+        if ($maritalStatus === HrmContract::MARITAL_SINGLE) {
+            $housingAllowance = 0;
+        }
+
+        $housingAllowance = round($housingAllowance, 0);
+        $foodAllowance = round($foodAllowance, 0);
+        $childAllowance = round($childAllowance, 0);
+        $seniorityAllowance = round($seniorityAllowance, 0);
+        $performanceBonus = round($performanceBonus, 0);
+        $responsibilityAllowance = round($responsibilityAllowance, 0);
+        $otherAllowance = round($otherAllowance, 0);
+        $transportationAllowance = round($transportationAllowance, 0);
+
+        // جمع اضافات؛ تمام مزایای قرارداد باید در فیش و خالص پرداختی لحاظ شوند.
+        $totalAdditions = $basePay + $overtimePay + $vacationPay + $missionPay
+            + $bonusAmount + $arrearsAmount + $transportationAllowance
+            + $housingAllowance + $foodAllowance + $childAllowance
+            + $seniorityAllowance + $performanceBonus
+            + $responsibilityAllowance + $otherAllowance;
 
         // جمع کسورات
         $totalDeductions = $absentDeduction + $penaltyAmount + $companyPurchase + $otherDeduction + $advanceAmount + $loanInstallment;
@@ -710,7 +777,15 @@ class HrmSalarySlip extends ActiveRecord
         $model->arrears_amount = round($arrearsAmount, 0);
         $model->company_purchase = round($companyPurchase, 0);
         $model->other_deduction = round($otherDeduction, 0);
-        $model->transportation_allowance = round($transportationAllowance, 0);
+        $model->transportation_allowance = $transportationAllowance;
+        $model->housing_allowance = $housingAllowance;
+        $model->food_allowance = $foodAllowance;
+        $model->child_count = $childCount;
+        $model->child_allowance = $childAllowance;
+        $model->seniority_allowance = $seniorityAllowance;
+        $model->performance_bonus = $performanceBonus;
+        $model->responsibility_allowance = $responsibilityAllowance;
+        $model->other_allowance = $otherAllowance;
         $model->advance_amount = round($advanceAmount, 0);
         $model->loan_installment = round($loanInstallment, 0);
         $model->total_additions = round($totalAdditions, 0);
@@ -729,6 +804,14 @@ class HrmSalarySlip extends ActiveRecord
                     'mission_pay' => round($missionPay, 0),
                     'absent_deduction' => round($absentDeduction, 0),
                     'bonus_amount' => round($bonusAmount, 0),
+                    'housing_allowance' => $housingAllowance,
+                    'food_allowance' => $foodAllowance,
+                    'child_allowance' => $childAllowance,
+                    'seniority_allowance' => $seniorityAllowance,
+                    'performance_bonus' => $performanceBonus,
+                    'responsibility_allowance' => $responsibilityAllowance,
+                    'other_allowance' => $otherAllowance,
+                    'transportation_allowance' => $transportationAllowance,
                     'penalty_amount' => round($penaltyAmount, 0),
                     'advance_amount' => round($advanceAmount, 0),
                     'loan_installment' => round($loanInstallment, 0),
