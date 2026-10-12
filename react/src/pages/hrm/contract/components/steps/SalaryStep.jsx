@@ -22,9 +22,10 @@ export default function SalaryStep({
     financialYear,        // سال مالی فعال (برای دکمه)
     selectedFinancialYear // سال مالی بر اساس تاریخ شروع
 }) {
-    const isTemporary = contractType === "1";
-    const isHourly = contractType === "2";
-    const isProject = contractType === "3";
+    const normalizedContractType = String(contractType ?? "");
+    const isTemporary = normalizedContractType === "1";
+    const isHourly = normalizedContractType === "2";
+    const isProject = normalizedContractType === "3";
 
     // ===== پر کردن از سال مالی (با اولویت selectedFinancialYear) =====
     const fillFromFinancialYear = () => {
