@@ -536,8 +536,6 @@ class HrmSalarySlip extends ActiveRecord
 
     public static function calculate($userId, $year, $month)
     {
-        User::checkAccess(703);
-
         $userId = (int) $userId;
         $year = (int) Persian::p2e($year);
         $month = (int) Persian::p2e($month);
@@ -770,10 +768,15 @@ class HrmSalarySlip extends ActiveRecord
             ])
             ->sum('amount') ?: 0);
 
-        $loanInstallment = (float) (HrmLoan::find()
+        $loanInstallment = 0;
+        $openLoans = HrmLoan::find()
             ->where(['user_id' => $userId, 'status' => HrmLoan::STATUS_UNPAID])
-            ->andWhere(['<', 'paid_installments', new \yii\db\Expression('installment_count')])
-            ->sum('installment_amount') ?: 0);
+            ->all();
+        foreach ($openLoans as $loan) {
+            if ((int) $loan->paid_installments < (int) $loan->installment_count) {
+                $loanInstallment += (float) $loan->installment_amount;
+            }
+        }
 
         // تعدیل 29/31 روزه فقط برای قراردادهای ماهانه اعمال می‌شود.
         $monthDays = self::getJalaliMonthDays($year, $month);
