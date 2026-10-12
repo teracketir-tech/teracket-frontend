@@ -274,7 +274,10 @@ export default function DraftTab() {
             formik.setValues({
                 ...formik.values,
                 base_salary: financialYearData.salary || "",
-                child_allowance: financialYearData.child_allowance || "",
+                child_allowance:
+                    formik.values.marital_status === "2" && Number(formik.values.child_count) > 0
+                        ? financialYearData.child_allowance || 0
+                        : 0,
                 housing_allowance: financialYearData.housing_benefits || "",
                 welfare_allowance: financialYearData.welfare_allowance || "",
                 seniority_allowance: financialYearData.seniority_allowance || "",
@@ -289,7 +292,11 @@ export default function DraftTab() {
 
             const hourlyHousing = Math.round((parseFloat(financialYearData.housing_benefits) || 0) / 176);
             const hourlyWelfare = Math.round((parseFloat(financialYearData.welfare_allowance) || 0) / 176);
-            const hourlyChild = Math.round((parseFloat(financialYearData.child_allowance) || 0) / 176);
+            const hasEligibleChildren =
+                formik.values.marital_status === "2" && Number(formik.values.child_count) > 0;
+            const hourlyChild = hasEligibleChildren
+                ? Math.round((parseFloat(financialYearData.child_allowance) || 0) / 176)
+                : 0;
             const hourlySeniority = Math.round((parseFloat(financialYearData.seniority_allowance) || 0) / 176);
             const hourlyBonus = Math.round((parseFloat(financialYearData.performance_bonus) || 0) / 176);
             const hourlyLeave = Math.round((parseFloat(financialYearData.salary) || 0) / 176);
