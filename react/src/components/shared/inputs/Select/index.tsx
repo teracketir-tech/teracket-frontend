@@ -38,12 +38,24 @@ const Select = ({
     formik,
     isMulti = false,
 }: Props) => {
-    const activeValue = value || formik?.values?.[name] || "";
+    // مقدار Select همیشه باید primitive باشد؛ بعضی فرم‌ها قبلاً خودِ option را
+    // به prop مقدار می‌دادند و در نتیجه react-select نمی‌توانست گزینه را پیدا کند.
+    const rawValue =
+        value !== undefined && value !== null && value !== ""
+            ? value
+            : formik?.values?.[name] ?? "";
+
+    const activeValue =
+        rawValue && typeof rawValue === "object" && "value" in rawValue
+            ? rawValue.value
+            : rawValue;
 
     const selectedOption = () => {
         try {
-            return options?.find((o: any) => o.value == activeValue);
-        } catch (error) {
+            return options?.find(
+                (option: any) => String(option.value) === String(activeValue)
+            ) ?? null;
+        } catch {
             return null;
         }
     };
@@ -61,7 +73,9 @@ const Select = ({
                 isMulti={isMulti}
                 value={selectedOption()}
                 onChange={(e: any) => {
-                    const value = isMulti ? e.map((v: any) => v.value) : e?.value || "";
+                    const value = isMulti
+                        ? (e || []).map((option: any) => option.value)
+                        : (e?.value ?? "");
 
                     setValue && setValue(value);
                     onChange && onChange(value);
