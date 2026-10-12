@@ -17,9 +17,10 @@ export default function IntroducerOrSubjectStep({ formik, contractType }) {
         formik.values.has_introducer === "1" || formik.values.has_introducer === 1
     );
 
-    const isTemporary = contractType === "1";
-    const isHourly = contractType === "2";
-    const isProject = contractType === "3";
+    const normalizedContractType = String(contractType ?? "");
+    const isTemporary = normalizedContractType === "1";
+    const isHourly = normalizedContractType === "2";
+    const isProject = normalizedContractType === "3";
 
     // ===== تغییر وضعیت معرف =====
     const handleIntroducerChange = (selectedOption) => {
