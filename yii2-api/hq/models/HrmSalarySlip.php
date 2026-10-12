@@ -594,6 +594,19 @@ class HrmSalarySlip extends ActiveRecord
         $isHourlyContract = $contractType === HrmContract::TYPE_HOURLY;
         $isProjectContract = $contractType === HrmContract::TYPE_PROJECT;
 
+        // نسبت روزهای قرارداد در بازه فیش؛ برای قراردادهای ماهانه شروع/پایان وسط ماه اثر می‌گذارد.
+        $periodDays = max(1, (int) floor((strtotime($dateTo) - strtotime($dateFrom)) / 86400) + 1);
+        $contractStart = $contract && !empty($contract->contract_from_date)
+            ? max(strtotime($dateFrom), strtotime($contract->contract_from_date))
+            : strtotime($dateFrom);
+        $contractEnd = $contract && !empty($contract->contract_to_date)
+            ? min(strtotime($dateTo), strtotime($contract->contract_to_date))
+            : strtotime($dateTo);
+        $contractDays = ($contractEnd >= $contractStart)
+            ? (int) floor(($contractEnd - $contractStart) / 86400) + 1
+            : 0;
+        $contractRatio = min(1, max(0, $contractDays / $periodDays));
+
         // قرارداد پروژه‌ای برای مبانی حقوقی از تنظیمات سال مالی استفاده می‌کند.
         if ($isProjectContract) {
             $baseSalary = $financialYear ? (float) $financialYear->salary : 0;
@@ -658,7 +671,7 @@ class HrmSalarySlip extends ActiveRecord
         // قراردادهای ماهانه حقوق ماه را می‌گیرند؛ قرارداد ساعتی فقط بابت ساعت واقعی پرداخت می‌شود.
         $basePay = $isHourlyContract
             ? $hourlySalary * $workHours
-            : $baseSalary;
+            : $baseSalary * $contractRatio;
 
         $overtimePay = $overtimeHours * $hourlySalary * $overtimeRate;
         $specialOvertimeHours = 0;
@@ -704,22 +717,22 @@ class HrmSalarySlip extends ActiveRecord
             $performanceBonus = (float) $contract->hourly_performance_bonus * $workHours;
             $transportationAllowance = (float) $contract->transportation_allowance;
         } elseif ($isProjectContract && $financialYear) {
-            $housingAllowance = (float) $financialYear->housing_benefits;
-            $foodAllowance = (float) $financialYear->coupon;
-            $childAllowance = $childCount > 0 ? (float) $financialYear->child_allowance : 0;
-            $seniorityAllowance = (float) $financialYear->seniority_allowance;
-            $performanceBonus = (float) $financialYear->performance_bonus;
-            $responsibilityAllowance = (float) $financialYear->responsibility_allowance;
-            $transportationAllowance = (float) $financialYear->transportation_allowance;
+            $housingAllowance = (float) $financialYear->housing_benefits * $contractRatio;
+            $foodAllowance = (float) $financialYear->coupon * $contractRatio;
+            $childAllowance = $childCount > 0 ? (float) $financialYear->child_allowance * $contractRatio : 0;
+            $seniorityAllowance = (float) $financialYear->seniority_allowance * $contractRatio;
+            $performanceBonus = (float) $financialYear->performance_bonus * $contractRatio;
+            $responsibilityAllowance = (float) $financialYear->responsibility_allowance * $contractRatio;
+            $transportationAllowance = (float) $financialYear->transportation_allowance * $contractRatio;
         } elseif ($contract) {
-            $housingAllowance = (float) $contract->housing_allowance;
-            $foodAllowance = (float) $contract->welfare_allowance;
-            $childAllowance = $childCount > 0 ? (float) $contract->child_allowance : 0;
-            $seniorityAllowance = (float) $contract->seniority_allowance;
-            $performanceBonus = (float) $contract->performance_bonus;
-            $responsibilityAllowance = (float) $contract->responsibility_allowance;
-            $otherAllowance = (float) $contract->other_allowance;
-            $transportationAllowance = (float) $contract->transportation_allowance;
+            $housingAllowance = (float) $contract->housing_allowance * $contractRatio;
+            $foodAllowance = (float) $contract->welfare_allowance * $contractRatio;
+            $childAllowance = $childCount > 0 ? (float) $contract->child_allowance * $contractRatio : 0;
+            $seniorityAllowance = (float) $contract->seniority_allowance * $contractRatio;
+            $performanceBonus = (float) $contract->performance_bonus * $contractRatio;
+            $responsibilityAllowance = (float) $contract->responsibility_allowance * $contractRatio;
+            $otherAllowance = (float) $contract->other_allowance * $contractRatio;
+            $transportationAllowance = (float) $contract->transportation_allowance * $contractRatio;
         }
 
         if ($maritalStatus === HrmContract::MARITAL_SINGLE) {
