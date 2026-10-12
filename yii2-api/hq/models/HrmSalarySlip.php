@@ -536,147 +536,168 @@ class HrmSalarySlip extends ActiveRecord
 
     public static function calculate($userId, $year, $month)
     {
-         // دریافت تنظیمات
-        $standardHoursPerDay = HrmSetting::getFloat('salary.standard_hours_per_day', 8);
-        $standardDaysPerMonth = HrmSetting::getFloat('salary.standard_days_per_month', 22);
+        $userId = (int) $userId;
+        $year = (int) Persian::p2e($year);
+        $month = (int) Persian::p2e($month);
+
+        if ($userId <= 0 || $year <= 0 || $month < 1 || $month > 12) {
+            return ['success' => false, 'message' => 'پرسنل، سال یا ماه معتبر نیست'];
+        }
+
+        // مبانی مالی و کارکرد، مطابق قواعد اعلام‌شده شرکت
+        $hoursPerDay = 8;
+        $daysPerMonth = 30;
+        $hoursPerMoneyDay = 7.33;
         $overtimeRate = HrmSetting::getFloat('salary.overtime_rate', 1.4);
+        $fridayRate = HrmSetting::getFloat('salary.friday_rate', 1.8);
+        $holidayRate = HrmSetting::getFloat('salary.holiday_rate', 1.4);
 
-        // ====== ۱. دریافت حقوق پایه ======
-        $baseSalary = 0;
-        $contract = HrmContract::find()
-            ->where(['user_id' => $userId, 'contract_status' => HrmContract::STATUS_ACTIVE])
-            ->orderBy(['id' => SORT_DESC])
-            ->one();
-
-        $contractType = $contract ? (int) $contract->contract_type : null;
-        $isHourlyContract = $contractType === HrmContract::TYPE_HOURLY;
-
-        if ($contract && $isHourlyContract && (float) $contract->hourly_salary > 0) {
-            // در قرارداد ساعتی، نرخ ثبت‌شده مستقیماً مزد هر ساعت است.
-            $baseSalary = (float) $contract->hourly_salary
-                * $standardHoursPerDay
-                * $standardDaysPerMonth;
-        } elseif ($contract && (float) $contract->base_salary > 0) {
-            $baseSalary = (float) $contract->base_salary;
-        }
-
-        if ($baseSalary == 0) {
-            $lastContract = HrmContract::find()
-                ->where(['user_id' => $userId])
-                ->orderBy(['id' => SORT_DESC])
-                ->one();
-            
-            if ($lastContract && $lastContract->base_salary > 0) {
-                $baseSalary = $lastContract->base_salary;
-            }
-        }
-
-        if ($baseSalary == 0) {
-            $financialYear = HrmFinancialYear::find()
-                ->where(['status' => HrmFinancialYear::STATUS_ACTIVE])
-                ->one();
-            
-            if ($financialYear && $financialYear->salary > 0) {
-                $baseSalary = $financialYear->salary;
-            }
-        }
-
-        if ($baseSalary == 0) {
-            return ['success' => false, 'message' => 'هیچ حقوق پایه‌ای یافت نشد'];
-        }
-
-        // محاسبه روزانه و ساعتی؛ در قرارداد ساعتی از نرخ خود قرارداد استفاده می‌شود.
-        if ($isHourlyContract && $contract && (float) $contract->hourly_salary > 0) {
-            $hourlySalary = (float) $contract->hourly_salary;
-            $dailySalary = $hourlySalary * $standardHoursPerDay;
-        } else {
-            $dailySalary = $baseSalary / $standardDaysPerMonth;
-            $hourlySalary = $dailySalary / $standardHoursPerDay;
-        }
-
-        // ====== ۲. دریافت خلاصه ماهانه ======
         $summary = HrmMonthlySummary::find()
             ->where(['user_id' => $userId, 'year' => $year, 'month' => $month])
             ->one();
 
         if (!$summary) {
-            // محاسبه خودکار خلاصه ماهانه
-            $calcResult = HrmMonthlySummary::calculate();
-            if (!$calcResult['success']) {
-                return ['success' => false, 'message' => 'خطا در محاسبه خلاصه ماهانه'];
-            }
-            $summary = HrmMonthlySummary::find()
-                ->where(['user_id' => $userId, 'year' => $year, 'month' => $month])
-                ->one();
+            return [
+                'success' => false,
+                'message' => 'خلاصه کارکرد این ماه یافت نشد؛ ابتدا محاسبه کارکرد ماهانه را اجرا کنید.',
+            ];
         }
 
-        if (!$summary) {
-            return ['success' => false, 'message' => 'خلاصه ماهانه یافت نشد'];
+        $dateFrom = $summary->date_from;
+        $dateTo = $summary->date_to;
+        if (!$dateFrom || !$dateTo) {
+            return ['success' => false, 'message' => 'بازه تاریخ خلاصه کارکرد معتبر نیست'];
         }
 
-        // ====== ۳. دریافت اضافات و کسورات ======
-        $adjustments = HrmAdjustment::find()
-            ->where(['user_id' => $userId, 'month' => $month, 'year' => $year])
+        // قرارداد باید با بازه حقوقی هم‌پوشانی داشته باشد؛ قراردادهای قدیمی برای محاسبه ماه‌های گذشته قابل استفاده‌اند.
+        $contract = HrmContract::find()
+            ->where(['user_id' => $userId])
+            ->andWhere(['not in', 'contract_status', [
+                HrmContract::STATUS_DRAFT,
+                HrmContract::STATUS_CANCELLED,
+            ]])
+            ->andWhere([
+                'or',
+                ['contract_from_date' => null],
+                ['<=', 'contract_from_date', $dateTo],
+            ])
+            ->andWhere([
+                'or',
+                ['contract_to_date' => null],
+                ['>=', 'contract_to_date', $dateFrom],
+            ])
+            ->orderBy(['contract_from_date' => SORT_DESC, 'id' => SORT_DESC])
+            ->one();
+
+        $financialYear = HrmFinancialYear::getActive();
+        $contractType = $contract ? (int) $contract->contract_type : null;
+        $isHourlyContract = $contractType === HrmContract::TYPE_HOURLY;
+        $isProjectContract = $contractType === HrmContract::TYPE_PROJECT;
+
+        // نسبت روزهای قرارداد در بازه فیش؛ برای قراردادهای ماهانه شروع/پایان وسط ماه اثر می‌گذارد.
+        $periodDays = max(1, (int) floor((strtotime($dateTo) - strtotime($dateFrom)) / 86400) + 1);
+        $contractStart = $contract && !empty($contract->contract_from_date)
+            ? max(strtotime($dateFrom), strtotime($contract->contract_from_date))
+            : strtotime($dateFrom);
+        $contractEnd = $contract && !empty($contract->contract_to_date)
+            ? min(strtotime($dateTo), strtotime($contract->contract_to_date))
+            : strtotime($dateTo);
+        $contractDays = ($contractEnd >= $contractStart)
+            ? (int) floor(($contractEnd - $contractStart) / 86400) + 1
+            : 0;
+        $contractRatio = min(1, max(0, $contractDays / $periodDays));
+
+        // قرارداد پروژه‌ای برای مبانی حقوقی از تنظیمات سال مالی استفاده می‌کند.
+        if ($isProjectContract) {
+            $baseSalary = $financialYear ? (float) $financialYear->salary : 0;
+        } elseif ($isHourlyContract) {
+            $hourlyContractRate = $contract ? (float) $contract->hourly_salary : 0;
+            $baseSalary = $hourlyContractRate * $hoursPerDay * $daysPerMonth;
+        } else {
+            $baseSalary = $contract ? (float) $contract->base_salary : 0;
+        }
+
+        if ($baseSalary <= 0 && $financialYear) {
+            $baseSalary = (float) $financialYear->salary;
+        }
+
+        if ($baseSalary <= 0) {
+            return ['success' => false, 'message' => 'حقوق پایه یا نرخ قرارداد برای این ماه یافت نشد'];
+        }
+
+        if ($isHourlyContract && $contract && (float) $contract->hourly_salary > 0) {
+            $hourlySalary = (float) $contract->hourly_salary;
+            $dailySalary = $hourlySalary * $hoursPerDay;
+        } else {
+            $dailySalary = $baseSalary / $daysPerMonth;
+            $hourlySalary = $baseSalary / $daysPerMonth / $hoursPerMoneyDay;
+        }
+
+        $workHours = max(0, (float) $summary->total_work_hours);
+        $overtimeHours = max(0, (float) $summary->total_overtime_hours);
+        $vacationHours = max(0, (float) $summary->total_vacation_hours);
+        $missionHours = max(0, (float) $summary->total_mission_hours);
+        $absentHours = max(0, (float) $summary->total_absent_hours);
+
+        // زمان تأخیر و تعجیل از رکوردهای روزانه جمع می‌شود؛ مقادیر در دیتابیس دقیقه هستند.
+        $attendanceRecords = HrmDailyAttendance::find()
+            ->where(['user_id' => $userId])
+            ->andWhere(['between', 'attendance_date', $dateFrom, $dateTo])
             ->all();
 
-        $bonusAmount = 0;
-        $penaltyAmount = 0;
-        $arrearsAmount = 0;
-        $companyPurchase = 0;
-        $otherDeduction = 0;
-        $transportationAllowance = 0;
+        $delayMinutes = 0;
+        $earlyLeaveMinutes = 0;
+        $fridayHours = 0;
+        $holidayHours = 0;
+        foreach ($attendanceRecords as $attendance) {
+            $delayMinutes += max(0, (int) $attendance->delay_minutes);
+            $earlyLeaveMinutes += max(0, (int) $attendance->early_leave_minutes);
 
-        foreach ($adjustments as $adj) {
-            switch ($adj->type) {
-                case HrmAdjustment::TYPE_BONUS:
-                    $bonusAmount += $adj->amount;
-                    break;
-                case HrmAdjustment::TYPE_PENALTY:
-                    $penaltyAmount += $adj->amount;
-                    break;
-                case HrmAdjustment::TYPE_ARREARS:
-                    $arrearsAmount += $adj->amount;
-                    break;
-                case HrmAdjustment::TYPE_COMPANY_PURCHASE:
-                    $companyPurchase += $adj->amount;
-                    break;
-                case HrmAdjustment::TYPE_OTHER_DEDUCTION:
-                    $otherDeduction += $adj->amount;
-                    break;
-                case HrmAdjustment::TYPE_TRANSPORTATION:
-                    $transportationAllowance += $adj->amount;
-                    break;
+            // ساعت تعطیل/جمعه از ساعات اضافه‌کاری همان رکورد قابل استخراج است.
+            // جمعه در دیتابیس میلادی با روز هفته 5 (جمعه) ذخیره می‌شود.
+            $recordHours = max(0, (float) $attendance->overtime);
+            $dayOfWeek = (int) date('N', strtotime($attendance->attendance_date));
+            if ((int) $attendance->is_holiday === 1) {
+                $holidayHours += $recordHours;
+            } elseif ($dayOfWeek === 5) {
+                $fridayHours += $recordHours;
             }
         }
 
-        // ====== ۴. دریافت مساعده و وام ======
-        $advanceAmount = HrmAdvance::find()
-            ->where(['user_id' => $userId, 'month' => $month, 'year' => $year, 'status' => HrmAdvance::STATUS_UNPAID])
-            ->sum('amount') ?? 0;
+        $delayHours = $delayMinutes / 60;
+        $earlyLeaveHours = $earlyLeaveMinutes / 60;
+        $latePenalty8Hours = floor($delayHours / $hoursPerDay) * 2 * $dailySalary;
 
-        $loanInstallment = HrmLoan::find()
-            ->where(['user_id' => $userId])
-            ->andWhere(['<=', 'created_at', date('Y-m-d', strtotime("{$year}-{$month}-01"))])
-            ->andWhere(['status' => HrmLoan::STATUS_UNPAID])
-            ->sum('installment_amount') ?? 0;
+        // قراردادهای ماهانه حقوق ماه را می‌گیرند؛ قرارداد ساعتی فقط بابت ساعت واقعی پرداخت می‌شود.
+        $basePay = $isHourlyContract
+            ? $hourlySalary * $workHours
+            : $baseSalary * $contractRatio;
 
-        // ====== ۵. محاسبه مبالغ ======
-        $workHours = $summary->total_work_hours;
-        $overtimeHours = $summary->total_overtime_hours;
-        $vacationHours = $summary->total_vacation_hours;
-        $missionHours = $summary->total_mission_hours;
-        $absentHours = $summary->total_absent_hours;
-
-        $basePay = $hourlySalary * $workHours;
         $overtimePay = $overtimeHours * $hourlySalary * $overtimeRate;
-        $vacationPay = $vacationHours * $hourlySalary;
-        $missionPay = $missionHours * $hourlySalary;
-        $absentDeduction = $absentHours * $hourlySalary;
+        $specialOvertimeHours = 0;
+        $missionOvertimeHours = 0;
+        $specialOvertimePay = 0;
+        $missionOvertimePay = 0;
+        $fridayWorkPay = $fridayHours * $hourlySalary * $fridayRate;
+        $holidayWorkPay = $holidayHours * $hourlySalary * $holidayRate;
 
-        // ====== ۵.۱ مزایای ثبت‌شده در قرارداد ======
+        // مأموریت به روز تبدیل می‌شود: هر 8 ساعت یک روز حقوق پایه.
+        $missionPay = ($missionHours / $hoursPerDay) * $dailySalary;
+        $vacationPay = 0;
+        if ($isHourlyContract && $contract) {
+            $vacationPay = $vacationHours * max(0, (float) $contract->hourly_leave_salary);
+        }
+
+        $absentDeduction = ($absentHours / $hoursPerDay) * $dailySalary * 2;
+        $delayDeduction = $delayHours * $hourlySalary * $overtimeRate;
+        $earlyLeaveDeduction = $earlyLeaveHours * $hourlySalary * $overtimeRate;
+        $unauthorizedExit = 0;
+        $studentVacation = 0;
+        $unpaidVacation = 0;
+
+        // مزایای قرارداد؛ مقادیر قرارداد ساعتی نرخ ساعتی هستند.
         $maritalStatus = $contract ? (int) $contract->marital_status : null;
         $childCount = $contract ? max(0, (int) $contract->child_count) : 0;
-
         $housingAllowance = 0;
         $foodAllowance = 0;
         $childAllowance = 0;
@@ -684,35 +705,111 @@ class HrmSalarySlip extends ActiveRecord
         $performanceBonus = 0;
         $responsibilityAllowance = 0;
         $otherAllowance = 0;
+        $transportationAllowance = 0;
 
-        if ($contract) {
-            if ($isHourlyContract) {
-                // فیلدهای قرارداد ساعتی، نرخ به‌ازای هر ساعت هستند.
-                $housingAllowance = (float) $contract->hourly_housing_allowance * $workHours;
-                $foodAllowance = (float) $contract->hourly_welfare_allowance * $workHours;
-                $childAllowance = $childCount > 0
-                    ? (float) $contract->hourly_child_allowance * $workHours
-                    : 0;
-                $seniorityAllowance = (float) $contract->hourly_seniority_allowance * $workHours;
-                $performanceBonus = (float) $contract->hourly_performance_bonus * $workHours;
-                // ایاب‌وذهاب در فرم قرارداد ساعتی به‌صورت مبلغ ثابت ثبت می‌شود.
-                $transportationAllowance += (float) $contract->transportation_allowance;
-            } elseif ($contractType === HrmContract::TYPE_TEMPORARY) {
-                $housingAllowance = (float) $contract->housing_allowance;
-                $foodAllowance = (float) $contract->welfare_allowance;
-                $childAllowance = $childCount > 0 ? (float) $contract->child_allowance : 0;
-                $seniorityAllowance = (float) $contract->seniority_allowance;
-                $performanceBonus = (float) $contract->performance_bonus;
-                $responsibilityAllowance = (float) $contract->responsibility_allowance;
-                $otherAllowance = (float) $contract->other_allowance;
-                $transportationAllowance += (float) $contract->transportation_allowance;
-            }
+        if ($isHourlyContract && $contract) {
+            $housingAllowance = (float) $contract->hourly_housing_allowance * $workHours;
+            $foodAllowance = (float) $contract->hourly_welfare_allowance * $workHours;
+            $childAllowance = $childCount > 0
+                ? (float) $contract->hourly_child_allowance * $workHours
+                : 0;
+            $seniorityAllowance = (float) $contract->hourly_seniority_allowance * $workHours;
+            $performanceBonus = (float) $contract->hourly_performance_bonus * $workHours;
+            $transportationAllowance = (float) $contract->transportation_allowance;
+        } elseif ($isProjectContract && $financialYear) {
+            $housingAllowance = (float) $financialYear->housing_benefits * $contractRatio;
+            $foodAllowance = (float) $financialYear->coupon * $contractRatio;
+            $childAllowance = $childCount > 0 ? (float) $financialYear->child_allowance * $contractRatio : 0;
+            $seniorityAllowance = (float) $financialYear->seniority_allowance * $contractRatio;
+            $performanceBonus = (float) $financialYear->performance_bonus * $contractRatio;
+            $responsibilityAllowance = (float) $financialYear->responsibility_allowance * $contractRatio;
+            $transportationAllowance = (float) $financialYear->transportation_allowance * $contractRatio;
+        } elseif ($contract) {
+            $housingAllowance = (float) $contract->housing_allowance * $contractRatio;
+            $foodAllowance = (float) $contract->welfare_allowance * $contractRatio;
+            $childAllowance = $childCount > 0 ? (float) $contract->child_allowance * $contractRatio : 0;
+            $seniorityAllowance = (float) $contract->seniority_allowance * $contractRatio;
+            $performanceBonus = (float) $contract->performance_bonus * $contractRatio;
+            $responsibilityAllowance = (float) $contract->responsibility_allowance * $contractRatio;
+            $otherAllowance = (float) $contract->other_allowance * $contractRatio;
+            $transportationAllowance = (float) $contract->transportation_allowance * $contractRatio;
         }
 
-        // طبق قاعده اعلام‌شده شرکت، برای پرسنل مجرد حق مسکن محاسبه نمی‌شود.
         if ($maritalStatus === HrmContract::MARITAL_SINGLE) {
             $housingAllowance = 0;
         }
+
+        // اضافات و کسورات دستی ثبت‌شده برای همین ماه
+        $adjustments = HrmAdjustment::find()
+            ->where(['user_id' => $userId, 'month' => $month, 'year' => $year, 'status' => HrmAdjustment::STATUS_UNPAID])
+            ->all();
+
+        $bonusAmount = 0;
+        $penaltyAmount = 0;
+        $arrearsAmount = 0;
+        $companyPurchase = 0;
+        $otherDeduction = 0;
+        foreach ($adjustments as $adjustment) {
+            switch ((int) $adjustment->type) {
+                case HrmAdjustment::TYPE_BONUS:
+                    $bonusAmount += (float) $adjustment->amount;
+                    break;
+                case HrmAdjustment::TYPE_PENALTY:
+                    $penaltyAmount += (float) $adjustment->amount;
+                    break;
+                case HrmAdjustment::TYPE_ARREARS:
+                    $arrearsAmount += (float) $adjustment->amount;
+                    break;
+                case HrmAdjustment::TYPE_COMPANY_PURCHASE:
+                    $companyPurchase += (float) $adjustment->amount;
+                    break;
+                case HrmAdjustment::TYPE_OTHER_DEDUCTION:
+                    $otherDeduction += (float) $adjustment->amount;
+                    break;
+                case HrmAdjustment::TYPE_TRANSPORTATION:
+                    $transportationAllowance += (float) $adjustment->amount;
+                    break;
+            }
+        }
+
+        $advanceAmount = (float) (HrmAdvance::find()
+            ->where([
+                'user_id' => $userId,
+                'month' => $month,
+                'year' => $year,
+                'status' => HrmAdvance::STATUS_UNPAID,
+            ])
+            ->sum('amount') ?: 0);
+
+        $loanInstallment = 0;
+        $openLoans = HrmLoan::find()
+            ->where(['user_id' => $userId, 'status' => HrmLoan::STATUS_UNPAID])
+            ->all();
+        foreach ($openLoans as $loan) {
+            if ((int) $loan->paid_installments < (int) $loan->installment_count) {
+                $loanInstallment += (float) $loan->installment_amount;
+            }
+        }
+
+        // تعدیل 29/31 روزه فقط برای قراردادهای ماهانه اعمال می‌شود.
+        $monthDays = self::getJalaliMonthDays($year, $month);
+        $isFullMonthContract = $contractRatio >= 0.999;
+        $compensatory31Days = (!$isHourlyContract && $isFullMonthContract && $monthDays === 31) ? $dailySalary : 0;
+        $deduct29Days = (!$isHourlyContract && $isFullMonthContract && $monthDays === 29) ? $dailySalary : 0;
+
+        // بیمه: سهم کارمند 7 درصد به‌علاوه ضریب 1.1 (نرخ مؤثر 7.7 درصد).
+        if ($isHourlyContract || $isProjectContract) {
+            $insurableBaseSalary = $financialYear
+                ? ((float) $financialYear->salary
+                    + (float) $financialYear->housing_benefits
+                    + (float) $financialYear->coupon) * $contractRatio
+                : $baseSalary * $contractRatio;
+        } else {
+            $insurableBaseSalary = $baseSalary * $contractRatio + $housingAllowance + $foodAllowance;
+        }
+        $insuranceAmount = max(0, $insurableBaseSalary) * 0.07 * 1.1;
+        $supplementaryInsurance = 0;
+        $tax = 0;
 
         $housingAllowance = round($housingAllowance, 0);
         $foodAllowance = round($foodAllowance, 0);
@@ -723,55 +820,68 @@ class HrmSalarySlip extends ActiveRecord
         $otherAllowance = round($otherAllowance, 0);
         $transportationAllowance = round($transportationAllowance, 0);
 
-        // جمع اضافات؛ تمام مزایای قرارداد باید در فیش و خالص پرداختی لحاظ شوند.
-        $totalAdditions = $basePay + $overtimePay + $vacationPay + $missionPay
-            + $bonusAmount + $arrearsAmount + $transportationAllowance
-            + $housingAllowance + $foodAllowance + $childAllowance
-            + $seniorityAllowance + $performanceBonus
-            + $responsibilityAllowance + $otherAllowance;
+        $totalAdditions = $basePay + $overtimePay + $specialOvertimePay
+            + $missionOvertimePay + $fridayWorkPay + $holidayWorkPay
+            + $vacationPay + $missionPay + $bonusAmount + $arrearsAmount
+            + $transportationAllowance + $housingAllowance + $foodAllowance
+            + $childAllowance + $seniorityAllowance + $performanceBonus
+            + $responsibilityAllowance + $otherAllowance + $compensatory31Days;
 
-        // جمع کسورات
-        $totalDeductions = $absentDeduction + $penaltyAmount + $companyPurchase + $otherDeduction + $advanceAmount + $loanInstallment;
+        $totalDeductions = $absentDeduction + $delayDeduction + $earlyLeaveDeduction
+            + $latePenalty8Hours + $penaltyAmount + $companyPurchase
+            + $otherDeduction + $advanceAmount + $loanInstallment
+            + $insuranceAmount + $supplementaryInsurance + $tax
+            + $unauthorizedExit + $studentVacation + $unpaidVacation + $deduct29Days;
 
-        // قابل پرداخت خالص
         $netPayable = $totalAdditions - $totalDeductions;
 
-        // ====== ۶. ذخیره یا بروزرسانی ======
         $existing = self::find()
             ->where(['user_id' => $userId, 'year' => $year, 'month' => $month])
             ->one();
 
-        if ($existing) {
-            $model = $existing;
-        } else {
-            $model = new self();
-            $model->created_by = Yii::$app->user->id;
+        if ($existing && (int) $existing->status !== self::STATUS_DRAFT) {
+            return [
+                'success' => false,
+                'message' => 'فیش حقوقی نهایی یا پرداخت‌شده است؛ محاسبه مجدد مجاز نیست.',
+            ];
         }
 
-        $monthName = self::getMonthName($month);
+        $model = $existing ?: new self();
+        if (!$existing) {
+            $model->created_by = Yii::$app->user->id;
+        }
 
         $model->user_id = $userId;
         $model->year = $year;
         $model->month = $month;
-        $model->month_name = $monthName;
-        $model->base_salary = $baseSalary;
+        $model->month_name = self::getMonthName($month);
+        $model->base_salary = round($baseSalary, 0);
         $model->daily_salary = round($dailySalary, 2);
         $model->hourly_salary = round($hourlySalary, 2);
-        $model->work_days = $summary->work_days_count;
-        $model->vacation_days = $summary->vacation_days_count;
-        $model->mission_days = $summary->mission_days_count;
-        $model->absent_days = $summary->absent_days_count;
-        $model->holiday_days = $summary->holiday_days_count;
+        $model->work_days = (int) round($workHours / $hoursPerDay, 2);
+        $model->vacation_days = (int) round($vacationHours / $hoursPerDay, 2);
+        $model->mission_days = (int) round($missionHours / $hoursPerDay, 2);
+        $model->absent_days = (int) round($absentHours / $hoursPerDay, 2);
+        $model->holiday_days = (int) $summary->holiday_days_count;
         $model->work_hours = round($workHours, 2);
         $model->vacation_hours = round($vacationHours, 2);
         $model->mission_hours = round($missionHours, 2);
         $model->absent_hours = round($absentHours, 2);
         $model->overtime_hours = round($overtimeHours, 2);
+        $model->special_overtime_hours = round($specialOvertimeHours, 2);
+        $model->mission_overtime_hours = round($missionOvertimeHours, 2);
         $model->base_pay = round($basePay, 0);
         $model->vacation_pay = round($vacationPay, 0);
         $model->mission_pay = round($missionPay, 0);
         $model->overtime_pay = round($overtimePay, 0);
+        $model->special_overtime_pay = round($specialOvertimePay, 0);
+        $model->mission_overtime_pay = round($missionOvertimePay, 0);
+        $model->friday_work_pay = round($fridayWorkPay, 0);
+        $model->holiday_work_pay = round($holidayWorkPay, 0);
         $model->absent_deduction = round($absentDeduction, 0);
+        $model->delay = round($delayDeduction, 0);
+        $model->early_leave = round($earlyLeaveDeduction, 0);
+        $model->late_penalty_8_hours = round($latePenalty8Hours, 0);
         $model->bonus_amount = round($bonusAmount, 0);
         $model->penalty_amount = round($penaltyAmount, 0);
         $model->arrears_amount = round($arrearsAmount, 0);
@@ -788,42 +898,47 @@ class HrmSalarySlip extends ActiveRecord
         $model->other_allowance = $otherAllowance;
         $model->advance_amount = round($advanceAmount, 0);
         $model->loan_installment = round($loanInstallment, 0);
+        $model->insurance_amount = round($insuranceAmount, 0);
+        $model->employee_insurance = round($insuranceAmount, 0);
+        $model->supplementary_insurance = round($supplementaryInsurance, 0);
+        $model->insurable_base_salary = round($insurableBaseSalary, 0);
+        $model->tax = 0;
+        $model->unauthorized_exit = round($unauthorizedExit, 0);
+        $model->student_vacation = round($studentVacation, 0);
+        $model->unpaid_vacation = round($unpaidVacation, 0);
+        $model->compensatory_31_days = round($compensatory31Days, 0);
+        $model->deduct_29_days = round($deduct29Days, 0);
         $model->total_additions = round($totalAdditions, 0);
         $model->total_deductions = round($totalDeductions, 0);
         $model->net_payable = round($netPayable, 0);
         $model->status = self::STATUS_DRAFT;
 
-        if ($model->save()) {
-            return [
-                'success' => true,
-                'data' => $model,
-                'summary' => [
-                    'base_pay' => round($basePay, 0),
-                    'overtime_pay' => round($overtimePay, 0),
-                    'vacation_pay' => round($vacationPay, 0),
-                    'mission_pay' => round($missionPay, 0),
-                    'absent_deduction' => round($absentDeduction, 0),
-                    'bonus_amount' => round($bonusAmount, 0),
-                    'housing_allowance' => $housingAllowance,
-                    'food_allowance' => $foodAllowance,
-                    'child_allowance' => $childAllowance,
-                    'seniority_allowance' => $seniorityAllowance,
-                    'performance_bonus' => $performanceBonus,
-                    'responsibility_allowance' => $responsibilityAllowance,
-                    'other_allowance' => $otherAllowance,
-                    'transportation_allowance' => $transportationAllowance,
-                    'penalty_amount' => round($penaltyAmount, 0),
-                    'advance_amount' => round($advanceAmount, 0),
-                    'loan_installment' => round($loanInstallment, 0),
-                    'total_additions' => round($totalAdditions, 0),
-                    'total_deductions' => round($totalDeductions, 0),
-                    'net_payable' => round($netPayable, 0),
-                ]
-            ];
+        if (!$model->save()) {
+            return ['success' => false, 'errors' => $model->errors];
         }
 
-        return ['success' => false, 'errors' => $model->errors];
-   
+        return [
+            'success' => true,
+            'data' => $model,
+            'summary' => [
+                'contract_type' => $contractType,
+                'base_salary' => round($baseSalary, 0),
+                'daily_salary' => round($dailySalary, 2),
+                'hourly_salary' => round($hourlySalary, 2),
+                'work_days' => round($workHours / $hoursPerDay, 2),
+                'mission_days' => round($missionHours / $hoursPerDay, 2),
+                'overtime_pay' => round($overtimePay, 0),
+                'friday_work_pay' => round($fridayWorkPay, 0),
+                'holiday_work_pay' => round($holidayWorkPay, 0),
+                'delay_deduction' => round($delayDeduction, 0),
+                'early_leave_deduction' => round($earlyLeaveDeduction, 0),
+                'late_penalty_8_hours' => round($latePenalty8Hours, 0),
+                'insurance_amount' => round($insuranceAmount, 0),
+                'total_additions' => round($totalAdditions, 0),
+                'total_deductions' => round($totalDeductions, 0),
+                'net_payable' => round($netPayable, 0),
+            ],
+        ];
     }
 
     public static function approve($id)
@@ -933,6 +1048,19 @@ class HrmSalarySlip extends ActiveRecord
         $model['user'] = User::find()->where(['id' => $model['user_id']])->asArray()->one();
 
         return ['success' => true, 'data' => $model];
+    }
+
+    private static function getJalaliMonthDays($year, $month)
+    {
+        if ($month >= 1 && $month <= 6) {
+            return 31;
+        }
+        if ($month >= 7 && $month <= 11) {
+            return 30;
+        }
+
+        $remainder = $year % 33;
+        return in_array($remainder, [1, 5, 9, 13, 17, 22, 26, 30], true) ? 30 : 29;
     }
 
     private static function getMonthName($month)
