@@ -33,6 +33,31 @@ function SheetOverlay({ className, ...props }: React.ComponentProps<typeof Sheet
     );
 }
 
+// Slide utilities are physical (left/right) and ignore `dir`, so in RTL they must be
+// mirrored to match the logical `start-0`/`end-0` positioning of the sheet.
+const SLIDE = {
+    left: "data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left",
+    right: "data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right",
+} as const;
+
+function useHorizontalSlide(side: "top" | "right" | "bottom" | "left") {
+    const [isRtl, setIsRtl] = React.useState(() => document.documentElement.dir === "rtl");
+
+    React.useEffect(() => {
+        const root = document.documentElement;
+        const update = () => setIsRtl(root.dir === "rtl");
+        update();
+        const observer = new MutationObserver(update);
+        observer.observe(root, { attributes: true, attributeFilter: ["dir"] });
+        return () => observer.disconnect();
+    }, []);
+
+    if (side !== "left" && side !== "right") return "";
+
+    if (side === "left") return isRtl ? SLIDE.right : SLIDE.left;
+    return isRtl ? SLIDE.left : SLIDE.right;
+}
+
 function SheetContent({
     className,
     children,
@@ -43,6 +68,8 @@ function SheetContent({
     side?: "top" | "right" | "bottom" | "left";
     showCloseButton?: boolean;
 }) {
+    const slide = useHorizontalSlide(side);
+
     return (
         <SheetPortal>
             <SheetOverlay />
@@ -51,9 +78,8 @@ function SheetContent({
                 className={cn(
                     "bg-background data-[state=open]:animate-in data-[state=closed]:animate-out fixed z-50 flex flex-col gap-4 shadow-lg transition ease-in-out data-[state=closed]:duration-300 data-[state=open]:duration-500",
                     side === "right" &&
-                        "data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right inset-y-0 end-0 h-full w-3/4 border-s sm:max-w-sm",
-                    side === "left" &&
-                        "data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left inset-y-0 start-0 h-full w-3/4 border-e sm:max-w-sm",
+                        `${slide} inset-y-0 end-0 h-full w-3/4 border-s sm:max-w-sm`,
+                    side === "left" && `${slide} inset-y-0 start-0 h-full w-3/4 border-e sm:max-w-sm`,
                     side === "top" && "data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top inset-x-0 top-0 h-auto border-b",
                     side === "bottom" && "data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom inset-x-0 bottom-0 h-auto border-t",
                     className,

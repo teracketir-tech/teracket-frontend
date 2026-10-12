@@ -36,8 +36,14 @@ export default function RowControll({
 
     return (
         <div className="flex items-center gap-3">
-            <div className={cn("w-full flex items-center justify-between p-2 rounded-md border", inBalance() ? "bg-red-100" : "bg-green-100")}>
-                <div className="flex items-center justify-start gap-3.5 w-[10%]">
+            <div
+                className={cn(
+                    // stacked below sm so nothing overflows its box on phones
+                    "w-full flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 sm:gap-3 p-2 rounded-md border",
+                    inBalance() ? "bg-red-100" : "bg-green-100",
+                )}
+            >
+                <div className="flex items-center justify-between sm:justify-start gap-3.5">
                     <Tooltip>
                         <TooltipTrigger asChild>
                             <button type="button" className="cursor-pointer" onClick={() => setItems((prev: any) => [...prev, ...addRows(1)])}>
@@ -54,8 +60,9 @@ export default function RowControll({
 
                     <>
                         <DropdownMenu>
-                            <DropdownMenuTrigger asChild className="w-8 flex items-center justify-center">
-                                <SidebarMenuButton size="sm" className="">
+                            <DropdownMenuTrigger asChild>
+                                {/* type="button": without it this submits the enclosing form on touch devices, closing the menu */}
+                                <SidebarMenuButton size="sm" type="button" className="h-8 w-8 shrink-0 justify-center">
                                     <ChevronsUpDown className="size-4" />
                                 </SidebarMenuButton>
                             </DropdownMenuTrigger>
@@ -74,7 +81,7 @@ export default function RowControll({
                     </>
                 </div>
 
-                <div className="flex flex-col items-end justify-center gap-1 text-sm w-[90%]">
+                <div className="flex flex-col items-start sm:items-end justify-center gap-1 text-sm">
                     <p className="flex items-center gap-1">
                         <span>بدهکار</span>
                         <span>:</span>

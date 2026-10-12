@@ -1,30 +1,18 @@
 import CompanySelect from "@/components/shared/CompanySelect";
+import ContactSelect from "@/components/shared/ContactSelect";
 import Filters from "@/components/shared/Filters";
 import Input from "@/components/shared/inputs";
 import DateInput from "@/components/shared/inputs/Date";
 import Select from "@/components/shared/inputs/Select";
+import { AccountingDataIds } from "@/lib/utils";
 import { useEffect, useState } from "react";
+import gregorian from "react-date-object/calendars/gregorian";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
+import { DateObject } from "react-multi-date-picker";
 import { useSearchParams } from "react-router-dom";
 
-export default function FilterForm({
-    formik,
-    loading,
-    currentDate,
-    monthOptions,
-    yearOptions,
-    changeMonthBySelect,
-    changeYear,
-    fetchAccountingItems,
-}: {
-    formik: any;
-    loading: boolean;
-    currentDate: any;
-    monthOptions: any;
-    yearOptions: any;
-    changeMonthBySelect: any;
-    changeYear: any;
-    fetchAccountingItems: any;
-}) {
+export default function FilterForm({ formik, loading, setCurrentDate }: { formik: any; loading: boolean; setCurrentDate: any }) {
     const [open, setOpen] = useState(false);
     const [searchParams, setSearchParams] = useSearchParams();
 
@@ -37,18 +25,7 @@ export default function FilterForm({
     }, [open]);
 
     return (
-        <Filters
-            open={open}
-            setOpen={setOpen}
-            loading={loading}
-            onReset={() => {
-                setOpen(false);
-                formik.resetForm();
-                fetchAccountingItems();
-                setSearchParams({}, { replace: true });
-            }}
-            onOk={() => formik.submitForm()}
-        >
+        <Filters open={open} setOpen={setOpen} loading={loading} formik={formik}>
             <form className="w-full grid grid-cols-5 gap-5">
                 <CompanySelect formik={formik} />
                 <Select
@@ -57,27 +34,43 @@ export default function FilterForm({
                     required={false}
                     formik={formik}
                     options={[
-                        { label: "اسناد پرداختنی", value: "2" },
-                        { label: "اسناد دریافتنی", value: "14" },
+                        { label: "اسناد پرداختنی", value: AccountingDataIds.PAYABLE },
+                        { label: "اسناد دریافتنی", value: AccountingDataIds.RECEIVABLE },
                     ]}
                 />
-                <Select
-                    name="year"
-                    title="سال"
+                <ContactSelect formik={formik} type={0} />
+
+                <DateInput
+                    name="date"
+                    title="سال / ماه"
+                    formik={formik}
                     required={false}
-                    options={yearOptions}
-                    value={currentDate.year}
-                    onChange={(e: string) => changeYear(Number(e))}
+                    monthPicker={true}
+                    onChange={(e: string) => {
+                        const date = new DateObject({
+                            date: e,
+                            calendar: gregorian,
+                        }).convert(persian, persian_fa);
+
+                        setCurrentDate(date);
+                        formik.setFieldValue("specific_date", "");
+                    }}
                 />
-                <Select
-                    name="month"
-                    title="ماه"
+                <DateInput
+                    name="specific_date"
+                    title="روز"
+                    formik={formik}
                     required={false}
-                    options={monthOptions}
-                    value={currentDate.month.index + 1}
-                    onChange={(e: string) => changeMonthBySelect(Number(e))}
+                    onChange={(e: string) => {
+                        formik.setFieldValue("date", "");
+
+                        if (!e) {
+                            const params = new URLSearchParams(searchParams.toString());
+                            params.delete("specific_date");
+                            setSearchParams(params);
+                        }
+                    }}
                 />
-                <DateInput name="date" title="روز" formik={formik} required={false} />
                 <Input name="description" title="توضیحات" required={false} formik={formik} />
             </form>
         </Filters>

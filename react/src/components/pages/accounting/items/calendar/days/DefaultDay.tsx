@@ -1,5 +1,5 @@
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { cn, formatDateToFa, formatNumber, truncateByWord } from "@/lib/utils";
+import { AccountingDataIds, cn, formatDateToFa, formatNumber, truncateByWord } from "@/lib/utils";
 import { LucideCheckCircle } from "lucide-react";
 
 interface DayEvent {
@@ -29,13 +29,17 @@ export default function DefaultDay({ day, loading, isToday = false, holiday = fa
     const originalTotal = events
         ?.filter((e: any) => e.is_original)
         ?.reduce((acc: number, item: DayEvent) => {
-            if (item.accounting_data_id == 14) return acc + item.price;
+            if (item.accounting_data_id == AccountingDataIds.RECEIVABLE) return acc + item.price;
             else return acc - item.price;
         }, 0);
 
-    const creditTotal = events?.filter((e: any) => !e.is_original && e.accounting_data_id == 2)?.reduce((acc: number, item: DayEvent) => acc + item.price, 0);
+    const creditTotal = events
+        ?.filter((e: any) => !e.is_original && e.accounting_data_id == AccountingDataIds.PAYABLE)
+        ?.reduce((acc: number, item: DayEvent) => acc + item.price, 0);
 
-    const debitTotal = events?.filter((e: any) => !e.is_original && e.accounting_data_id == 14)?.reduce((acc: number, item: DayEvent) => acc + item.price, 0);
+    const debitTotal = events
+        ?.filter((e: any) => !e.is_original && e.accounting_data_id == AccountingDataIds.RECEIVABLE)
+        ?.reduce((acc: number, item: DayEvent) => acc + item.price, 0);
 
     return (
         <div
@@ -51,7 +55,7 @@ export default function DefaultDay({ day, loading, isToday = false, holiday = fa
                     <span className={cn("text-base font-bold", holiday ? "text-red-500" : "text-primary")}>{day}</span>
 
                     {/* تعداد آیتم */}
-                    {events.length > 0 && <div className="text-[10px] text-gray-400">{events.length} آیتم</div>}
+                    {events.length > 0 && <div className="text-[10px] text-gray-400">{events.filter((e: any) => e.is_original).length} آیتم</div>}
                 </div>
 
                 <div className="flex items-center gap-2" style={{ height: "32px" }}>

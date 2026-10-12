@@ -2,17 +2,19 @@ import CompanySelect from "@/components/shared/CompanySelect";
 import Filters from "@/components/shared/Filters";
 import Input from "@/components/shared/inputs";
 import Select from "@/components/shared/inputs/Select";
+import { useAuth } from "@/context/AuthContext";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 export default function FilterForm({ loading }: { loading: boolean }) {
+    const { auth } = useAuth();
     const [open, setOpen] = useState(false);
     const [searchParams, setSearchParams] = useSearchParams();
 
     const formik = useFormik({
         initialValues: {
-            company_id: "",
+            company_id: auth?.company_id || "",
             id: "",
             first_name: "",
             last_name: "",
@@ -42,17 +44,7 @@ export default function FilterForm({ loading }: { loading: boolean }) {
     }, [open]);
 
     return (
-        <Filters
-            open={open}
-            setOpen={setOpen}
-            loading={loading}
-            onReset={() => {
-                setOpen(false);
-                formik.resetForm();
-                setSearchParams({}, { replace: true });
-            }}
-            onOk={() => formik.submitForm()}
-        >
+        <Filters open={open} setOpen={setOpen} loading={loading} formik={formik}>
             <form className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5">
                 <CompanySelect formik={formik} />
                 <Input name="id" title="شناسه" formik={formik} required={false} />

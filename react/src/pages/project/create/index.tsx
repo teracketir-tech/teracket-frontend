@@ -1,5 +1,6 @@
 import Button from "@/components/shared/Button";
 import Input from "@/components/shared/inputs";
+import DateInput from "@/components/shared/inputs/Date";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useFormik } from "formik";
 import validationSchema from "./validationSchema";
@@ -8,8 +9,10 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useNavigate, useParams } from "react-router-dom";
 import CompanySelect from "@/components/shared/CompanySelect";
+import { useAuth } from "@/context/AuthContext";
 
 export default function CreateProject({ editMode = 0 }: { editMode?: number }) {
+    const { auth } = useAuth();
     const { id } = useParams();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
@@ -17,7 +20,9 @@ export default function CreateProject({ editMode = 0 }: { editMode?: number }) {
     const formik = useFormik({
         initialValues: {
             name: "",
-            company_id: "",
+            company_id: auth?.company_id || "",
+            // لنگرِ زمان‌بندی — انتخاب‌گر شمسی نشان می‌دهد، میلادی ISO می‌فرستد
+            start_date: "",
         },
         onSubmit,
         validationSchema,
@@ -65,6 +70,7 @@ export default function CreateProject({ editMode = 0 }: { editMode?: number }) {
                 <form className="w-full grid grid-cols-3 gap-5 mb-5">
                     <CompanySelect formik={formik} />
                     <Input type="text" name="name" title="نام" formik={formik} autoComplete="off" />
+                    <DateInput name="start_date" title="تاریخ شروع" formik={formik} placeholder="انتخاب کنید" />
                 </form>
             </CardContent>
 

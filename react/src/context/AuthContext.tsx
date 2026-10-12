@@ -19,6 +19,8 @@ export const AuthProvider = ({ children }: { children: any }) => {
     const [auth, setAuth] = useState<any>(null);
     const [token, setToken] = useState<string | null>(null);
 
+    const isAuthPage = ["/auth/login", "/auth/forgot-password"].includes(location.pathname);
+
     useEffect(() => {
         const isLogin = async () => await api("user/is-login");
 
@@ -34,8 +36,8 @@ export const AuthProvider = ({ children }: { children: any }) => {
         const localAuth = localStorage.getItem("auth") || null;
 
         if (!localToken || !localAuth) {
-            navigate("/login");
-        } else if (location.pathname === "/login") {
+            if (location.pathname !== "/auth/forgot-password") navigate("/auth/login");
+        } else if (isAuthPage) {
             navigate("/");
         }
 

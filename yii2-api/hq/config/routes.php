@@ -2,12 +2,35 @@
 
 use common\helpers\Route;
 
+/**
+ * hq module routes - the single entry point loaded by
+ * `frontend/config/main.php`.
+ *
+ * Every rule only matches its own controller prefix, so all sections can
+ * live in one file and be listed in any order.
+ */
 return [
+
+    // ============== core: organization, project/scheduling, documents, users ==============
     Route::crud('hq/group'),
 
     Route::crud('hq/company'),
 
-    Route::crud('hq/project'),
+    Route::crud('hq/project', [
+        'GET {id}/tasks' => 'tasks',
+        'GET {id}/task-relations' => 'task-relations',
+        'GET {id}/reportable-tasks' => 'reportable-tasks',
+        'POST {id}/calculate-cpm' => 'calculate-cpm',
+    ]),
+
+    // ============== زمان‌بندی پروژه (WBS / تسک / روابط / CPM) ==============
+    Route::crud('hq/task', [
+        'GET project/{id}' => 'project-tasks',
+    ]),
+
+    Route::crud('hq/task-relation', [
+        'GET project/{id}' => 'project-relations',
+    ]),
 
     Route::crud('hq/bank'),
 
@@ -17,6 +40,9 @@ return [
 
     Route::crud('hq/product'),
 
+    // ایشوی ۷: «واحد» — هم‌ردیفِ «کالاها» در سایدبار و CRUD جدا
+    Route::crud('hq/unit'),
+
     Route::crud('hq/exchange-data', [
         'POST import-by-excel' => 'import-by-excel'
     ]),
@@ -24,6 +50,9 @@ return [
     Route::crud('hq/user', [
         'GET roles' => 'roles',
         'GET is-login' => 'is-login',
+        // ایشوی ۱۸ (مورد ۷): فهرستِ کوتاهِ کاربران برای سلکت‌های فیلتر
+        // (پیش از `GET {id}` می‌آید تا «options» به عنوان شناسه خوانده نشود)
+        'GET options' => 'options',
         'POST login' => 'login',
         'POST forgot-password' => 'forgot-password',
     ]),
@@ -57,7 +86,12 @@ return [
 
     Route::crud('hq/material'),
 
-    // ============== تنظیمات مالی (سال مالی و روزهای کاری) ==============
+    Route::crud('hq/app', [
+        'GET last-version' => 'last-version',
+    ]),
+
+    // ============== HRM section 1: finance, assets, leave, mission, contract ==============
+    // ============== financial settings (fiscal year and working days) ==============
     Route::crud('hq/hrm-financial-year', [
         'POST set-active' => 'set-active',
         'GET active' => 'active',
@@ -77,6 +111,7 @@ return [
         'POST confirm-draft/' => 'confirm-draft',
         'DELETE delete-draft/' => 'delete-draft',
     ]),
+
     // انتقال اموال
     Route::crud('hq/hrm-asset-transfer'),
 
@@ -135,8 +170,7 @@ return [
         'POST {id}/toggle-status' => 'toggle-status',
     ]),
 
-
-    //   امور قراردادها  
+    // امور قراردادها
     Route::crud('hq/hrm-contract', [
         'POST {id}/approve' => 'approve',
         'POST {id}/renew' => 'renew',
@@ -160,6 +194,7 @@ return [
         'POST calculate' => 'calculate',
         'POST {id}/finalize' => 'finalize',
     ]),
+
     // ============== تسویه حساب عیدی ==============
     Route::crud('hq/hrm-bonus-settlement', [
         'POST calculate' => 'calculate',
@@ -173,7 +208,24 @@ return [
         'POST {id}/approve' => 'approve',
         'POST {id}/pay' => 'pay',
     ]),
-    // ============== تنظیمات سیستم ==============
+
+    // ============== personnel process ==============
+    Route::crud('hq/hrm-process', [
+        'GET history' => 'history',
+        'GET calculate-list' => 'calculate-list',
+        'GET personnel-list' => 'personnel-list',
+        'POST upload' => 'upload',
+        'POST pre-submit' => 'pre-submit',
+        'POST final-submit' => 'final-submit',
+        'POST recalculate' => 'recalculate',
+        'POST delete-calcs' => 'delete-calcs',
+        'POST delete-processes' => 'delete-processes',
+        'POST clear-work' => 'clear-work',
+        'POST export-excel' => 'export-excel',
+    ]),
+
+    // ============== HRM section 2: settings, payroll, personnel ==============
+    // ============== system settings ==============
     Route::crud('hq/hrm-setting', [
         'GET by-group/{group}' => 'by-group',
         'GET get/{key}' => 'get',
@@ -194,6 +246,7 @@ return [
         'POST batch-pre-submit' => 'batch-pre-submit',
         'POST batch-clear-work' => 'batch-clear-work',
     ]),
+
     Route::crud('hq/hrm-personnel-basic', [
         'GET get-by-user' => 'get-by-user',
         'POST accept-person' => 'accept-person',
@@ -209,6 +262,7 @@ return [
         'GET get-by-user' => 'get-by-user',
         'POST save-all' => 'save-all',
     ]),
+
     // ============== اطلاعات پرسنل - دوره‌های آموزشی ==============
     Route::crud('hq/hrm-personnel-course', [
         'GET get-by-user' => 'get-by-user',
@@ -220,22 +274,26 @@ return [
         'GET get-by-user' => 'get-by-user',
         'POST save-all' => 'save-all',
     ]),
+
     // ============== اطلاعات پرسنل - توانایی و مهارت ==============
     Route::crud('hq/hrm-personnel-skill', [
         'GET get-by-user' => 'get-by-user',
         'POST save-all' => 'save-all',
     ]),
+
     // ============== اطلاعات پرسنل - سوابق کار ==============
     Route::crud('hq/hrm-personnel-work-experience', [
         'GET get-by-user' => 'get-by-user',
         'POST save-all' => 'save-all',
     ]),
+
     // ============== اطلاعات پرسنل - بارگزاری مدارک ==============
     Route::crud('hq/hrm-personnel-document', [
         'GET get-by-user' => 'get-by-user',
         'POST upload' => 'upload',
         'POST delete-file' => 'delete-file',
     ]),
+
     // گروه کاری (سطح 1)
     Route::crud('hq/hrm-workgroup', [
         'GET items' => 'items',
@@ -260,28 +318,54 @@ return [
     Route::crud('hq/hrm-workgroup-personel', [
         'GET by-user' => 'by-user',
     ]),
-    // در فایل routes.php
 
     // ============== گزارش گروه کاری ==============
     Route::crud('hq/hrm-workgroup-report', [
         'GET index' => 'index',
     ]),
 
-    Route::crud('hq/app', [
-        'GET last-version' => 'last-version',
+    // ============== گزارش روزانه عملیات اجرایی (Civil) — فاز ۲ ==============
+    // «افزودنِ تو در تو» زیرِ پیشوند همین کنترلر می‌نشیند؛ خواندن/ویرایش/حذف
+    // هر زیرمجموعه روی کنترلر خودش است (ایشوی ۴) و «ثبت نهایی» هم روی همین
+    // کنترلر است (ایشوی ۵).
+    //
+    // ایشوی ۱۰: پنج مسیرِ زیرمجموعه activity-scoped شدند — هر ردیف باید متعلق
+    // به یک فعالیت باشد و گزارشِ آن از خودِ فعالیت می‌آید. مسیرِ قدیمی
+    // `{id}/{line}` (گزارش‌محور) حذف شد.
+    Route::crud('hq/daily-report', [
+        // واژه‌نامه باید پیش از `GET {id}` بیاید تا «dictionaries» به عنوان
+        // شناسه‌ی گزارش خوانده نشود (extraPatterns بر patterns مقدم است)
+        'GET dictionaries' => 'dictionaries',
+        // ایشوی ۱۱: پیشرفتِ قبلیِ هر تسک در پروژه، برای ادامه‌ی نوارِ درصد
+        // پیشرفت (باید پیش از `GET {id}` باشد تا «task-progress» شناسه خوانده نشود)
+        'GET {id}/task-progress' => 'task-progress',
+        'POST {id}/activities' => 'create-activity',
+        'POST activity/<activityId>/manpower' => 'create-manpower',
+        'POST activity/<activityId>/equipment' => 'create-equipment',
+        'POST activity/<activityId>/materials' => 'create-materials',
+        'POST activity/<activityId>/deliveries' => 'create-deliveries',
+        'POST activity/<activityId>/timesheets' => 'create-timesheets',
+        'POST {id}/submit' => 'submit',
     ]),
-    // ============== فرآیند پرسنل ==============
-    Route::crud('hq/hrm-process', [
-        'GET history' => 'history',
-        'GET calculate-list' => 'calculate-list',
-        'GET personnel-list' => 'personnel-list',
-        'POST upload' => 'upload',
-        'POST pre-submit' => 'pre-submit',
-        'POST final-submit' => 'final-submit',
-        'POST recalculate' => 'recalculate',
-        'POST delete-calcs' => 'delete-calcs',
-        'POST delete-processes' => 'delete-processes',
-        'POST clear-work' => 'clear-work',
-         'POST export-excel' => 'export-excel', 
-    ]),
+
+    Route::crud('hq/daily-report-activity'),
+
+    Route::crud('hq/daily-report-manpower'),
+
+    Route::crud('hq/daily-report-equipment'),
+
+    Route::crud('hq/daily-report-materials'),
+
+    Route::crud('hq/daily-report-deliveries'),
+
+    Route::crud('hq/daily-report-timesheets'),
+
+    // ============== لیست‌های مرجعِ گزارش (ایشوی ۱۲) ==============
+    // «نوع ماشین‌آلات» و «دلیل انحراف» جدول‌های موجودند و فقط CRUD می‌خواهند؛
+    // منِ کاربر مثل «کالاها» از منوی «پروژه» پرشان می‌کند. پسوندِ `-type` /
+    // `-reason` با مسیرهای `daily-report-equipment` تداخلی ندارد چون هر
+    // UrlRule فقط پیشوندِ خودش را با `^...$` می‌پذیرد.
+    Route::crud('hq/daily-report-equipment-type'),
+
+    Route::crud('hq/daily-report-deviation-reason'),
 ];

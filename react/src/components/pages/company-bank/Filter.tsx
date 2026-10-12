@@ -1,6 +1,7 @@
 import CompanySelect from "@/components/shared/CompanySelect";
 import Filters from "@/components/shared/Filters";
 import Input from "@/components/shared/inputs";
+import ProjectSelect from "@/components/shared/ProjectSelect";
 import { useAuth } from "@/context/AuthContext";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
@@ -15,7 +16,8 @@ export default function FilterForm({ loading }: { loading: boolean }) {
         initialValues: {
             id: "",
             name: "",
-            company_id: "",
+            project_id: "",
+            company_id: auth?.company_id || "",
         },
         onSubmit,
         validationSchema: false,
@@ -41,19 +43,10 @@ export default function FilterForm({ loading }: { loading: boolean }) {
     }, [open]);
 
     return (
-        <Filters
-            open={open}
-            setOpen={setOpen}
-            loading={loading}
-            onReset={() => {
-                setOpen(false);
-                formik.resetForm();
-                setSearchParams({}, { replace: true });
-            }}
-            onOk={() => formik.submitForm()}
-        >
+        <Filters open={open} setOpen={setOpen} loading={loading} formik={formik}>
             <form className="w-full grid grid-cols-5 gap-5">
-                {!auth?.company_id && <CompanySelect formik={formik} required={false} />}
+                <CompanySelect formik={formik} required={false} />
+                <ProjectSelect formik={formik} isMulti />
                 <Input name="id" title="شناسه" formik={formik} required={false} />
                 <Input name="name" title="نام" formik={formik} required={false} />
             </form>

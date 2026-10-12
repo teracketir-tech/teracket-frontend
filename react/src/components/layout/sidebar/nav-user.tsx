@@ -12,12 +12,35 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar";
 import { useAuth } from "@/context/AuthContext";
+import { companyLabel } from "@/lib/company";
+
+/**
+ * Name, phone and the company badge - shared by the collapsed trigger and the
+ * open menu so the two copies of the same block cannot drift apart.
+ *
+ * `justify` is passed by the caller because the two places align their content
+ * differently, and a flex row ignores the text alignment of its parent.
+ */
+function UserIdentity({ justify }: { justify: "justify-center" | "justify-start" }) {
+    const { auth } = useAuth();
+
+    const fullName = `${auth?.first_name || ""} ${auth?.last_name || ""}`;
+
+    return (
+        <div className={`grid flex-1 text-xs leading-tight ${justify === "justify-center" ? "text-center" : "text-right"}`}>
+            <span className={`flex items-center gap-1.5 ${justify}`}>
+                <span className="min-w-0 truncate font-medium">{fullName}</span>
+                <span className="shrink-0 rounded bg-gray-200 px-1.5 py-0.5 text-[0.6rem] font-semibold text-gray-600">{companyLabel(auth?.company_id, auth?.company_name)}</span>
+            </span>
+            <span className="mt-1 truncate text-right text-[0.65rem] text-gray-400">{auth?.phone_number}</span>
+        </div>
+    );
+}
 
 export function NavUser() {
     const { isMobile } = useSidebar();
     const { auth, logout } = useAuth();
 
-    const authFullName = `${auth?.first_name || ""} ${auth?.last_name || ""}`;
     const authBriefName = `${auth?.first_name?.slice(0, 1) || ""} ${auth?.last_name?.slice(0, 1) || ""}`;
 
     return (
@@ -30,10 +53,7 @@ export function NavUser() {
                                 <Avatar className="size-8 rounded-lg border">
                                     <AvatarFallback className="rounded-lg">{authBriefName}</AvatarFallback>
                                 </Avatar>
-                                <div className="grid flex-1 text-center text-xs leading-tight">
-                                    <span className="truncate font-medium">{authFullName}</span>
-                                    <span className="truncate text-[0.65rem] text-gray-400 mt-1">{auth?.phone_number}</span>
-                                </div>
+                                <UserIdentity justify="justify-center" />
                             </div>
                             <ChevronsUpDown className="mr-auto size-4" />
                         </SidebarMenuButton>
@@ -49,10 +69,7 @@ export function NavUser() {
                                 <Avatar className="size-8 rounded-lg border">
                                     <AvatarFallback className="rounded-lg">{authBriefName}</AvatarFallback>
                                 </Avatar>
-                                <div className="grid flex-1 text-right text-xs leading-tight">
-                                    <span className="truncate font-medium">{authFullName}</span>
-                                    <span className="truncate text-[0.65rem] text-gray-400 mt-1">{auth?.phone_number}</span>
-                                </div>
+                                <UserIdentity justify="justify-start" />
                             </div>
                         </DropdownMenuLabel>
 

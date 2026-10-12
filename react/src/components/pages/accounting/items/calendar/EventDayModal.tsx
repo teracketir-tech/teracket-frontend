@@ -1,7 +1,10 @@
+import Loading from "@/components/shared/Loading";
+import Pagination from "@/components/shared/Pagination";
 import ToolTip from "@/components/shared/ToolTip";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { cn, formatDateToFa, formatNumber, truncateByWord } from "@/lib/utils";
+import { api } from "@/lib/axios";
+import { AccountingDataIds, cn, formatDateToFa, formatNumber, truncateByWord } from "@/lib/utils";
 import { LucideCheckCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -30,6 +33,7 @@ interface EventDayModalProps {
     events: DayEvent[];
     todayReport?: any;
     goToDate?: any;
+    formik?: any;
 }
 
 type SelectedTab = 1 | 2 | 3;
@@ -40,19 +44,32 @@ const tabs = [
     { value: 3, label: "جمع پرداختنی های واقعی امروز" },
 ];
 
-export default function EventDayModal({ open, setOpen, fullDate, events, isToday = false, todayReport = {}, goToDate }: EventDayModalProps) {
+const todayTabs = [
+    { value: 1, label: "لیست اسناد پرداخت نشده تا امروز" },
+    { value: 2, label: "لیست اسناد دریافت نشده تا امروز" },
+];
+
+export default function EventDayModal({ open, setOpen, fullDate, events, isToday = false, todayReport = {}, goToDate, formik }: EventDayModalProps) {
+    const [loading, setLoading] = useState(false);
+    const [debitReports, setDebitReports] = useState([]);
+    const [creditReports, setCreditReports] = useState([]);
     const [selectedTab, setselectedTab] = useState<SelectedTab>(1);
+    const [todaySelectedTab, setTodaySelectedTab] = useState<SelectedTab>(1);
 
     const originalTotal = events
         ?.filter((e: any) => e.is_original)
         ?.reduce((acc: number, item: DayEvent) => {
-            if (item.accounting_data_id == 14) return acc + item.price;
+            if (item.accounting_data_id == AccountingDataIds.RECEIVABLE) return acc + item.price;
             else return acc - item.price;
         }, 0);
 
-    const creditTotal = events?.filter((e: any) => !e.is_original && e.accounting_data_id == 2)?.reduce((acc: number, item: DayEvent) => acc + item.price, 0);
+    const creditTotal = events
+        ?.filter((e: any) => !e.is_original && e.accounting_data_id == AccountingDataIds.PAYABLE)
+        ?.reduce((acc: number, item: DayEvent) => acc + item.price, 0);
 
-    const debitTotal = events?.filter((e: any) => !e.is_original && e.accounting_data_id == 14)?.reduce((acc: number, item: DayEvent) => acc + item.price, 0);
+    const debitTotal = events
+        ?.filter((e: any) => !e.is_original && e.accounting_data_id == AccountingDataIds.RECEIVABLE)
+        ?.reduce((acc: number, item: DayEvent) => acc + item.price, 0);
 
     const diffDays = (date: any) => {
         date = new Date(date).getTime();
@@ -64,8 +81,28 @@ export default function EventDayModal({ open, setOpen, fullDate, events, isToday
     };
 
     useEffect(() => {
-        if (open) setselectedTab(1);
+        if (open) {
+            setselectedTab(1);
+            setDebitReports(todayReport?.debit?.items || []);
+            setCreditReports(todayReport?.credit?.items || []);
+        }
     }, [open]);
+
+    const fetchTodayReport = async (page: number) => {
+        const { company_id, accounting_data_id, contact_id } = formik?.values;
+        const query = `${company_id ? `company_id=${company_id}&` : ""}${accounting_data_id ? `accounting_data_id=${accounting_data_id}&` : ""}${contact_id ? `contact_id=${contact_id}` : ""}`;
+
+        setLoading(true);
+
+        const res = await api(
+            `accounting-item/calendar-today-report?page=${page}&${query}&expand=contact, accounting, accountingData, paidItems, paidItems.main, paidItems.main.accounting`,
+        );
+
+        setCreditReports(res?.credit?.items || []);
+        setDebitReports(res?.debit?.items || []);
+
+        setLoading(false);
+    };
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
@@ -98,8 +135,8 @@ export default function EventDayModal({ open, setOpen, fullDate, events, isToday
                                     .filter(
                                         (e: any) =>
                                             (selectedTab === 1 && e.is_original) ||
-                                            (selectedTab === 2 && !e.is_original && e.accounting_data_id == 14) ||
-                                            (selectedTab === 3 && !e.is_original && e.accounting_data_id == 2),
+                                            (selectedTab === 2 && !e.is_original && e.accounting_data_id == AccountingDataIds.RECEIVABLE) ||
+                                            (selectedTab === 3 && !e.is_original && e.accounting_data_id == AccountingDataIds.PAYABLE),
                                     )
                                     .map((event) => (
                                         <Link
@@ -249,7 +286,12 @@ export default function EventDayModal({ open, setOpen, fullDate, events, isToday
                                                         triger={
                                                             <div className="flex items-center gap-2">
                                                                 <p>جمع آیتم های دریافت نشده</p>
-                                                                <p className="bg-white size-6 rounded-full flex items-center justify-center text-red-600">
+                                                                <p
+                                                                    className={cn(
+                                                                        "bg-white min-w-6 h-6 rounded-full flex items-center justify-center text-red-600",
+                                                                        todayReport?.debit?.count > 99 ? "px-2" : "",
+                                                                    )}
+                                                                >
                                                                     {formatNumber(todayReport?.debit?.count)}
                                                                 </p>
                                                             </div>
@@ -264,7 +306,12 @@ export default function EventDayModal({ open, setOpen, fullDate, events, isToday
                                                         triger={
                                                             <div className="flex items-center gap-2">
                                                                 <p>جمع آیتم های پرداخت نشده</p>
-                                                                <p className="bg-white size-6 rounded-full flex items-center justify-center text-red-600">
+                                                                <p
+                                                                    className={cn(
+                                                                        "bg-white min-w-6 h-6 rounded-full flex items-center justify-center text-red-600",
+                                                                        todayReport?.credit?.count > 99 ? "px-2" : "",
+                                                                    )}
+                                                                >
                                                                     {formatNumber(todayReport?.credit?.count)}
                                                                 </p>
                                                             </div>
@@ -287,131 +334,173 @@ export default function EventDayModal({ open, setOpen, fullDate, events, isToday
                             {/* remaining items */}
                             {isToday && (
                                 <>
-                                    {todayReport?.credit?.items?.length > 0 && (
+                                    {/* today tabs */}
+                                    <div className="w-full mt-5 mb-3 grid grid-cols-2 gap-5 bg-gray-100 p-2 rounded-lg">
+                                        {todayTabs.map((tab: any) => (
+                                            <button
+                                                key={tab.value}
+                                                onClick={() => setTodaySelectedTab(tab.value)}
+                                                className={cn(
+                                                    "cursor-pointer px-4 py-2 rounded text-sm font-medium transition-all duration-200",
+                                                    todaySelectedTab === tab.value
+                                                        ? "bg-white text-primary shadow-md"
+                                                        : "text-gray-600 hover:text-gray-900 hover:bg-gray-200",
+                                                )}
+                                            >
+                                                {tab.label}
+                                            </button>
+                                        ))}
+                                    </div>
+
+                                    {todaySelectedTab === 1 && todayReport?.credit?.count > 0 && (
                                         <div className="flex flex-col gap-1 mt-5">
-                                            <p className="mb-2 text-base">لیست اسناد پرداخت نشده تا امروز</p>
-
-                                            {todayReport.credit.items?.map((c: any) => (
-                                                <Link
-                                                    to={`/accounting/items?accounting_id=${c?.accounting?.id}`}
-                                                    role="link"
-                                                    target="_blank"
-                                                    key={c.id}
-                                                    className={cn("rounded-md px-2 h-14 truncate flex items-center justify-between gap-1 mb-2 bg-red-50")}
-                                                >
-                                                    <div className="flex flex-col gap-2">
-                                                        <p className="flex items-center gap-2">
-                                                            <Tooltip>
-                                                                <TooltipTrigger asChild>
-                                                                    <p className="flex items-center gap-2">
-                                                                        <span className="flex items-center gap-2">
-                                                                            {truncateByWord(`${c.id}- ${c.description}`, 50)}
-                                                                        </span>
-                                                                    </p>
-                                                                </TooltipTrigger>
-                                                                <TooltipContent>
-                                                                    <span>{c.description}</span>
-                                                                </TooltipContent>
-                                                            </Tooltip>
-
-                                                            {diffDays(c?.accounting?.date) && (
-                                                                <Tooltip>
-                                                                    <TooltipTrigger asChild>
-                                                                        <button
-                                                                            className="flex items-center justify-center px-2 py-0.5 rounded-full bg-red-500 text-white text-xs cursor-pointer!"
-                                                                            onClick={(e: any) => {
-                                                                                e.preventDefault();
-                                                                                e.stopPropagation();
-                                                                                goToDate(c?.accounting?.date);
-                                                                            }}
-                                                                        >
-                                                                            {diffDays(c?.accounting?.date)}
-                                                                        </button>
-                                                                    </TooltipTrigger>
-                                                                    <TooltipContent>
-                                                                        <p className="flex items-center gap-1">
-                                                                            <span>{`${diffDays(c?.accounting?.date)} روز تاخیر`}</span>
-                                                                            <span>( {formatDateToFa(c?.accounting?.date)} )</span>
-                                                                        </p>
-                                                                    </TooltipContent>
-                                                                </Tooltip>
+                                            {loading ? (
+                                                <Loading />
+                                            ) : (
+                                                <>
+                                                    {creditReports?.map((c: any) => (
+                                                        <Link
+                                                            to={`/accounting/items?accounting_id=${c?.accounting?.id}`}
+                                                            role="link"
+                                                            target="_blank"
+                                                            key={c.id}
+                                                            className={cn(
+                                                                "rounded-md px-2 h-14 truncate flex items-center justify-between gap-1 mb-2 bg-red-50",
                                                             )}
-                                                        </p>
-                                                        <p className="text-xs text-gray-500 flex items-center gap-3">
-                                                            <span>{c?.contact?.alias || "---"}</span>
-                                                            <span className="text-gray-300">|</span>
-                                                            <span>{formatDateToFa(c?.accounting?.date)}</span>
-                                                            <span className="text-gray-300">|</span>
-                                                            <span>{c?.accountingData?.title}</span>
-                                                        </p>
-                                                    </div>
-                                                    <p>{formatNumber(c.credit, true)}</p>
-                                                </Link>
-                                            ))}
+                                                        >
+                                                            <div className="flex flex-col gap-2">
+                                                                <p className="flex items-center gap-2">
+                                                                    <Tooltip>
+                                                                        <TooltipTrigger asChild>
+                                                                            <p className="flex items-center gap-2">
+                                                                                <span className="flex items-center gap-2">
+                                                                                    {truncateByWord(`${c.id}- ${c.description}`, 50)}
+                                                                                </span>
+                                                                            </p>
+                                                                        </TooltipTrigger>
+                                                                        <TooltipContent>
+                                                                            <span>{c.description}</span>
+                                                                        </TooltipContent>
+                                                                    </Tooltip>
+
+                                                                    {diffDays(c?.accounting?.date) && (
+                                                                        <Tooltip>
+                                                                            <TooltipTrigger asChild>
+                                                                                <button
+                                                                                    className="flex items-center justify-center px-2 py-0.5 rounded-full bg-red-500 text-white text-xs cursor-pointer!"
+                                                                                    onClick={(e: any) => {
+                                                                                        e.preventDefault();
+                                                                                        e.stopPropagation();
+                                                                                        goToDate(c?.accounting?.date);
+                                                                                    }}
+                                                                                >
+                                                                                    {diffDays(c?.accounting?.date)}
+                                                                                </button>
+                                                                            </TooltipTrigger>
+                                                                            <TooltipContent>
+                                                                                <p className="flex items-center gap-1">
+                                                                                    <span>{`${diffDays(c?.accounting?.date)} روز تاخیر`}</span>
+                                                                                    <span>( {formatDateToFa(c?.accounting?.date)} )</span>
+                                                                                </p>
+                                                                            </TooltipContent>
+                                                                        </Tooltip>
+                                                                    )}
+                                                                </p>
+                                                                <p className="text-xs text-gray-500 flex items-center gap-3">
+                                                                    <span>{c?.contact?.alias || "---"}</span>
+                                                                    <span className="text-gray-300">|</span>
+                                                                    <span>{formatDateToFa(c?.accounting?.date)}</span>
+                                                                    <span className="text-gray-300">|</span>
+                                                                    <span>{c?.accountingData?.title}</span>
+                                                                </p>
+                                                            </div>
+                                                            <p>{formatNumber(c.credit, true)}</p>
+                                                        </Link>
+                                                    ))}
+                                                </>
+                                            )}
+
+                                            <Pagination
+                                                totalPage={todayReport?.credit?.pages}
+                                                allowNavigate={false}
+                                                onPageChange={(p: number) => fetchTodayReport(p)}
+                                            />
                                         </div>
                                     )}
 
-                                    {todayReport?.debit?.items?.length > 0 && (
+                                    {todaySelectedTab === 2 && todayReport?.debit?.count > 0 && (
                                         <div className="flex flex-col gap-1 mt-5">
-                                            <p className="mb-2 text-base">لیست اسناد دریافت نشده تا امروز</p>
-
-                                            {todayReport.debit.items?.map((d: any) => (
-                                                <Link
-                                                    to={`/accounting/items?accounting_id=${d?.accounting?.id}`}
-                                                    role="link"
-                                                    target="_blank"
-                                                    key={d.id}
-                                                    className={cn("rounded-md px-2 h-14 truncate flex items-center justify-between gap-1 mb-2 bg-green-50")}
-                                                >
-                                                    <div className="flex flex-col gap-2">
-                                                        <p className="flex items-center gap-2">
-                                                            <Tooltip>
-                                                                <TooltipTrigger asChild>
-                                                                    <p className="flex items-center gap-2">
-                                                                        <span className="flex items-center gap-2">
-                                                                            {truncateByWord(`${d.id}- ${d.description}`, 50)}
-                                                                        </span>
-                                                                    </p>
-                                                                </TooltipTrigger>
-                                                                <TooltipContent>
-                                                                    <span>{d.description}</span>
-                                                                </TooltipContent>
-                                                            </Tooltip>
-
-                                                            {diffDays(d?.accounting?.date) && (
-                                                                <Tooltip>
-                                                                    <TooltipTrigger asChild>
-                                                                        <button
-                                                                            className="flex items-center justify-center px-2 py-0.5 rounded-full bg-red-500 text-white text-xs cursor-pointer!"
-                                                                            onClick={(e: any) => {
-                                                                                e.preventDefault();
-                                                                                e.stopPropagation();
-                                                                                goToDate(d?.accounting?.date);
-                                                                            }}
-                                                                        >
-                                                                            {diffDays(d?.accounting?.date)}
-                                                                        </button>
-                                                                    </TooltipTrigger>
-                                                                    <TooltipContent>
-                                                                        <p className="flex items-center gap-1">
-                                                                            <span>{`${diffDays(d?.accounting?.date)} روز تاخیر`}</span>
-                                                                            <span>( {formatDateToFa(d?.accounting?.date)} )</span>
-                                                                        </p>
-                                                                    </TooltipContent>
-                                                                </Tooltip>
+                                            {loading ? (
+                                                <Loading />
+                                            ) : (
+                                                <>
+                                                    {debitReports?.map((d: any) => (
+                                                        <Link
+                                                            to={`/accounting/items?accounting_id=${d?.accounting?.id}`}
+                                                            role="link"
+                                                            target="_blank"
+                                                            key={d.id}
+                                                            className={cn(
+                                                                "rounded-md px-2 h-14 truncate flex items-center justify-between gap-1 mb-2 bg-green-50",
                                                             )}
-                                                        </p>
-                                                        <p className="text-xs text-gray-500 flex items-center gap-3">
-                                                            <span>{d?.contact?.alias || "---"}</span>
-                                                            <span className="text-gray-300">|</span>
-                                                            <span>{formatDateToFa(d?.accounting?.date)}</span>
-                                                            <span className="text-gray-300">|</span>
-                                                            <span>{d?.accountingData?.title}</span>
-                                                        </p>
-                                                    </div>
-                                                    <p>{formatNumber(d.debit, true)}</p>
-                                                </Link>
-                                            ))}
+                                                        >
+                                                            <div className="flex flex-col gap-2">
+                                                                <p className="flex items-center gap-2">
+                                                                    <Tooltip>
+                                                                        <TooltipTrigger asChild>
+                                                                            <p className="flex items-center gap-2">
+                                                                                <span className="flex items-center gap-2">
+                                                                                    {truncateByWord(`${d.id}- ${d.description}`, 50)}
+                                                                                </span>
+                                                                            </p>
+                                                                        </TooltipTrigger>
+                                                                        <TooltipContent>
+                                                                            <span>{d.description}</span>
+                                                                        </TooltipContent>
+                                                                    </Tooltip>
+
+                                                                    {diffDays(d?.accounting?.date) && (
+                                                                        <Tooltip>
+                                                                            <TooltipTrigger asChild>
+                                                                                <button
+                                                                                    className="flex items-center justify-center px-2 py-0.5 rounded-full bg-red-500 text-white text-xs cursor-pointer!"
+                                                                                    onClick={(e: any) => {
+                                                                                        e.preventDefault();
+                                                                                        e.stopPropagation();
+                                                                                        goToDate(d?.accounting?.date);
+                                                                                    }}
+                                                                                >
+                                                                                    {diffDays(d?.accounting?.date)}
+                                                                                </button>
+                                                                            </TooltipTrigger>
+                                                                            <TooltipContent>
+                                                                                <p className="flex items-center gap-1">
+                                                                                    <span>{`${diffDays(d?.accounting?.date)} روز تاخیر`}</span>
+                                                                                    <span>( {formatDateToFa(d?.accounting?.date)} )</span>
+                                                                                </p>
+                                                                            </TooltipContent>
+                                                                        </Tooltip>
+                                                                    )}
+                                                                </p>
+                                                                <p className="text-xs text-gray-500 flex items-center gap-3">
+                                                                    <span>{d?.contact?.alias || "---"}</span>
+                                                                    <span className="text-gray-300">|</span>
+                                                                    <span>{formatDateToFa(d?.accounting?.date)}</span>
+                                                                    <span className="text-gray-300">|</span>
+                                                                    <span>{d?.accountingData?.title}</span>
+                                                                </p>
+                                                            </div>
+                                                            <p>{formatNumber(d.debit, true)}</p>
+                                                        </Link>
+                                                    ))}
+                                                </>
+                                            )}
+
+                                            <Pagination
+                                                totalPage={todayReport?.debit?.pages}
+                                                allowNavigate={false}
+                                                onPageChange={(p: number) => fetchTodayReport(p)}
+                                            />
                                         </div>
                                     )}
                                 </>

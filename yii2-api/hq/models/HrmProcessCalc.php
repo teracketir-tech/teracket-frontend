@@ -8,8 +8,7 @@ use yii\db\ActiveRecord;
 class HrmProcessCalc extends ActiveRecord
 {
     const STATUS_PRE  = 0; // پیش‌ثبت
-    const STATUS_PAID = 1; // ثبت نهایی / پرداخت‌شده
-
+    const STATUS_PAID = 1; // ثبت نهایی / پرداخت‌شده 
     public static function tableName()
     {
         return 'hrm_process_calc';
@@ -28,18 +27,24 @@ class HrmProcessCalc extends ActiveRecord
     }
 
     public function beforeSave($insert)
-    {
-        if (parent::beforeSave($insert)) {
-            if ($insert) {
-                $this->created_by = Yii::$app->user->id;
-                $this->created_at = date('Y-m-d H:i:s');
-            }
-            $this->total_amount = (int)$this->count * (int)$this->unit_price;
-            $this->updated_at = date('Y-m-d H:i:s');
-            return true;
-        }
+{
+    if (!parent::beforeSave($insert)) {
         return false;
     }
+
+    if ($insert) {
+        $this->created_by = Yii::$app->user->id;
+        $this->created_at = date('Y-m-d H:i:s');
+    }
+
+    $this->count = (int)$this->count;
+    $this->unit_price = (int)$this->unit_price;
+    $this->total_amount = $this->count * $this->unit_price;
+    $this->updated_at = date('Y-m-d H:i:s');
+
+    return true;
+}
+
 
     // ================= Relations =================
     public function getUser()
@@ -58,9 +63,10 @@ class HrmProcessCalc extends ActiveRecord
     }
 
     public function getProcess()
-    {
-        return $this->hasOne(HrmProcess::class, ['id' => 'process_id']);
-    }
+{
+    return $this->hasOne(HrmProcess::class, ['id' => 'process_id']);
+}
+
 
     // ================= API =================
 

@@ -45,7 +45,7 @@ export default function CreateCompanyBank({ editMode = 0 }: { editMode?: number 
 
     const fetchCompanyBank = async () => {
         setLoading(true);
-        const res = await api(`company-bank/${id}`, "GET");
+        const res = await api(`bank/${id}`, "GET");
 
         if (res?.success) formik.setValues(res?.data);
 
@@ -59,7 +59,7 @@ export default function CreateCompanyBank({ editMode = 0 }: { editMode?: number 
     function onSubmit(data: object) {
         setLoading(true);
 
-        api(editMode ? `company-bank/edit/${id}` : "company-bank", "POST", data)
+        api(editMode ? `bank/edit/${id}` : "bank", "POST", data)
             .then((res) => {
                 if (res?.success) {
                     toast.success("بانک با موفقیت ثبت شد.");
@@ -80,7 +80,7 @@ export default function CreateCompanyBank({ editMode = 0 }: { editMode?: number 
 
             <CardContent>
                 <form className="w-full grid grid-cols-3 gap-5 mb-5">
-                    {!auth?.company_id && <CompanySelect formik={formik} required={false} />}
+                    <CompanySelect formik={formik} required={false} />
                     <BankSelect formik={formik} required={true} />
                     <Input type="text" name="branch" title="شعبه" formik={formik} required={false} autoComplete="off" />
                     <Input type="text" name="name" title="نام" formik={formik} autoComplete="off" />

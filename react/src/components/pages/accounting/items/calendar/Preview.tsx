@@ -7,11 +7,12 @@ import persian_fa from "react-date-object/locales/persian_fa";
 import DefaultDay from "./days/DefaultDay";
 import SingleDayView from "./days/SingleDayView";
 import EventDayModal from "./EventDayModal";
-import { cn, formatDateToEn, formatDateToFa, formatNumber, monthNames, weekDays } from "@/lib/utils";
+import { AccountingDataIds, cn, formatDateToEn, formatDateToFa, formatNumber, monthNames, weekDays } from "@/lib/utils";
 import { useFormik } from "formik";
 import { api } from "@/lib/axios";
 import gregorian from "react-date-object/calendars/gregorian";
 import FilterForm from "@/components/pages/accounting-data/calendar/Filter";
+import { useSearchParams } from "react-router-dom";
 interface DayInfo {
     dayNumber: number;
     isCurrentMonth: boolean;
@@ -24,6 +25,7 @@ interface DayInfo {
 type SelectedTab = "day" | "week" | "month";
 
 export default function CalendarPreview() {
+    const [searchParams] = useSearchParams();
     const [loading, setLoading] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [selectedDate, SetSelectedDate] = useState<any>({});
@@ -46,6 +48,8 @@ export default function CalendarPreview() {
             company_id: "",
             accounting_data_id: "",
             description: "",
+            contact_id: "",
+            date: "",
         },
         onSubmit,
         validationSchema: false,
@@ -54,26 +58,36 @@ export default function CalendarPreview() {
     function onSubmit(data: any) {
         let { year, month } = currentDate;
 
-        if (data?.date) {
+        if (data?.specific_date) {
             const date = new DateObject({
-                date: data.date,
+                date: data.specific_date,
                 calendar: gregorian,
             }).convert(persian, persian_fa);
 
             setCurrentDate(date);
 
             setselectedTab("day");
-        }
+
+            //
+        } else setselectedTab("month");
 
         const start = formatDateToEn(`${year}/${month.number}/1`);
         const end = formatDateToEn(`${year}/${month.number}/${month.length}`);
 
-        fetchAccountingItems(
-            `${data.company_id ? `company_id=${data.company_id}&` : ""}date=${start},${end}${data.accounting_data_id ? `&accounting_data_id=${data.accounting_data_id}` : ""}`,
-        );
+        const params = new URLSearchParams(searchParams.toString());
+
+        Object.entries(data).forEach(([key, value]) => {
+            if (value) params.set(key, value.toString());
+            else params.delete(key);
+        });
+
+        params.delete("date");
+        params.append("date", `${start},${end}`);
+
+        fetchAccountingItems(params);
     }
 
-    const fetchAccountingItems = async (query?: string) => {
+    const fetchAccountingItems = async (query?: any) => {
         setLoading(true);
 
         const res = await api(
@@ -169,7 +183,7 @@ export default function CalendarPreview() {
 
     useEffect(() => {
         formik.submitForm();
-    }, [currentDate.month.index]);
+    }, [currentDate.month.index, searchParams]);
 
     const handlePrev = () => {
         formik.setFieldValue("date", "");
@@ -227,36 +241,6 @@ export default function CalendarPreview() {
         setCurrentDate(day.fullPersianDate);
     };
 
-    const changeYear = (year: number) => {
-        formik.setFieldValue("date", "");
-
-        setCurrentDate(
-            new DateObject({
-                calendar: persian,
-                locale: persian_fa,
-                year,
-                month: currentDate.month.index + 1,
-                day: selectedDay,
-            }),
-        );
-    };
-
-    const changeMonthBySelect = (month: number) => {
-        formik.setFieldValue("date", "");
-
-        setCurrentDate(
-            new DateObject({
-                calendar: persian,
-                locale: persian_fa,
-                year: currentDate.year,
-                month,
-                day: 1,
-            }),
-        );
-
-        setSelectedDay(1);
-    };
-
     const handleSelectDate = (date: any) => {
         SetSelectedDate(date);
         setShowModal(true);
@@ -281,22 +265,19 @@ export default function CalendarPreview() {
                     side_accounting_data: a.side_accounting_data,
                     accountingData: a?.accounting_data?.title || "",
                     side_accounting_data_detail: a.side_accounting_data_detail,
-                    color: a.accounting_data_id == 14 ? "bg-green-100" : "bg-red-100",
+                    color: a.accounting_data_id == AccountingDataIds.RECEIVABLE ? "bg-green-100" : "bg-red-100",
                 };
             });
     };
 
     const isHoliday = (day: any) => day.weekDayName === "جمعه";
 
-    const monthOptions = monthNames.map((m: string, i: number) => ({ label: m, value: (i + 1).toString() }));
-    const yearOptions = Array.from({ length: 30 }, (_, i) => ({ label: 1390 + i, value: (1390 + i).toString() }));
-
     const monthTotal = accountingItems?.data
         ?.filter((i: any) => i.is_original)
         ?.reduce((acc: number, item: any) => {
             const price = Math.abs(Number(item.credit) - Number(item.debit));
 
-            if (item.accounting_data_id == 14) return acc + price;
+            if (item.accounting_data_id == AccountingDataIds.RECEIVABLE) return acc + price;
             return acc - price;
         }, 0);
 
@@ -315,16 +296,7 @@ export default function CalendarPreview() {
     return (
         <>
             <div className="p-4">
-                <FilterForm
-                    formik={formik}
-                    loading={loading}
-                    currentDate={currentDate}
-                    monthOptions={monthOptions}
-                    yearOptions={yearOptions}
-                    changeMonthBySelect={changeMonthBySelect}
-                    changeYear={changeYear}
-                    fetchAccountingItems={fetchAccountingItems}
-                />
+                <FilterForm formik={formik} loading={loading} setCurrentDate={setCurrentDate} />
 
                 {/* tabs */}
                 <div className="my-6 flex gap-4 justify-center items-center">
@@ -503,6 +475,7 @@ export default function CalendarPreview() {
                 }
                 todayReport={accountingItems?.today_report}
                 goToDate={(d: any) => handleGoToDate(d, currentDate.day)}
+                formik={formik}
             />
         </>
     );

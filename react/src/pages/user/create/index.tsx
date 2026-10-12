@@ -8,13 +8,16 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useNavigate, useParams } from "react-router-dom";
 import Select from "@/components/shared/inputs/Select";
+import CompanySelect from "@/components/shared/CompanySelect";
+import { useAuth } from "@/context/AuthContext";
 
 export default function CreateUser({ editMode = 0 }: { editMode?: number }) {
+    const { auth } = useAuth();
     const { id } = useParams();
     const navigate = useNavigate();
-    const [user, setUser] = useState<any>({});
     const [groups, setGroups] = useState<any>([]);
     const [loading, setLoading] = useState(false);
+    const [initLoading, setInitLoading] = useState(false);
 
     const fetchGroups = async () => {
         const res = await api("group?per-page=1000", "GET");
@@ -23,6 +26,7 @@ export default function CreateUser({ editMode = 0 }: { editMode?: number }) {
 
     const formik = useFormik({
         initialValues: {
+            company_id: auth?.company_id || "",
             first_name: "",
             last_name: "",
             phone_number: "",
@@ -38,10 +42,10 @@ export default function CreateUser({ editMode = 0 }: { editMode?: number }) {
 
     const fetchUser = async () => {
         setLoading(true);
+        setInitLoading(true);
         const res = await api(`user/${id}`, "GET");
 
         if (res?.success) {
-            setUser(res.data);
             formik.setValues(res?.data);
         }
 
@@ -53,6 +57,11 @@ export default function CreateUser({ editMode = 0 }: { editMode?: number }) {
 
         if (editMode && id) fetchUser();
     }, [id, editMode]);
+
+    useEffect(() => {
+        if (initLoading) setInitLoading(false);
+        else formik.setFieldValue("group_id", "");
+    }, [formik.values.company_id]);
 
     function onSubmit(data: object) {
         if (!editMode && !formik.values.password_hash) {
@@ -74,7 +83,7 @@ export default function CreateUser({ editMode = 0 }: { editMode?: number }) {
             });
     }
 
-    const filteredGroups = groups.filter((group: any) => group.company_id == (editMode ? user?.company_id : null));
+    const filteredGroups = groups.filter((group: any) => group.company_id == (formik.values?.company_id || null));
 
     return (
         <Card className="w-full">
@@ -85,9 +94,7 @@ export default function CreateUser({ editMode = 0 }: { editMode?: number }) {
 
             <CardContent>
                 <form className="w-full grid grid-cols-3 gap-5 mb-5">
-                    {editMode && user?.company?.name ? (
-                        <Input type="text" name="company_id" title="شرکت" value={user?.company?.name} autoComplete="off" required={false} disabled />
-                    ) : null}
+                    <CompanySelect formik={formik} />
                     <Input type="text" name="first_name" title="نام" formik={formik} autoComplete="off" />
                     <Input type="text" name="last_name" title="نام خانوادگی" formik={formik} autoComplete="off" />
                     <Input type="text" name="phone_number" title="شماره موبایل" formik={formik} autoComplete="off" />

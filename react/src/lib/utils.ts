@@ -14,7 +14,7 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
-export const formatNumber = (number: any, showCurrency = false, fixed?: number | undefined) => {
+export const formatNumber = (number: any, showCurrency = false, fixed = 0) => {
     if (number?.toString()?.endsWith(".")) return number;
 
     if (fixed !== undefined) return `${Number(Number(number || 0)?.toFixed(fixed)).toLocaleString()}${showCurrency ? " ریال" : ""}`;
@@ -50,7 +50,7 @@ export const formatDateToEn = (date: string | DateObject, showTime?: boolean) =>
         .format(showTime ? "YYYY-MM-DD HH:mm" : "YYYY-MM-DD");
 };
 
-function findRouteTitle(routeList: any, pathname: string) {
+export function findRouteTitle(routeList: any, pathname: string) {
     for (const route of routeList) {
         if (route?.items) {
             for (const item of route?.items) {
@@ -310,6 +310,63 @@ export const exportAccountingItems = async (data: any) => {
     await exportToExcel(exportData, columns, "Accounting Items", "AccountingItems.xlsx");
 };
 
+export const exportContacts = async (data: any) => {
+    const exportData = data.map((item: any) => ({
+        id: item.id,
+        first_name: item?.fname || "",
+        last_name: item?.lname || "",
+        mobile: item?.mobile || "",
+        company: item?.company?.name || "---",
+    }));
+
+    const columns = [
+        { header: "شناسه", key: "id", width: 15 },
+        { header: "نام", key: "first_name", width: 25 },
+        { header: "نام خانوادگی", key: "last_name", width: 25 },
+        { header: "موبایل", key: "mobile", width: 25 },
+        { header: "شرکت", key: "company", width: 25 },
+    ];
+
+    await exportToExcel(exportData, columns, "Contacts", "Contacts.xlsx");
+};
+
 export const weekDays = ["شنبه", "یکشنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنج‌شنبه", "جمعه"];
 
 export const monthNames = ["فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"];
+
+export const isAuthPage = () => {
+    const location = useLocation();
+    return ["/auth/login", "/auth/forgot-password"].includes(location.pathname);
+};
+
+export const AccountingDataIds = {
+    // حساب پرداختنی
+    PAYABLE: 11010211,
+
+    // حساب دریافتنی
+    RECEIVABLE: 1301014,
+
+    // تسویه سرمایه گذاری
+    INVESTMENT_SETTLEMENT: 1212,
+
+    // تنخواه گردان
+    PETTY_CASH: 1301031,
+
+    // سرمایه اولیه
+    INITIAL_CAPITAL: 1201,
+
+    // ملک
+    PROPERTY: 1401011,
+
+    // بانک
+    BANK: 1301033,
+
+    // کابینت
+    CABINET: 160103512,
+
+    // درآمد حاصل از اجاره
+    RENTAL_INCOME: 1401041,
+
+    // سرامیک
+    CERAMIC: 1601011111,
+};

@@ -8,7 +8,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { useSearchParams } from "react-router-dom";
 import FilterForm from "@/components/pages/accounting/items/Filter";
 import Button from "@/components/shared/Button";
-import { FileSpreadsheet } from "lucide-react";
+import { ArrowDown, ArrowRight, ArrowUp, FileSpreadsheet } from "lucide-react";
 
 export default function AccountingItemList() {
     const [searchParams] = useSearchParams();
@@ -67,9 +67,9 @@ export default function AccountingItemList() {
                     ...item.accountingData,
                     title: `${parents?.length > 0 ? parents.reverse().join(", ") + ", " : ""}${item.accountingData.title}`,
                 },
-                debit: `${formatNumber(item.debit, true)}`,
-                credit: `${formatNumber(item.credit, true)}`,
-                total: `${formatNumber(total, true)}`,
+                debit: `${formatNumber(item.debit)}`,
+                credit: `${formatNumber(item.credit)}`,
+                total: `${formatNumber(total)}`,
             };
         });
 
@@ -156,7 +156,7 @@ export default function AccountingItemList() {
                 ) : (
                     <div className="flex flex-col gap-1 border">
                         {accountingItems?.data?.map((item: any, i: number) => (
-                            <div key={item.id} className="w-full grid grid-cols-16 justify-between gap-4 px-4 py-1 hover:bg-gray-50 border-b">
+                            <div key={item.id} className="w-full grid grid-cols-18 justify-between gap-4 px-4 py-1 hover:bg-gray-50 border-b">
                                 <div className="flex items-center justify-center py-4">
                                     <span className="text-xs text-center">{i + 1}</span>
                                 </div>
@@ -199,6 +199,14 @@ export default function AccountingItemList() {
                                     <span className="text-xs text-center">{item?.contact?.alias || "---"}</span>
                                 </div>
                                 <div className="flex items-center justify-center py-4">
+                                    <span className="text-xs text-center">{item?.product?.name || "---"}</span>
+                                </div>
+                                <div className="flex items-center justify-center py-4">
+                                    <span className="text-xs text-center">
+                                        {item?.material ? `${item?.material?.name}${item?.material?.color ? `(${item.material.color.name})` : ""}` : "---"}
+                                    </span>
+                                </div>
+                                <div className="flex items-center justify-center py-4">
                                     <span className="text-xs text-center">{item?.accounting?.project?.name || "---"}</span>
                                 </div>
                                 <div className="flex items-center justify-center py-4">
@@ -230,6 +238,8 @@ export default function AccountingItemList() {
 }
 
 function Title() {
+    const [searchParams, setSearchParams] = useSearchParams();
+
     const list = [
         "ردیف",
         "شناسه",
@@ -241,6 +251,8 @@ function Title() {
         "شرح",
         "نام بانک",
         "نام شخص",
+        "نام کالا",
+        "نام ماده",
         "پروژه",
         "شرکت",
         "نام ثبت کننده",
@@ -249,11 +261,50 @@ function Title() {
         "مجموع",
     ];
 
+    const sortIcon = (field: string) => {
+        let sort = null;
+        const params = new URLSearchParams(searchParams.toString());
+
+        if (field === "تاریخ روز") sort = params.get("sort_created") || null;
+        else if (field === "تاریخ سند") sort = params.get("sort_date") || null;
+
+        if (!sort) return <ArrowRight size={15} color="gray" />;
+
+        return sort == "1" ? <ArrowUp size={15} color="gray" /> : <ArrowDown size={15} color="gray" />;
+    };
+
     return (
-        <div className="w-full justify-between gap-4 p-4 bg-secondary rounded-t-md grid grid-cols-16">
+        <div className="w-full justify-between gap-4 p-4 bg-secondary rounded-t-md grid grid-cols-18">
             {list.map((l: string, i: number) => (
                 <div key={i} className={cn("flex items-center justify-center")}>
-                    <span className="text-xs font-bold text-[#777777]">{l}</span>
+                    {["تاریخ روز", "تاریخ سند"].includes(l) ? (
+                        <button
+                            className="flex items-center justify-center gap-1 cursor-pointer"
+                            onClick={() => {
+                                const params = new URLSearchParams(searchParams.toString());
+
+                                const sortDate = params.get("sort_date") || null;
+                                const sortCreated = params.get("sort_created") || null;
+
+                                if (l === "تاریخ روز") {
+                                    if (!sortCreated) params.set("sort_created", "1");
+                                    else params.set("sort_created", sortCreated == "1" ? "2" : "1");
+
+                                    //
+                                } else if (l === "تاریخ سند") {
+                                    if (!sortDate) params.set("sort_date", "1");
+                                    else params.set("sort_date", sortDate == "1" ? "2" : "1");
+                                }
+
+                                setSearchParams(params);
+                            }}
+                        >
+                            {sortIcon(l)}
+                            <span className="text-xs font-bold text-[#777777]">{l}</span>
+                        </button>
+                    ) : (
+                        <span className="text-xs font-bold text-[#777777]">{l}</span>
+                    )}
                 </div>
             ))}
         </div>

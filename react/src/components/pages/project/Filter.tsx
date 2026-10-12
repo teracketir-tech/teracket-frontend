@@ -1,11 +1,14 @@
 import CompanySelect from "@/components/shared/CompanySelect";
 import Filters from "@/components/shared/Filters";
 import Input from "@/components/shared/inputs";
+import DateInput from "@/components/shared/inputs/Date";
+import { useAuth } from "@/context/AuthContext";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 export default function FilterForm({ loading }: { loading: boolean }) {
+    const { auth } = useAuth();
     const [open, setOpen] = useState(false);
     const [searchParams, setSearchParams] = useSearchParams();
 
@@ -13,7 +16,9 @@ export default function FilterForm({ loading }: { loading: boolean }) {
         initialValues: {
             id: "",
             name: "",
-            company_id: "",
+            // ایشوی ۱: فیلترِ تاریخ شروع — میلادی ISO همان چیزی است که به URL می‌رود
+            start_date: "",
+            company_id: auth?.company_id || "",
         },
         onSubmit,
         validationSchema: false,
@@ -39,21 +44,12 @@ export default function FilterForm({ loading }: { loading: boolean }) {
     }, [open]);
 
     return (
-        <Filters
-            open={open}
-            setOpen={setOpen}
-            loading={loading}
-            onReset={() => {
-                setOpen(false);
-                formik.resetForm();
-                setSearchParams({}, { replace: true });
-            }}
-            onOk={() => formik.submitForm()}
-        >
+        <Filters open={open} setOpen={setOpen} loading={loading} formik={formik}>
             <form className="w-full grid grid-cols-5 gap-5">
                 <CompanySelect formik={formik} required={false} />
                 <Input name="id" title="شناسه" formik={formik} required={false} />
                 <Input name="name" title="نام" formik={formik} required={false} />
+                <DateInput name="start_date" title="تاریخ شروع" formik={formik} required={false} />
             </form>
         </Filters>
     );

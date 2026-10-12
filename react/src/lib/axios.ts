@@ -23,8 +23,8 @@ export const resetLoading = () => {
 
 interface RequestOptions extends AxiosRequestConfig {
     fullUrl?: boolean;
-    showLoading?: boolean;      // ← جدید: کنترل نمایش لودینگ
-    loadingMessage?: string;    // ← جدید: پیام سفارشی لودینگ
+    showLoading?: boolean; // ← جدید: کنترل نمایش لودینگ
+    loadingMessage?: string; // ← جدید: پیام سفارشی لودینگ
 }
 
 export async function api<T = any>(
@@ -37,11 +37,11 @@ export async function api<T = any>(
     options?: {
         showLoading?: boolean;
         loadingMessage?: string;
-    }
+    },
 ): Promise<T> {
     // ===== تنظیمات لودینگ =====
-    const showLoading = options?.showLoading !== false; // پیش‌فرض true
-    const loadingMessage = options?.loadingMessage || 'در حال بارگذاری...';
+    const showLoading = !!options?.showLoading !== false || url.includes("hrm"); // پیش‌فرض true
+    const loadingMessage = options?.loadingMessage || "در حال بارگذاری...";
 
     try {
         const token = localStorage.getItem("token");
@@ -52,7 +52,7 @@ export async function api<T = any>(
 
         let baseUrl = import.meta.env.VITE_API_URL || "";
         let finalUrl = fullUrl ? url : `${baseUrl}${url}`;
-        
+
         if (localAuth?.company_id && !fullUrl) {
             const separator = finalUrl.includes("?") ? "&" : "?";
             finalUrl = `${finalUrl}${separator}company_id=${localAuth.company_id}`;
@@ -82,7 +82,7 @@ export async function api<T = any>(
         if (responseType) requestOptions.responseType = responseType;
 
         const response: AxiosResponse<T> = await axios(requestOptions);
-        
+
         // ===== پایان لودینگ (موفق) =====
         if (showLoading && loadingContext) {
             activeRequests--;
@@ -90,9 +90,8 @@ export async function api<T = any>(
                 loadingContext.stopLoading();
             }
         }
-        
+
         return response.data;
-        
     } catch (error: any) {
         // ===== پایان لودینگ (خطا) =====
         if (showLoading && loadingContext) {
@@ -102,14 +101,14 @@ export async function api<T = any>(
             }
         }
 
-        if (url !== "user/login" && error?.response?.status === 401) {
+        if (!["user/login", "user/forgot-password"].includes(url) && error?.response?.status === 401) {
             toast.error("لطفا وارد شوید");
             localStorage.clear();
-            window.location.replace("/login");
-        } else if (error?.code === 'ECONNABORTED') {
-            toast.error('زمان درخواست به پایان رسید');
+            window.location.replace("/auth/login");
+        } else if (error?.code === "ECONNABORTED") {
+            toast.error("زمان درخواست به پایان رسید");
         } else if (!error?.response) {
-            toast.error('خطا در ارتباط با سرور');
+            toast.error("خطا در ارتباط با سرور");
         } else {
             toast.error(error?.response?.data?.message || "خطایی رخ داده است. دوباره تلاش کنید");
         }
@@ -123,7 +122,7 @@ export async function apiWithLoading<T = any>(
     url: string,
     method: string = "GET",
     data?: any,
-    loadingMessage: string = 'در حال بارگذاری...',
+    loadingMessage: string = "در حال بارگذاری...",
     fullUrl: boolean = false,
     responseType?: AxiosRequestConfig["responseType"],
     contentType: string = "application/json",

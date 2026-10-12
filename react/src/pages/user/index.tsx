@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import Confirm from "@/components/ui/confirm";
 import { toast } from "sonner";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Empty from "@/components/shared/Empty";
 import Loading from "@/components/shared/Loading";
 import FilterForm from "@/components/pages/user/index/Filter";
@@ -15,7 +15,6 @@ import Modal from "@/components/shared/Modal";
 import Button from "@/components/shared/Button";
 
 export default function UserList() {
-    const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const [users, setUsers] = useState<any>({});
     const [activeLog, setActiveLog] = useState({});
@@ -123,13 +122,13 @@ export default function UserList() {
                                     )}
                                 </div>
                                 <div className="flex flex-wrap items-center justify-center py-4 gap-3">
-                                    {checkAccess([703]) && (
+                                    {checkAccess([705]) && (
                                         <Link to={`/user/${user.id}/login-log`} role="link">
                                             <ToolTip triger={<Info className="size-3.5" />} text="لاگ ورود" />
                                         </Link>
                                     )}
 
-                                    {checkAccess([703]) && isOnline(user?.logs) && (
+                                    {checkAccess([706]) && isOnline(user?.logs) && (
                                         <button className="cursor-pointer" onClick={() => handleShowActiveLog(user)}>
                                             <Tooltip>
                                                 <TooltipTrigger asChild>
@@ -142,8 +141,8 @@ export default function UserList() {
                                         </button>
                                     )}
 
-                                    {checkAccess([703]) && user.company_id != 1 && (
-                                        <button className="cursor-pointer" onClick={() => navigate(`/user/edit/${user.id}`)}>
+                                    {checkAccess([703]) && (
+                                        <Link to={`/user/edit/${user.id}`} className="cursor-pointer" role="link">
                                             <Tooltip>
                                                 <TooltipTrigger asChild>
                                                     <PenBox className="w-3.5 h-3.5" />
@@ -152,7 +151,7 @@ export default function UserList() {
                                                     <p>ویرایش</p>
                                                 </TooltipContent>
                                             </Tooltip>
-                                        </button>
+                                        </Link>
                                     )}
 
                                     {checkAccess([704]) && (

@@ -1,6 +1,6 @@
 import ToolTip from "@/components/shared/ToolTip";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { cn, formatDateToFa, formatNumber, truncateByWord } from "@/lib/utils";
+import { AccountingDataIds, cn, formatDateToFa, formatNumber, truncateByWord } from "@/lib/utils";
 import { Eye, LucideCheckCircle } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -57,13 +57,17 @@ export default function SingleDayView({
     const originalTotal = events
         ?.filter((e: any) => e.is_original)
         ?.reduce((acc: number, item: DayEvent) => {
-            if (item.accounting_data_id == 14) return acc + item.price;
+            if (item.accounting_data_id == AccountingDataIds.RECEIVABLE) return acc + item.price;
             else return acc - item.price;
         }, 0);
 
-    const creditTotal = events?.filter((e: any) => !e.is_original && e.accounting_data_id == 2)?.reduce((acc: number, item: DayEvent) => acc + item.price, 0);
+    const creditTotal = events
+        ?.filter((e: any) => !e.is_original && e.accounting_data_id == AccountingDataIds.PAYABLE)
+        ?.reduce((acc: number, item: DayEvent) => acc + item.price, 0);
 
-    const debitTotal = events?.filter((e: any) => !e.is_original && e.accounting_data_id == 14)?.reduce((acc: number, item: DayEvent) => acc + item.price, 0);
+    const debitTotal = events
+        ?.filter((e: any) => !e.is_original && e.accounting_data_id == AccountingDataIds.RECEIVABLE)
+        ?.reduce((acc: number, item: DayEvent) => acc + item.price, 0);
 
     return (
         <div className="py-4">
@@ -108,7 +112,7 @@ export default function SingleDayView({
                     {/* Events Header */}
                     <div className="flex justify-between items-center mb-4">
                         <h5 className="font-bold mb-0">آیتم های این روز</h5>
-                        <span className="px-3 py-0.5 rounded-lg bg-gray-100">{events.length} آیتم</span>
+                        <span className="px-3 py-0.5 rounded-lg bg-gray-100">{events.filter((e: any) => e.is_original).length} آیتم</span>
                     </div>
 
                     {/* tabs */}
@@ -282,7 +286,12 @@ export default function SingleDayView({
                                                         triger={
                                                             <div className="flex items-center gap-2">
                                                                 <p>جمع آیتم های دریافت نشده</p>
-                                                                <p className="bg-white size-6 rounded-full flex items-center justify-center text-red-600">
+                                                                <p
+                                                                    className={cn(
+                                                                        "bg-white min-w-6 h-6 rounded-full flex items-center justify-center text-red-600",
+                                                                        todayReport?.debit?.count > 99 ? "px-2" : "",
+                                                                    )}
+                                                                >
                                                                     {formatNumber(todayReport?.debit?.count)}
                                                                 </p>
                                                             </div>
@@ -297,7 +306,12 @@ export default function SingleDayView({
                                                         triger={
                                                             <div className="flex items-center gap-2">
                                                                 <p>جمع آیتم های پرداخت نشده</p>
-                                                                <p className="bg-white size-6 rounded-full flex items-center justify-center text-red-600">
+                                                                <p
+                                                                    className={cn(
+                                                                        "bg-white min-w-6 h-6 rounded-full flex items-center justify-center text-red-600",
+                                                                        todayReport?.credit?.count > 99 ? "px-2" : "",
+                                                                    )}
+                                                                >
                                                                     {formatNumber(todayReport?.credit?.count)}
                                                                 </p>
                                                             </div>

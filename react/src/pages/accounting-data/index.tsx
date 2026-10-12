@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import Confirm from "@/components/ui/confirm";
 import { toast } from "sonner";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Empty from "@/components/shared/Empty";
 import Loading from "@/components/shared/Loading";
 import FilterForm from "@/components/pages/accounting-data/index/Filter";
@@ -22,15 +22,12 @@ export default function AccountingDataList() {
 
         setLoading(true);
 
-        const res = await api(`accounting-data${query ? `?${query}&` : "?"}expand=parent, company`, "GET");
+        const res = await api(`accounting-data${query ? `?${query}` : ""}`);
 
         setAccountingData(res?.data);
+        setSelectedAccounts({});
         setLoading(false);
     };
-
-    useEffect(() => {
-        fetchAccountingData();
-    }, []);
 
     const handleDelete = async (id: number) => {
         setLoading(true);
@@ -40,6 +37,9 @@ export default function AccountingDataList() {
         if (res?.success) {
             fetchAccountingData();
             toast.success("حساب با موفقیت حذف شد.");
+        } else {
+            toast.error(res?.message || "خطایی رخ داده است");
+            setLoading(false);
         }
     };
 
@@ -61,6 +61,14 @@ export default function AccountingDataList() {
 
             case "bank_id":
                 name = "بانک";
+                break;
+
+            case "product_id":
+                name = "کالا";
+                break;
+
+            case "material_id":
+                name = "مواد اولیه خام";
                 break;
 
             default:
@@ -116,17 +124,16 @@ export default function AccountingDataList() {
                         {accountingData
                             ?.filter((a: any) => !a.parent_id)
                             ?.map((acc: any) => (
-                                <>
-                                    <AccountingDataRow
-                                        item={acc}
-                                        handleSelectAccount={handleSelectAccount}
-                                        isOpen={isOpen}
-                                        allowOpen={allowOpen}
-                                        getDetailName={getDetailName}
-                                        handleDelete={handleDelete}
-                                        selectedChildren={selectedChildren}
-                                    />
-                                </>
+                                <AccountingDataRow
+                                    key={acc.id}
+                                    item={acc}
+                                    handleSelectAccount={handleSelectAccount}
+                                    isOpen={isOpen}
+                                    allowOpen={allowOpen}
+                                    getDetailName={getDetailName}
+                                    handleDelete={handleDelete}
+                                    selectedChildren={selectedChildren}
+                                />
                             ))}
                     </div>
                 )}
@@ -136,10 +143,10 @@ export default function AccountingDataList() {
 }
 
 function Title() {
-    const list = ["شناسه", "نام", "حساب مادر", "تفصیل", "عملیات"];
+    const list = ["شناسه", "نام", "حساب مادر", "تفصیل", "شرکت", "عملیات"];
 
     return (
-        <div className="w-full justify-between gap-4 p-4 bg-secondary rounded-t-md grid grid-cols-5">
+        <div className="w-full justify-between gap-4 p-4 bg-secondary rounded-t-md grid grid-cols-6">
             {list.map((l: string, i: number) => (
                 <div key={i} className={cn("flex items-center justify-center")}>
                     <span className="text-xs font-bold text-[#777777]">{l}</span>
@@ -168,13 +175,11 @@ function AccountingDataRow({
     selectedChildren: any;
     indent?: number;
 }) {
-    const navigate = useNavigate();
-
     const rowColor = ["", "bg-gray-100", "bg-blue-50", "bg-red-50", "bg-green-50", "bg-amber-50", "bg-purple-50"];
 
     return (
         <>
-            <div key={item.id} className={cn("w-full grid grid-cols-5 justify-between gap-4 px-4 py-1 hover:bg-gray-50 border-b bg-pur", rowColor[indent])}>
+            <div key={item.id} className={cn("w-full grid grid-cols-6 justify-between gap-4 px-4 py-1 hover:bg-gray-50 border-b bg-pur", rowColor[indent])}>
                 <div className="flex items-center justify-center py-4">
                     <span className="text-xs text-center">{item.id}</span>
                 </div>
@@ -197,9 +202,12 @@ function AccountingDataRow({
                 <div className="flex items-center justify-center py-4">
                     <span className="text-xs text-center">{getDetailName(item.detail_name)}</span>
                 </div>
+                <div className="flex items-center justify-center py-4">
+                    <span className="text-xs text-center">{item?.company?.name || "---"}</span>
+                </div>
                 <div className="flex flex-wrap items-center justify-center py-4 gap-3">
-                    {checkAccess([503]) && item.id > 18 && (
-                        <button className="cursor-pointer" onClick={() => navigate(`/accounting-data/edit/${item.id}`)}>
+                    {checkAccess([503]) && (
+                        <Link to={`/accounting-data/edit/${item.id}`} className="cursor-pointer" role="link">
                             <Tooltip>
                                 <TooltipTrigger asChild>
                                     <PenBox className="w-3.5 h-3.5" />
@@ -208,10 +216,10 @@ function AccountingDataRow({
                                     <p>ویرایش</p>
                                 </TooltipContent>
                             </Tooltip>
-                        </button>
+                        </Link>
                     )}
 
-                    {checkAccess([504]) && item.id > 18 && (
+                    {checkAccess([504]) && (
                         <Confirm title="حذف حساب" onConfirm={() => handleDelete(item.id)}>
                             <button className="cursor-pointer">
                                 <Tooltip>
@@ -231,6 +239,7 @@ function AccountingDataRow({
             {allowOpen(item.id) &&
                 selectedChildren(item.id)?.map((ch: any) => (
                     <AccountingDataRow
+                        key={ch.id}
                         item={ch}
                         handleSelectAccount={handleSelectAccount}
                         isOpen={isOpen}

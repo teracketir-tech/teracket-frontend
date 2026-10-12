@@ -10,16 +10,29 @@ import { useNavigate, useParams } from "react-router-dom";
 import Select from "@/components/shared/inputs/Select";
 import StateSelect from "@/components/shared/StateSelect";
 import CompanySelect from "@/components/shared/CompanySelect";
+import { useAuth } from "@/context/AuthContext";
+import { positionOptions, typeOptions } from "@/lib/positions";
+
+/**
+ * Create / edit a contact (issue 2).
+ *
+ * "type" always offers the same two values — real person / legal entity — and
+ * is never tied to the company (issue 2.1). The optional "position" select is
+ * bound to `contact.position_id` and is what the daily-report person selects
+ * filter on (issues 2.2 and 2.3), so switching company must not clear it.
+ */
 
 export default function CreateContact({ editMode = 0 }: { editMode?: number }) {
+    const { auth } = useAuth();
     const { id } = useParams();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
 
     const formik = useFormik({
         initialValues: {
-            company_id: "",
+            company_id: auth?.company_id || "",
             type: "",
+            position_id: "",
             active: "",
             state: "",
             city: "",
@@ -87,15 +100,9 @@ export default function CreateContact({ editMode = 0 }: { editMode?: number }) {
                     <Input type="text" name="email" title="ایمیل" formik={formik} required={false} autoComplete="off" />
                     <Input type="text" name="nationalId" title="کد ملی" formik={formik} required={false} autoComplete="off" />
                     <Input type="text" name="bankAccounts" title="شماره حساب یا شبا" formik={formik} required={false} autoComplete="off" />
-                    <Select
-                        name="type"
-                        title="نوع"
-                        formik={formik}
-                        options={[
-                            { label: "حقیقی", value: "1" },
-                            { label: "حقوقی", value: "2" },
-                        ]}
-                    />
+                    <Select name="type" title="نوع" formik={formik} options={typeOptions()} />
+                    {/* issue 2.2 — optional, bound to contact.position_id */}
+                    <Select name="position_id" title="سمت" formik={formik} options={positionOptions()} required={false} isClearable />
                     <Select
                         name="active"
                         title="وضعیت فعالیت"

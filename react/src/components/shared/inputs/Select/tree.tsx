@@ -45,12 +45,12 @@ const Tree = ({
                     const selectedOption = o?.triggerNode?.props || {};
 
                     if (isMulti) {
-                        const ids = o?.children?.map((ch: any) => ch.value);
+                        const ids = o?.children?.filter((c: any) => c?.value)?.map((ch: any) => ch.value);
 
                         if (ids?.length > 0) value = ids;
                     }
 
-                    console.log(v);
+                    console.log(e, v, o);
 
                     onChange && onChange(value, selectedOption);
                     formik && formik.setFieldValue(name, value);
@@ -60,7 +60,10 @@ const Tree = ({
                 allowClear
                 showSearch
                 filterTreeNode={(inputValue: any, treeNode: any) => treeNode?.value?.toString()?.includes(inputValue) || treeNode?.title?.includes(inputValue)}
+                getPopupContainer={(triggerNode) => triggerNode.parentElement || document.body}
             />
+
+            {formik && formik?.errors?.[name] && formik?.touched?.[name] && <p className="text-red-500 text-xs">{formik?.errors?.[name]}</p>}
         </div>
     );
 };

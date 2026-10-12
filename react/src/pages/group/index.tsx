@@ -6,13 +6,12 @@ import { useEffect, useState } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import Confirm from "@/components/ui/confirm";
 import { toast } from "sonner";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Empty from "@/components/shared/Empty";
 import Loading from "@/components/shared/Loading";
 import FilterForm from "@/components/pages/group/Filter";
 
 export default function GroupList() {
-    const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const [groups, setGroups] = useState<any>({});
     const [loading, setLoading] = useState<any>(true);
@@ -75,7 +74,7 @@ export default function GroupList() {
                                 </div>
                                 <div className="flex flex-wrap items-center justify-center py-4 gap-3">
                                     {checkAccess([803]) && (
-                                        <button className="cursor-pointer" onClick={() => navigate(`/group/edit/${group.id}`)}>
+                                        <Link to={`/group/edit/${group.id}`} className="cursor-pointer" role="link">
                                             <Tooltip>
                                                 <TooltipTrigger asChild>
                                                     <PenBox className="w-3.5 h-3.5" />
@@ -84,7 +83,7 @@ export default function GroupList() {
                                                     <p>ویرایش</p>
                                                 </TooltipContent>
                                             </Tooltip>
-                                        </button>
+                                        </Link>
                                     )}
 
                                     {checkAccess([804]) && (

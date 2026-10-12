@@ -1,8 +1,8 @@
 import { ChevronDown, ChevronUp, Filter } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card";
 import Button from "./Button";
-import { cn, pathName } from "@/lib/utils";
-import { useLocation } from "react-router-dom";
+import { cn } from "@/lib/utils";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 export default function Filters({
@@ -10,24 +10,48 @@ export default function Filters({
     setOpen,
     loading,
     children,
-    onOk,
+    formik,
     onReset,
+    onSubmit,
 }: {
     open: any;
     setOpen: any;
     loading: boolean;
     children: any;
-    onOk: any;
-    onReset: any;
+    formik: any;
+    onReset?: () => void;
+    onSubmit?: (e: any) => void;
 }) {
     const location = useLocation();
     const [useParams, setUseParams] = useState(false);
-
-    const showReset = pathName() !== "/accounting/calendar";
+    const [searchParams, setSearchParams] = useSearchParams();
 
     useEffect(() => {
         setUseParams(location.search !== "");
     }, [location.search]);
+
+    const handleReset = () => {
+        setOpen(false);
+        formik.resetForm();
+        setSearchParams({}, { replace: true });
+
+        if (onReset) onReset();
+    };
+
+    const handleSubmit = () => {
+        const params = new URLSearchParams(searchParams.toString());
+
+        Object.entries(formik.values).forEach(([key, value]) => {
+            if (value) params.set(key, value.toString());
+            else params.delete(key);
+        });
+
+        params.delete("page");
+
+        setSearchParams(params);
+
+        if (onSubmit) return onSubmit(params);
+    };
 
     return (
         <Card className="w-full py-0! mb-5">
@@ -44,16 +68,16 @@ export default function Filters({
                 </CardTitle>
             </CardHeader>
 
-            <CardContent className={cn("pt-2!", open ? "block" : "hidden")}>{children}</CardContent>
+            <CardContent className={cn("pt-2! transition-transform duration-200", open ? "block" : "hidden")}>{children}</CardContent>
 
             <CardFooter className={cn("pb-5", open ? "block" : "hidden")}>
                 <div className="w-full grid grid-cols-2 gap-5 mt-10">
-                    {showReset && (
-                        <Button className="h-9.5! bg-transparent! text-[#222529]! border-2 border-[#222529]!" onClick={onReset}>
-                            پاک کردن فیلتر
-                        </Button>
-                    )}
-                    <Button className={cn("h-9.5!", showReset ? "" : "col-span-2")} onClick={onOk} isLoading={loading}>
+                    {/* {showReset && ( */}
+                    <Button className="h-9.5! bg-transparent! text-[#222529]! border-2 border-[#222529]!" onClick={handleReset}>
+                        پاک کردن فیلتر
+                    </Button>
+                    {/* )} */}
+                    <Button className={cn("h-9.5!")} onClick={handleSubmit} isLoading={loading}>
                         جستجو
                     </Button>
                 </div>

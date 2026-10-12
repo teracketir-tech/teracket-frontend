@@ -8,8 +8,11 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useNavigate, useParams } from "react-router-dom";
 import Checkbox from "@/components/shared/inputs/Checkbox";
+import CompanySelect from "@/components/shared/CompanySelect";
+import { useAuth } from "@/context/AuthContext";
 
 export default function CreateGroup({ editMode = 0 }: { editMode?: number }) {
+    const { auth } = useAuth();
     const { id } = useParams();
     const navigate = useNavigate();
     const [roles, setRoles] = useState([]);
@@ -23,6 +26,7 @@ export default function CreateGroup({ editMode = 0 }: { editMode?: number }) {
     const formik = useFormik({
         initialValues: {
             name: "",
+            company_id: auth?.company_id || "",
         },
         onSubmit,
         validationSchema,
@@ -60,7 +64,7 @@ export default function CreateGroup({ editMode = 0 }: { editMode?: number }) {
 
         setLoading(true);
 
-        api(editMode ? `group/${id}` : "group", editMode ? "PATCH" : "POST", { name: data.name, roles: JSON.stringify(selectedRoles) })
+        api(editMode ? `group/${id}` : "group", editMode ? "PATCH" : "POST", { ...data, roles: JSON.stringify(selectedRoles) })
             .then((res) => {
                 if (res?.success) {
                     toast.success("گروه با موفقیت ثبت شد.");
@@ -81,7 +85,10 @@ export default function CreateGroup({ editMode = 0 }: { editMode?: number }) {
 
             <CardContent>
                 <form className="w-full flex flex-col gap-4 mb-5">
-                    <Input type="text" name="name" title="نام" formik={formik} autoComplete="off" />
+                    <div className="w-full grid grid-cols-3 gap-5">
+                        <CompanySelect formik={formik} />
+                        <Input type="text" name="name" title="نام" formik={formik} autoComplete="off" />
+                    </div>
                     <div className="flex flex-col gap-5">
                         <p>دسترسی ها</p>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5 h-[46vh] overflow-y-auto pl-3">

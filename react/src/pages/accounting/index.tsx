@@ -109,6 +109,14 @@ export default function AccountingList() {
             detail = item?.bank?.name || item?.bank?.bankName?.name;
         }
 
+        if (item?.product_id) {
+            detail = item?.product?.name;
+        }
+
+        if (item?.material_id) {
+            detail = `${item?.material?.name}${item?.material?.color ? `(${item?.material?.color.name})` : ""}`;
+        }
+
         return `${accountingData}${detail ? ` - ${detail}` : ""}`;
     };
 
@@ -176,7 +184,7 @@ export default function AccountingList() {
                                     <span className="text-xs text-center">{formatNumber(acc.total_credit, true)}</span>
                                 </div>
                                 <div className="flex items-center justify-center py-4">
-                                    <span className="text-xs text-center">{acc.status == 1 ? "پیش‌نویس" : "تایید شده"}</span>
+                                    <span className="text-xs text-center">{acc.status == "draft" ? "پیش‌نویس" : "تایید شده"}</span>
                                 </div>
                                 <div className="flex flex-col items-center justify-center py-4 text-xs">
                                     <p className="w-full text-center pb-1 mb-1 border-b">{getDetail(acc?.items?.[0])}</p>
@@ -198,12 +206,12 @@ export default function AccountingList() {
                                     <span className="text-xs text-center">{acc?.user_ip || "---"}</span>
                                 </div>
                                 <div className="flex flex-wrap items-center justify-center py-4 gap-3">
-                                    {checkAccess([603]) && acc?.status == 1 && (
+                                    {checkAccess([603]) && acc?.status == "draft" && (
                                         <Confirm title="تایید سند" onConfirm={() => handleApprove(acc.id)}>
                                             <button className="cursor-pointer">
                                                 <Tooltip>
                                                     <TooltipTrigger asChild>
-                                                        <CheckCircle className="size-4" />
+                                                        <CheckCircle className="size-3.5" />
                                                     </TooltipTrigger>
                                                     <TooltipContent>
                                                         <p>تایید</p>
@@ -213,20 +221,20 @@ export default function AccountingList() {
                                         </Confirm>
                                     )}
 
-                                    {checkAccess([603]) && (
+                                    {checkAccess([612]) && (
                                         <Link to={`items?accounting_id=${acc.id}`} className="cursor-pointer" role="link">
                                             <Tooltip>
                                                 <TooltipTrigger asChild>
                                                     <Eye className="size-4" />
                                                 </TooltipTrigger>
                                                 <TooltipContent>
-                                                    <p>مشاهده چزییات</p>
+                                                    <p>مشاهده جزییات</p>
                                                 </TooltipContent>
                                             </Tooltip>
                                         </Link>
                                     )}
 
-                                    {checkAccess([603]) && acc?.image && (
+                                    {checkAccess([613]) && acc?.image && (
                                         <button className="cursor-pointer" onClick={() => handleShowImages(acc)}>
                                             <Tooltip>
                                                 <TooltipTrigger asChild>

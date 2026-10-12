@@ -6,17 +6,19 @@ import DateInput from "@/components/shared/inputs/Date";
 import Select from "@/components/shared/inputs/Select";
 import ProjectSelect from "@/components/shared/ProjectSelect";
 import UserSelect from "@/components/shared/UserSelect";
+import { useAuth } from "@/context/AuthContext";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 export default function FilterForm({ loading }: { loading: boolean }) {
+    const { auth } = useAuth();
     const [open, setOpen] = useState(false);
     const [searchParams, setSearchParams] = useSearchParams();
 
     const formik = useFormik({
         initialValues: {
-            company_id: "",
+            company_id: auth?.company_id || "",
             id: "",
             date: "",
             created_at: "",
@@ -54,17 +56,7 @@ export default function FilterForm({ loading }: { loading: boolean }) {
     }, [open]);
 
     return (
-        <Filters
-            open={open}
-            setOpen={setOpen}
-            loading={loading}
-            onReset={() => {
-                setOpen(false);
-                formik.resetForm();
-                setSearchParams({}, { replace: true });
-            }}
-            onOk={() => formik.submitForm()}
-        >
+        <Filters open={open} setOpen={setOpen} loading={loading} formik={formik}>
             <form className="w-full grid grid-cols-5 gap-5">
                 <CompanySelect formik={formik} />
                 <Input name="id" title="شناسه" formik={formik} required={false} />
@@ -78,8 +70,8 @@ export default function FilterForm({ loading }: { loading: boolean }) {
                     formik={formik}
                     required={false}
                     options={[
-                        { label: "پیش‌ نویس", value: "1" },
-                        { label: "تایید شده", value: "2" },
+                        { label: "پیش‌ نویس", value: "draft" },
+                        { label: "تایید شده", value: "approved" },
                     ]}
                 />
                 <AccountingDataSelect formik={formik} isMulti={true} />

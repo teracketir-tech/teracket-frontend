@@ -6,13 +6,12 @@ import { useEffect, useState } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import Confirm from "@/components/ui/confirm";
 import { toast } from "sonner";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Empty from "@/components/shared/Empty";
 import Loading from "@/components/shared/Loading";
 import FilterForm from "@/components/pages/bank/Filter";
 
 export default function BankList() {
-    const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const [loading, setLoading] = useState<any>(true);
     const [banks, setBanks] = useState<any>({});
@@ -78,7 +77,7 @@ export default function BankList() {
                                 </div>
                                 <div className="flex flex-wrap items-center justify-center py-4 gap-3">
                                     {checkAccess([303]) && (
-                                        <button className="cursor-pointer" onClick={() => navigate(`/bank/edit/${bank.id}`)}>
+                                        <Link to={`/bank/edit/${bank.id}`} className="cursor-pointer" role="link">
                                             <Tooltip>
                                                 <TooltipTrigger asChild>
                                                     <PenBox className="w-3.5 h-3.5" />
@@ -87,7 +86,7 @@ export default function BankList() {
                                                     <p>ویرایش</p>
                                                 </TooltipContent>
                                             </Tooltip>
-                                        </button>
+                                        </Link>
                                     )}
 
                                     {checkAccess([304]) && (

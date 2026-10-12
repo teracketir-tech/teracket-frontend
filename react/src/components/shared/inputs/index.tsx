@@ -1,4 +1,4 @@
-import { formatNumber, persianNumberToEn } from "@/lib/utils";
+import { persianNumberToEn } from "@/lib/utils";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { useState } from "react";
 
@@ -9,7 +9,7 @@ interface Props {
     inputMode?: "numeric" | "text";
     ltrInput?: boolean;
     autoFocus?: boolean;
-    type?: "number" | "text" | "password" | "file";
+    type?: "number" | "text" | "password" | "file" | "time";
     formik?: any;
     noErrorText?: boolean;
     required?: boolean;
@@ -19,6 +19,20 @@ interface Props {
     value?: any;
     onChange?: any;
 }
+
+/**
+ * عددِ ورودی را با جداکننده‌ی هزارگان نشان می‌دهد بی‌آنکه رقم اعشار را حذف کند.
+ *
+ * `formatNumber` اینجا به درد نمی‌خورد: پیش‌فرضِ آن صفر رقم اعشار است (پارامترِ
+ * `fixed` حتی با مقدارِ صریحِ `undefined` هم به پیش‌فرض برمی‌گردد) و باعث می‌شد
+ * مقدارِ نمایش‌داده‌شده با مقدارِ واقعیِ فورم فرق کند؛ مثلاً ۱٫۵ ساعت اضافه‌کاری
+ * «۲» نشان داده می‌شد ولی همان ۱٫۵ ذخیره می‌شد.
+ */
+const formatEditableNumber = (value: string | number) => {
+    const [int, dec] = value.toString().split(".");
+
+    return `${Number(int || 0).toLocaleString()}${dec === undefined ? "" : `.${dec}`}`;
+};
 
 const Input = ({
     title,
@@ -68,16 +82,20 @@ const Input = ({
                             dir="ltr"
                             placeholder={placeholder}
                             disabled={disabled}
-                            value={isNumber(activeValue) ? formatNumber(activeValue) : activeValue}
+                            // اینجا از formatNumber استفاده نمی‌شود چون پیش‌فرضِ آن صفر رقم
+                            // اعشار است و عددِ نمایش‌داده‌شده با مقدار واقعیِ فورم فرق می‌کرد
+                            // (مثلاً ۱٫۵ ساعت اضافه‌کاری که «۲» نشان داده می‌شد)
+                            value={isNumber(activeValue) ? formatEditableNumber(activeValue) : activeValue}
                             onChange={(e: any) => {
                                 const v = e.target.value.replaceAll(",", "");
                                 const value = isNumber(v) ? persianNumberToEn(v) : v;
 
-                                console.log(v, value);
-
                                 onChange && onChange(value);
                                 formik && formik?.setFieldValue(name, value);
                             }}
+                            // شاخه‌ی text از getFieldProps استفاده می‌کند و onBlur دارد؛ بدون این خط
+                            // فیلدهای عددی هیچ‌وقت touched نمی‌شوند و پیام خطا هرگز دیده نمی‌شود
+                            onBlur={() => formik?.setFieldTouched(name, true)}
                         />
                     </div>
                     {!noErrorText && formik?.errors?.[name] && formik?.touched?.[name] && <p className="text-red-500 text-xs">{formik?.errors?.[name]}</p>}

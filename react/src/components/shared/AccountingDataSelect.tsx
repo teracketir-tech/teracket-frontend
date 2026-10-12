@@ -24,20 +24,22 @@ export default function AccountingDataSelect({
     const [accountings, setAccountings] = useState<any>([]);
 
     const fetchAccountings = async () => {
-        const res = await api("accounting-data", "GET");
+        const res = await api(`accounting-data${formik.values?.company_id ? `?company_id=${formik.values?.company_id}` : ""}`, "GET");
 
         if (res?.data) setAccountings(res?.data);
     };
 
     useEffect(() => {
         fetchAccountings();
-    }, []);
+    }, [formik?.values?.company_id]);
 
     const getSealChildren = (account: any) => {
         if (!account.is_parent) return [];
 
         return accountings
-            ?.filter((acc: any) => acc.parent_id == account.id && (!formik?.values?.company_id || acc.company_id == formik.values.company_id))
+            ?.filter(
+                (acc: any) => acc.parent_id == account.id && (!formik?.values?.company_id || !acc.company_id || formik?.values?.company_id == acc.company_id),
+            )
             ?.map((a: any) => ({
                 parent_id: a.parent_id,
                 title: a.title,

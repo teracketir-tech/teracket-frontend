@@ -14,6 +14,8 @@ export default function AccountingDataReport() {
     const [accountingData, setAccountingData] = useState<any>([]);
     const [selectedAccounts, setSelectedAccounts] = useState<any>({});
 
+    const hasParams = [...searchParams.keys()].length > 0;
+
     const fetchAccountingDataReport = async () => {
         const params = new URLSearchParams(searchParams.toString());
         const query = params.toString();
@@ -22,7 +24,14 @@ export default function AccountingDataReport() {
 
         const res = await api(`accounting-data/report${query ? `?${query}&` : "?"}expand=parent, company`, "GET");
 
-        setAccountingData(res?.data?.filter((d: any) => d?.report?.debit || d?.report?.credit));
+        setAccountingData(res?.data);
+        // setAccountingData(res?.data?.filter((d: any) => d?.report?.debit || d?.report?.credit));
+
+        // Every refetch means new numbers, and an open row keeps a snapshot of
+        // its children — so all rows collapse here (issue 1), otherwise the user
+        // would read the previous totals as if they were the fresh ones.
+        setSelectedAccounts({});
+
         setLoading(false);
     };
 
@@ -64,7 +73,7 @@ export default function AccountingDataReport() {
         return name;
     };
 
-    const isOpen = (id: number) => Object.keys(selectedAccounts).includes(id.toString());
+    const isOpen = (id: number) => Object.keys(selectedAccounts)?.includes(id?.toString());
 
     const handleSelectAccount = (account: any) => {
         if (isOpen(account.id)) {
@@ -79,7 +88,7 @@ export default function AccountingDataReport() {
 
         const children = accountingData?.filter((ad: any) => ad.parent_id == account.id);
 
-        if (["bank_id", "contact_id"].includes(account?.detail_name)) {
+        if (account?.items?.length > 0 && !account?.is_parent) {
             account?.items?.forEach((it: any) =>
                 children.push({
                     id: it.id,
@@ -103,24 +112,26 @@ export default function AccountingDataReport() {
 
     const selectedChildren = (id: number) => selectedAccounts?.[id.toString()]?.children || [];
 
-    const totalPrices = accountingData?.reduce(
-        (acc: any, item: any) => {
-            const debit = Number(item?.report?.debit || 0);
-            const credit = Number(item?.report?.credit || 0);
-            const rowTotal = Number(item?.report?.total || 0);
+    const totalPrices = accountingData
+        ?.filter((ad: any) => !ad.parent_id)
+        ?.reduce(
+            (acc: any, item: any) => {
+                const debit = Number(item?.report?.debit || 0);
+                const credit = Number(item?.report?.credit || 0);
+                const rowTotal = Number(item?.report?.total || 0);
 
-            acc.debit += debit;
-            acc.credit += credit;
-            acc.total += rowTotal;
+                acc.debit += debit;
+                acc.credit += credit;
+                acc.total += rowTotal;
 
-            return acc;
-        },
-        {
-            debit: 0,
-            credit: 0,
-            total: 0,
-        },
-    );
+                return acc;
+            },
+            {
+                debit: 0,
+                credit: 0,
+                total: 0,
+            },
+        );
 
     return (
         <div className="w-full">
@@ -134,22 +145,24 @@ export default function AccountingDataReport() {
                         <Loading />
                     </div>
                 ) : !accountingData || accountingData?.length == 0 ? (
-                    <Empty />
+                    <Empty text={hasParams ? null : "برای مشاهده گزارش، فیلترهای موردنظر را انتخاب و جستجو کنید"} />
                 ) : (
                     <div className="flex flex-col gap-1 border">
-                        {accountingData?.map((acc: any) => (
-                            <>
-                                <AccountingDataRow
-                                    item={acc}
-                                    handleSelectAccount={handleSelectAccount}
-                                    isOpen={isOpen}
-                                    allowOpen={allowOpen}
-                                    getDetailName={getDetailName}
-                                    handleDelete={handleDelete}
-                                    selectedChildren={selectedChildren}
-                                />
-                            </>
-                        ))}
+                        {accountingData
+                            ?.filter((a: any) => !a.parent_id)
+                            ?.map((acc: any) => (
+                                <>
+                                    <AccountingDataRow
+                                        item={acc}
+                                        handleSelectAccount={handleSelectAccount}
+                                        isOpen={isOpen}
+                                        allowOpen={allowOpen}
+                                        getDetailName={getDetailName}
+                                        handleDelete={handleDelete}
+                                        selectedChildren={selectedChildren}
+                                    />
+                                </>
+                            ))}
 
                         <div className="w-full grid grid-cols-6 justify-between gap-4 px-4 hover:bg-gray-50 border-b bg-gray-50 text-[0.8rem] py-4">
                             <p className="col-span-2 flex items-center justify-center">جمع کل</p>
@@ -206,9 +219,9 @@ function AccountingDataRow({
                 <div className="flex items-center justify-center py-4" style={{ paddingRight: `${indent * 30}px` }}>
                     <p className="w-full text-xs flex items-center gap-3">
                         <button
-                            className={cn("text-xs text-center", item?.items?.length > 0 ? "cursor-pointer" : "opacity-0")}
+                            className={cn("text-xs text-center", item?.items?.length > 0 || item?.is_parent ? "cursor-pointer" : "opacity-0")}
                             onClick={() => {
-                                if (item?.items?.length > 0) handleSelectAccount(item);
+                                if (item?.items?.length > 0 || item?.is_parent) handleSelectAccount(item);
                             }}
                         >
                             {isOpen(item.id) ? <MinusCircle size={18} /> : <PlusCircleIcon size={18} />}

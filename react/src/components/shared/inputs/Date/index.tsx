@@ -18,6 +18,7 @@ interface Props {
     minDate?: any;
     time?: any;
     isRange?: boolean;
+    monthPicker?: boolean;
 }
 
 const DateInput = ({
@@ -34,6 +35,7 @@ const DateInput = ({
     minDate,
     time = false,
     isRange = false,
+    monthPicker = false,
 }: Props) => {
     const classes = `${
         formik?.errors?.[name] && formik?.touched?.[name] ? "border-[#ff4d4f]" : "border-[#dddddd] focus:border-[#2ba968]"
@@ -49,7 +51,7 @@ const DateInput = ({
             )}
 
             <DatePicker
-                value={isRange ? null : value ? formatDateToFa(value, time) : formik?.values?.[name] ? formatDateToFa(formik?.values?.[name], time) : ""}
+                value={isRange ? null : formik?.values?.[name] ? formatDateToFa(formik?.values?.[name], time) : value ? formatDateToFa(value, time) : ""}
                 disabled={disabled}
                 inputClass={classes}
                 calendar={persian}
@@ -61,6 +63,12 @@ const DateInput = ({
                 minDate={minDate || null}
                 onChange={(date: any) => {
                     let value = date;
+
+                    if (!date) {
+                        onChange?.("");
+                        formik?.setFieldValue(name, "");
+                        return;
+                    }
 
                     if (isRange) {
                         if (Object.values(date).length === 2) value = date.map((d: any) => formatDateToEn(d)).join(",");
@@ -76,6 +84,7 @@ const DateInput = ({
                 className="black"
                 plugins={time ? [<TimePicker hideSeconds />] : []}
                 range={isRange}
+                onlyMonthPicker={monthPicker}
             />
 
             {!noErrorText && formik?.errors?.[name] && formik?.touched?.[name] && <p className="text-red-500 text-xs">{formik?.errors?.[name]}</p>}

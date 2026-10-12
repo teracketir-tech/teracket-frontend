@@ -1,4 +1,3 @@
-
 import {
     Banknote,
     Building,
@@ -21,14 +20,20 @@ import {
     HandCoins,
     HeartHandshake,
     Receipt,
-    ScrollText, UserMinus,
+    ScrollText,
+    UserMinus,
     ShieldCheck,
     UserCog,
     UserRoundMinus,
     WalletCards,
+    LucideBlocks,
+    LucideCircleDollarSign,
+    CalendarRange,
+    Wrench,
+    TriangleAlert,
+    ParkingMeter,
 } from "lucide-react";
 
-import Login from "@/pages/login";
 import Layout from "@/components/layout";
 import Home from "@/pages/Home";
 import CreateGroup from "@/pages/group/create";
@@ -42,6 +47,9 @@ import CreateCompany from "@/pages/company/create";
 import CompanyList from "@/pages/company";
 import CreateProject from "@/pages/project/create";
 import ProjectList from "@/pages/project";
+import CreateDailyReport from "@/pages/daily-report/create";
+import DailyReportList from "@/pages/daily-report";
+import ViewDailyReport from "@/pages/daily-report/view";
 import CreateCompanyBank from "@/pages/company-bank/create";
 import CompanyBankList from "@/pages/company-bank";
 import CreateAccounting from "@/pages/accounting/create";
@@ -56,6 +64,11 @@ import ImportAccountingByExcel from "@/pages/accounting/import-by-excel";
 import PaymentList from "@/pages/accounting/payments";
 import ReceiveList from "@/pages/accounting/receives";
 
+// لیست‌های مرجعِ گزارش روزانه (ایشوی ۱۲ و ۱۵) — پوسته‌ی مشترک + چیدمان هر لیست
+import EquipmentList from "@/components/pages/reference/EquipmentList";
+import EquipmentForm from "@/components/pages/reference/EquipmentForm";
+import DeviationList from "@/components/pages/reference/DeviationList";
+import DeviationForm from "@/components/pages/reference/DeviationForm";
 
 // کدهای HRM
 import FinancialYearSettings from "@/pages/hrm/settings/financial-year";
@@ -88,7 +101,33 @@ import SalaryReports from "@/pages/hrm/payments/reports";
 import PersonnelCreate from "@/pages/hrm/personnel/create";
 import PersonnelList from "@/pages/hrm/personnel/list/";
 import WorkGroup from "@/pages/hrm/settings/workgroup";
-import ContractPrint from '@/pages/hrm/contracts/ContractPrint';
+import ContractPrint from "@/pages/hrm/contracts/ContractPrint";
+import Login from "@/pages/auth/login";
+import ForgotPassword from "@/pages/auth/forgot-password";
+import CreateProduct from "@/pages/product/create";
+import ProductList from "@/pages/product";
+import CreateUnit from "@/pages/unit/create";
+import UnitList from "@/pages/unit";
+import ExchangeData from "@/pages/exchange-data";
+import CreateTask from "@/pages/task/create";
+import TaskList from "@/pages/task";
+import CreateRelation from "@/pages/task-relation/create";
+import RelationList from "@/pages/task-relation";
+import DependencyGraph from "@/components/pages/scheduling/graph/GraphPage";
+import { useLocation } from "react-router-dom";
+
+/**
+ * ایشوی ۱۴: «گزارش جدید» از سایدبار باید همیشه فرمِ خالی بدهد.
+ *
+ * کلیک روی همان مسیرِ جاری، کامپوننت را از نو راه‌اندازی نمی‌کند و
+ * پیش‌نویسِ بازِ قبلی دست‌نخورده می‌ماند؛ `location.key` هر بار تازه است،
+ * پس هر بار mountِ تازه می‌گیرد.
+ */
+function NewDailyReport() {
+    const { key } = useLocation();
+
+    return <CreateDailyReport key={key} />;
+}
 
 export const routes = [
     {
@@ -97,7 +136,7 @@ export const routes = [
         children: [
             {
                 active: false,
-                path: "/login",
+                path: "/auth/login",
                 element: <Login />,
             },
             {
@@ -142,6 +181,8 @@ export const routes = [
                 children: [
                     {
                         active: true,
+                        seperator: "پروژه",
+                        seperatorIcon: Building2Icon,
                         title: "پروژه جدید",
                         path: "/project/create",
                         element: <CreateProject />,
@@ -159,8 +200,200 @@ export const routes = [
                         path: "/project/edit/:id",
                         element: <CreateProject editMode={1} />,
                     },
+
+                    {
+                        active: true,
+                        seperator: "تسک",
+                        seperatorIcon: CalendarRange,
+                        title: "تسک جدید",
+                        path: "/task/create",
+                        element: <CreateTask />,
+                        role: [2401],
+                    },
+                    {
+                        title: "ویرایش تسک",
+                        path: "/task/edit/:id",
+                        element: <CreateTask editMode={1} />,
+                    },
+                    {
+                        active: true,
+                        title: "لیست تسک ها",
+                        path: "/task",
+                        element: <TaskList />,
+                        role: [2402],
+                    },
+                    {
+                        active: true,
+                        title: "رابطه جدید",
+                        path: "/task-relation/create",
+                        element: <CreateRelation />,
+                        role: [2405],
+                    },
+                    {
+                        title: "ویرایش رابطه",
+                        path: "/task-relation/edit/:id",
+                        element: <CreateRelation editMode={1} />,
+                    },
+                    {
+                        active: true,
+                        title: "لیست روابط",
+                        path: "/task-relation",
+                        element: <RelationList />,
+                        role: [2406],
+                    },
+
+                    // Dependency graph pages (whole project / one task).
+                    // Hidden from the sidebar on purpose: both are reached
+                    // through the buttons of the task list.
+                    {
+                        title: "گراف وابستگی‌ها",
+                        path: "/task/graph",
+                        element: <DependencyGraph />,
+                        role: [2402],
+                    },
+                    {
+                        title: "گراف وابستگی‌های تسک",
+                        path: "/task/graph/:id",
+                        element: <DependencyGraph />,
+                        role: [2402],
+                    },
+
+                    // «گزارش روزانه» زیرِ گروه «پروژه» و بعد از «تسک» می‌نشیند
+                    // (درخواست کارفرما) — ساختارش عین بخش‌های پروژه/تسک است.
+                    {
+                        active: true,
+                        seperator: "گزارش روزانه",
+                        seperatorIcon: ClipboardList,
+                        title: "گزارش جدید",
+                        path: "/daily-report/create",
+                        element: <NewDailyReport />,
+                        role: [2411],
+                    },
+                    {
+                        active: true,
+                        title: "لیست گزارش‌ها",
+                        path: "/daily-report",
+                        element: <DailyReportList />,
+                        role: [2422],
+                    },
+                    {
+                        title: "ویرایش گزارش",
+                        path: "/daily-report/edit/:id",
+                        element: <CreateDailyReport editMode={1} />,
+                    },
+                    // ایشوی ۱۸ (مورد ۱۱): دکمه‌ی «نمایش» لیست به همین‌جا می‌رود؛
+                    // نمایشِ کاملِ گزارش + خروجی اکسل (پشتِ نقش دیدن گزارش)
+                    {
+                        title: "نمایش گزارش",
+                        path: "/daily-report/view/:id",
+                        element: <ViewDailyReport />,
+                        role: [2412],
+                    },
+
+                    // «ماشین‌آلات» و «عوامل انحراف» دو لیستِ مرجعِ گزارش روزانه‌اند
+                    // که مثل «کالاها» از همین منو ساخته/ویرایش/حذف می‌شوند (ایشوی ۱۲).
+                    // هر کدام یک بلاکِ جدا با جداکننده‌ی خودش هستند (درخواست کارفرما).
+                    {
+                        active: true,
+                        seperator: "ماشین‌آلات",
+                        seperatorIcon: Wrench,
+                        title: "ماشین‌آلات جدید",
+                        path: "/equipment-type/create",
+                        element: <EquipmentForm />,
+                        role: [2501],
+                    },
+                    {
+                        active: true,
+                        title: "لیست ماشین‌آلات",
+                        path: "/equipment-type",
+                        element: <EquipmentList />,
+                        role: [2502],
+                    },
+                    {
+                        title: "ویرایش ماشین‌آلات",
+                        path: "/equipment-type/edit/:id",
+                        element: <EquipmentForm editMode={1} />,
+                        role: [2503],
+                    },
+                    {
+                        active: true,
+                        seperator: "عوامل انحراف",
+                        seperatorIcon: TriangleAlert,
+                        title: "عامل انحراف جدید",
+                        path: "/deviation-reason/create",
+                        element: <DeviationForm />,
+                        role: [2601],
+                    },
+                    {
+                        active: true,
+                        title: "لیست عوامل انحراف",
+                        path: "/deviation-reason",
+                        element: <DeviationList />,
+                        role: [2602],
+                    },
+                    {
+                        title: "ویرایش عامل انحراف",
+                        path: "/deviation-reason/edit/:id",
+                        element: <DeviationForm editMode={1} />,
+                        role: [2603],
+                    },
                 ],
-                role: [202],
+                role: [201, 202, 2401, 2402, 2405, 2406, 2411, 2413, 2422, 2501, 2502, 2601, 2602],
+            },
+            // ایشوی ۶: «کالاها» از زیرِ «حسابداری» بیرون آمد، هم‌ردیفش شد و
+            // حالا **قبل از** «حسابداری» می‌نشیند؛ «واحد» (ایشوی ۷) هم همین‌جاست
+            // چون ستونِ `unit_id` همان کالا را به واحد وصل می‌کند.
+            {
+                active: true,
+                title: "کالاها",
+                icon: LucideBlocks,
+                children: [
+                    {
+                        active: true,
+                        seperator: "کالا ها",
+                        seperatorIcon: LucideBlocks,
+                        title: "کالا جدید",
+                        path: "/product/create",
+                        element: <CreateProduct />,
+                        role: [901],
+                    },
+                    {
+                        active: true,
+                        title: "لیست کالا ها",
+                        path: "/product",
+                        element: <ProductList />,
+                        role: [902],
+                    },
+                    {
+                        title: "ویرایش کالا",
+                        path: "/product/edit/:id",
+                        element: <CreateProduct editMode={1} />,
+                    },
+
+                    // واحد (ایشوی ۷) — کپی از پنل seal؛ مجوزهای 911..914
+                    {
+                        active: true,
+                        seperator: "واحد",
+                        seperatorIcon: ParkingMeter,
+                        title: "واحد جدید",
+                        path: "/unit/create",
+                        element: <CreateUnit />,
+                        role: [911],
+                    },
+                    {
+                        active: true,
+                        title: "لیست واحد‌ها",
+                        path: "/unit",
+                        element: <UnitList />,
+                        role: [912],
+                    },
+                    {
+                        title: "ویرایش واحد",
+                        path: "/unit/edit/:id",
+                        element: <CreateUnit editMode={1} />,
+                    },
+                ],
+                role: [902, 912],
             },
             {
                 active: true,
@@ -297,7 +530,7 @@ export const routes = [
                         role: [502],
                     },
                 ],
-                role: [302, 402, 502, 602, 605],
+                role: [302, 402, 405, 502, 505, 602, 605, 606, 607, 608, 609, 610, 611],
             },
             {
                 active: true,
@@ -356,9 +589,8 @@ export const routes = [
                     },
                 ],
                 role: [702, 802],
-            }
-            ,
-            {
+            },
+             {
                 active: true,
                 title: "مدیریت منابع انسانی",
                 icon: Users,
@@ -520,7 +752,7 @@ export const routes = [
                         role: [702],
                     },
                     {
-                           active: false,
+                           active: true,
                         seperator: "تسویه حساب آخر سال",
                         seperatorIcon: Receipt,
                         title: "تسویه حساب عیدی",
@@ -529,7 +761,7 @@ export const routes = [
                         role: [702],
                     },
                     {
-                          active: false,
+                          active: true,
                         title: "بازخرید مانده مرخصی",
                         path: "/hrm/end-year/vacation",
                         element: <VacationBuyback />,
@@ -537,7 +769,7 @@ export const routes = [
                     },
 
                     {
-                          active: false,
+                          active: true,
                         seperator: "قطع همکاری",
                         seperatorIcon: UserMinus,
                         title: "قطع همکاری",
@@ -611,6 +843,15 @@ export const routes = [
                     },
                 ],
                 role: [702],
+            },
+            {
+                active: true,
+                title: "لیست قیمت ها",
+                path: "/exchange-data",
+                icon: LucideCircleDollarSign,
+                element: <ExchangeData />,
+                children: [],
+                role: [1001],
             },
             // {
             //     active: true,

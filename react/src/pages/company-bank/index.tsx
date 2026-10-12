@@ -1,18 +1,17 @@
 import Pagination from "@/components/shared/Pagination";
 import { api } from "@/lib/axios";
-import { checkAccess, cn } from "@/lib/utils";
+import { checkAccess, cn, formatNumber } from "@/lib/utils";
 import { PenBox, Trash2Icon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import Confirm from "@/components/ui/confirm";
 import { toast } from "sonner";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Empty from "@/components/shared/Empty";
 import Loading from "@/components/shared/Loading";
 import FilterForm from "@/components/pages/company-bank/Filter";
 
 export default function CompanyBankList() {
-    const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const [loading, setLoading] = useState<any>(true);
     const [companyBanks, setCompanyBanks] = useState<any>({});
@@ -23,7 +22,7 @@ export default function CompanyBankList() {
 
         setLoading(true);
 
-        const res = await api(`company-bank?${query ? `${query}&` : ""}expand=company, bank`, "GET");
+        const res = await api(`bank?${query ? `${query}&` : ""}`);
 
         setCompanyBanks(res);
         setLoading(false);
@@ -32,7 +31,7 @@ export default function CompanyBankList() {
     const handleDelete = async (id: number) => {
         setLoading(true);
 
-        const res = await api(`company-bank/${id}`, "DELETE");
+        const res = await api(`bank/${id}`, "DELETE");
 
         if (res?.success) {
             fetchCompanyBanks();
@@ -60,7 +59,7 @@ export default function CompanyBankList() {
                 ) : (
                     <div className="flex flex-col gap-1 border">
                         {companyBanks?.data?.map((companyBank: any, i: number) => (
-                            <div key={companyBank.id} className="w-full grid grid-cols-6 justify-between gap-4 px-4 py-1 hover:bg-gray-50 border-b">
+                            <div key={companyBank.id} className="w-full grid grid-cols-9 justify-between gap-4 px-4 py-1 hover:bg-gray-50 border-b">
                                 <div className="flex items-center justify-center py-4">
                                     <span className="text-xs text-center">{i + 1}</span>
                                 </div>
@@ -71,14 +70,23 @@ export default function CompanyBankList() {
                                     <span className="text-xs text-center">{companyBank.name}</span>
                                 </div>
                                 <div className="flex items-center justify-center py-4">
-                                    <span className="text-xs text-center">{companyBank?.bank?.name}</span>
+                                    <span className="text-xs text-center">{companyBank?.bankName?.name}</span>
+                                </div>
+                                <div className="flex items-center justify-center py-4">
+                                    <span className="text-xs text-center">{formatNumber(companyBank?.debit)}</span>
+                                </div>
+                                <div className="flex items-center justify-center py-4">
+                                    <span className="text-xs text-center">{formatNumber(companyBank?.credit)}</span>
+                                </div>
+                                <div className="flex items-center justify-center py-4">
+                                    <span className="text-xs text-center">{formatNumber(companyBank?.total_balance)}</span>
                                 </div>
                                 <div className="flex items-center justify-center py-4">
                                     <span className="text-xs text-center">{companyBank?.company?.name}</span>
                                 </div>
                                 <div className="flex flex-wrap items-center justify-center py-4 gap-3">
                                     {checkAccess([303]) && (
-                                        <button className="cursor-pointer" onClick={() => navigate(`/company-bank/edit/${companyBank.id}`)}>
+                                        <Link to={`/company-bank/edit/${companyBank.id}`} className="cursor-pointer" role="link">
                                             <Tooltip>
                                                 <TooltipTrigger asChild>
                                                     <PenBox className="w-3.5 h-3.5" />
@@ -87,7 +95,7 @@ export default function CompanyBankList() {
                                                     <p>ویرایش</p>
                                                 </TooltipContent>
                                             </Tooltip>
-                                        </button>
+                                        </Link>
                                     )}
 
                                     {checkAccess([304]) && (
@@ -117,10 +125,10 @@ export default function CompanyBankList() {
 }
 
 function Title() {
-    const list = ["ردیف", "شناسه", "نام", "بانک", "شرکت", "عملیات"];
+    const list = ["ردیف", "شناسه", "نام", "بانک", "بدهکار", "بستانکار", "مجموع", "شرکت", "عملیات"];
 
     return (
-        <div className="w-full justify-between gap-4 p-4 bg-secondary rounded-t-md grid grid-cols-6">
+        <div className="w-full justify-between gap-4 p-4 bg-secondary rounded-t-md grid grid-cols-9">
             {list.map((l: string, i: number) => (
                 <div key={i} className={cn("flex items-center justify-center")}>
                     <span className="text-xs font-bold text-[#777777]">{l}</span>

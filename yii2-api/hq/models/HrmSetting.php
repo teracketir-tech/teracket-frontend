@@ -4,7 +4,7 @@ namespace frontend\modules\hq\models;
 
 use Yii;
 use yii\db\ActiveRecord;
-
+ 
 class HrmSetting extends ActiveRecord
 {
     public static function tableName()

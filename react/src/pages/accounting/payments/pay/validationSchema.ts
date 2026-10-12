@@ -1,6 +1,7 @@
 import * as yup from "yup";
 
 export default yup.object().shape({
+    accounting_data_id: yup.string().required("لطفا حساب را انتخاب کنید"),
     price: yup.string().required("لطفا مبلغ را وارد کنید"),
-    bank_id: yup.string().required("لطفا بانک را انتخاب کنید"),
+    date: yup.string().required("لطفا تاریخ را وارد کنید"),
 });

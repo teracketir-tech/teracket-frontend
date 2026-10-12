@@ -1,22 +1,24 @@
 import AccountingDataSelect from "@/components/shared/AccountingDataSelect";
-import BankSelect from "@/components/shared/BankSelect";
+import BankSelect from "@/components/shared/CompanyBankSelect";
 import CompanySelect from "@/components/shared/CompanySelect";
 import ContactSelect from "@/components/shared/ContactSelect";
 import Filters from "@/components/shared/Filters";
 import Input from "@/components/shared/inputs";
 import DateInput from "@/components/shared/inputs/Date";
 import ProjectSelect from "@/components/shared/ProjectSelect";
+import { useAuth } from "@/context/AuthContext";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 export default function FilterForm({ loading }: { loading: boolean }) {
+    const { auth } = useAuth();
     const [open, setOpen] = useState(false);
     const [searchParams, setSearchParams] = useSearchParams();
 
     const formik = useFormik({
         initialValues: {
-            company_id: "",
+            company_id: auth?.company_id || "",
             id: "",
             accounting_id: "",
             project_id: "",
@@ -52,17 +54,7 @@ export default function FilterForm({ loading }: { loading: boolean }) {
     }, [open]);
 
     return (
-        <Filters
-            open={open}
-            setOpen={setOpen}
-            loading={loading}
-            onReset={() => {
-                setOpen(false);
-                formik.resetForm();
-                setSearchParams({}, { replace: true });
-            }}
-            onOk={() => formik.submitForm()}
-        >
+        <Filters open={open} setOpen={setOpen} loading={loading} formik={formik}>
             <form className="w-full grid grid-cols-5 gap-5">
                 <CompanySelect formik={formik} />
                 <Input name="id" title="شناسه" formik={formik} required={false} />

@@ -9,7 +9,7 @@ use yii\web\UnauthorizedHttpException;
 
 class HrmProcess extends ActiveRecord
 {
-    const STATUS_UPLOADED  = 0; // ثبت از اکسل، هنوز محاسبه نشده
+    const STATUS_UPLOADED = 0; // ثبت از اکسل، هنوز محاسبه نشده
     const STATUS_CALCULATED = 1; // محاسبه شد
 
     public static function tableName()
@@ -19,13 +19,13 @@ class HrmProcess extends ActiveRecord
 
     public function rules()
     {
-        return [
+        [
             [['user_id', 'contract_id', 'year', 'month', 'date_from', 'date_to'], 'required'],
             [['user_id', 'contract_id', 'workgroup_id', 'year', 'month', 'count', 'status', 'created_by'], 'integer'],
+            [['count'], 'integer', 'min' => 0],
             [['unit_price'], 'number', 'min' => 0],
             [['date_from', 'date_to', 'created_at', 'updated_at'], 'safe'],
-            [['count'], 'integer', 'min' => 0],
-            ['month', 'in', 'range' => range(1, 12)],
+            ['month', 'integer', 'min' => 1, 'max' => 12],
         ];
     }
 
@@ -92,8 +92,8 @@ class HrmProcess extends ActiveRecord
     {
         $params = Yii::$app->request->get();
 
-        $perPage = isset($params['per-page']) ? (int)$params['per-page'] : 10;
-        $page    = isset($params['page'])     ? (int)$params['page']     : 1;
+        $perPage = isset($params['per-page']) ? (int) $params['per-page'] : 10;
+        $page = isset($params['page']) ? (int) $params['page'] : 1;
 
         $query = self::find()->with(['user', 'contract', 'workgroup']);
 
@@ -142,7 +142,7 @@ class HrmProcess extends ActiveRecord
         }
 
         return [
-            'pages' => (int)ceil($totalCount / $perPage),
+            'pages' => (int) ceil($totalCount / $perPage),
             'totalCount' => $totalCount,
             'data' => $models,
         ];
@@ -152,48 +152,66 @@ class HrmProcess extends ActiveRecord
      * لیست پرسنل فرآیندی (کسی که قرارداد پیمانکاری داره و قیمت فرآیند تنظیم شده)
      */
     public static function get_personnel_list()
-    {
-        $params = Yii::$app->request->get();
+{
+    $params = Yii::$app->request->get();
 
-        $query = HrmContract::find()
-            ->alias('c')
-            ->joinWith(['user u'])
-            ->where([
-                'c.contract_status' => HrmContract::STATUS_ACTIVE,
-                'c.contract_type'   => HrmContract::TYPE_PROJECT, // پیمانکاری
-            ])
-            ->andWhere(['>', 'c.numPersonelPadash', 0]);
+    $query = HrmContract::find()
+        ->alias('c')
+        ->joinWith(['user u'])
+        ->with(['workgroup'])
+        ->where([
+            'c.contract_status' => HrmContract::STATUS_ACTIVE,
+            'c.contract_type' => HrmContract::TYPE_PROJECT,
+        ])
+        ->andWhere(['>', 'c.performance_bonus', 0]);
 
-        if (!empty($params['user_id'])) {
-            $query->andWhere(['c.user_id' => $params['user_id']]);
-        }
-        if (!empty($params['personnel_code'])) {
-            $query->andWhere(['like', 'u.personnel_code', $params['personnel_code']]);
-        }
-        if (!empty($params['national_code'])) {
-            $query->andWhere(['like', 'u.national_id', $params['national_code']]);
-        }
-        if (!empty($params['workgroup_id'])) {
-            $query->andWhere(['c.workgroup_id' => $params['workgroup_id']]);
-        }
-
-        $models = $query->orderBy(['u.id' => SORT_ASC])->asArray()->all();
-
-        $result = [];
-        foreach ($models as $m) {
-            $result[] = [
-                'id' => $m['id'],
-                'user_id' => $m['user_id'],
-                'user' => [
-                    'personnel_code' => $m['user']['personnel_code'] ?? null,
-                    'first_name' => $m['user']['first_name'] ?? '',
-                    'last_name' => $m['user']['last_name'] ?? '',
-                ],
-                'workgroup_name' => $m['workgroup']['name'] ?? '-',
-                'unit_price' => (int)$m['numPersonelPadash'],
-            ];
-        }
-
-        return ['data' => $result];
+    if (!empty($params['user_id'])) {
+        $query->andWhere(['c.user_id' => $params['user_id']]);
     }
+
+    if (!empty($params['personnel_code'])) {
+        $query->andWhere([
+            'like',
+            'u.personnel_code',
+            $params['personnel_code']
+        ]);
+    }
+
+    if (!empty($params['national_code'])) {
+        $query->andWhere([
+            'like',
+            'u.national_id',
+            $params['national_code']
+        ]);
+    }
+
+    if (!empty($params['workgroup_id'])) {
+        $query->andWhere([
+            'c.workgroup_id' => $params['workgroup_id']
+        ]);
+    }
+
+    $models = $query
+        ->orderBy(['u.id' => SORT_ASC])
+        ->asArray()
+        ->all();
+
+    $result = [];
+
+    foreach ($models as $m) {
+        $result[] = [
+            'id' => $m['id'],
+            'user_id' => $m['user_id'],
+            'user' => [
+                'personnel_code' => $m['user']['personnel_code'] ?? null,
+                'first_name' => $m['user']['first_name'] ?? '',
+                'last_name' => $m['user']['last_name'] ?? '',
+            ],
+            'workgroup_name' => $m['workgroup']['name'] ?? '-',
+            'unit_price' => (float) ($m['performance_bonus'] ?? 0),
+        ];
+    }
+
+    return ['data' => $result];
+}
 }

@@ -10,15 +10,17 @@ import { useNavigate, useParams } from "react-router-dom";
 import Select from "@/components/shared/inputs/Select";
 import AccountingDataSelect from "@/components/shared/AccountingDataSelect";
 import CompanySelect from "@/components/shared/CompanySelect";
+import { useAuth } from "@/context/AuthContext";
 
 export default function CreateAccountingData({ editMode = 0 }: { editMode?: number }) {
+    const { auth } = useAuth();
     const { id } = useParams();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
 
     const formik = useFormik({
         initialValues: {
-            company_id: "",
+            company_id: auth?.company_id || "",
             parent_id: "",
             title: "",
             detail_name: "",
@@ -79,6 +81,8 @@ export default function CreateAccountingData({ editMode = 0 }: { editMode?: numb
                             { label: "شخص", value: "contact_id" },
                             { label: "حساب", value: "account_id" },
                             { label: "بانک", value: "bank_id" },
+                            { label: "کالا", value: "product_id" },
+                            { label: "مواد اولیه خام", value: "material_id" },
                         ]}
                     />
                 </form>

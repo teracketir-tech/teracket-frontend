@@ -3,24 +3,26 @@ import { Toaster } from "sonner";
 import { AppSidebar } from "./sidebar";
 import { SidebarTrigger } from "../ui/sidebar";
 import AppProvider from "@/context/AppContext";
-import { pageTitle, pathName } from "@/lib/utils";
+import { isAuthPage, pageTitle, pathName } from "@/lib/utils";
 import { ArrowRight } from "lucide-react";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 export default function Layout() {
+    usePageTitle();
+
     const navigate = useNavigate();
     const location = useLocation();
 
-    const isLoginPage = location.pathname === "/login";
     const isFactorPage = pathName() === "/order/:id/factor";
     const isHomePage = location.pathname === "/" || pageTitle() === "داشبورد";
 
     return (
         <AppProvider>
-            {!isLoginPage && !isFactorPage && <AppSidebar />}
+            {!isAuthPage() && !isFactorPage && <AppSidebar />}
             <Toaster position="top-center" />
 
-            <main className="w-full">
-                {!isLoginPage && !isFactorPage && (
+            <main className="w-full flex-1 min-w-0">
+                {!isAuthPage() && !isFactorPage && (
                     <div className="sticky top-0 z-50 hide_print">
                         <div className="relative flex items-center bg-sidebar py-[1.3rem]">
                             <SidebarTrigger className="absolute -right-3.5 z-50" />
