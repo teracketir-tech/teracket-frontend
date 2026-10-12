@@ -261,7 +261,7 @@ export default function DraftTab() {
             }
         }
 
-        if (selectedContractType === "1") {
+        if (String(values.contract_type) === "1") {
             // ===== نوع موقت =====
             formik.setValues({
                 ...formik.values,
@@ -274,7 +274,7 @@ export default function DraftTab() {
                 responsibility_allowance: financialYearData.responsibility_allowance || "",
                 transportation_allowance: financialYearData.transportation_allowance || "",
             });
-        } else if (selectedContractType === "2") {
+        } else if (String(values.contract_type) === "2") {
             // ===== نوع ساعتی =====
             const monthlySalary = parseFloat(financialYearData.salary) || 0;
             const hourlySalary = Math.round(monthlySalary / 176);
@@ -370,6 +370,9 @@ export default function DraftTab() {
             setCities([]);
         }
     };
+    // نوع قرارداد را از مقدار واقعی فرم می‌خوانیم تا نمایش بخش‌ها به state جداگانه وابسته نباشد.
+    const currentContractType = String(formik.values.contract_type ?? selectedContractType ?? "");
+
     // ============== بررسی کامل بودن اطلاعات پایه ==============
     const isBaseInfoComplete =
         formik.values.employer_id &&
@@ -460,7 +463,7 @@ export default function DraftTab() {
                 job_position_ids: values.job_position_ids || [],
 
                 // حق‌السعی
-                ...(selectedContractType === "1" && {
+                ...(String(values.contract_type) === "1" && {
                     base_salary: parseFloat(values.base_salary) || 0,
                     child_allowance: parseFloat(values.child_allowance) || 0,
                     housing_allowance: parseFloat(values.housing_allowance) || 0,
@@ -471,7 +474,7 @@ export default function DraftTab() {
                     transportation_allowance: parseFloat(values.transportation_allowance) || 0,
                     other_allowance: parseFloat(values.other_allowance) || 0,
                 }),
-                ...(selectedContractType === "2" && {
+                ...(String(values.contract_type) === "2" && {
                     hourly_salary: parseFloat(values.hourly_salary) || 0,
                     hourly_housing_allowance: parseFloat(values.hourly_housing_allowance) || 0,
                     hourly_welfare_allowance: parseFloat(values.hourly_welfare_allowance) || 0,
@@ -482,7 +485,7 @@ export default function DraftTab() {
                     hourly_performance_bonus: parseFloat(values.hourly_performance_bonus) || 0,
                     transportation_allowance: parseFloat(values.transportation_allowance) || 0,
                 }),
-                ...(selectedContractType === "3" && {
+                ...(String(values.contract_type) === "3" && {
                     contract_amount: parseFloat(values.contract_amount) || 0,
                     contract_payment_type: values.contract_payment_type || 'daily',
                     responsibility_allowance: parseFloat(values.responsibility_allowance) || 0,
@@ -562,7 +565,7 @@ export default function DraftTab() {
                         <>
                             <PersonnelStep
                                 formik={formik}
-                                contractType={selectedContractType}
+                                contractType={currentContractType}
                                 contractMode={formik.values.contract_mode}
                             />
  
@@ -574,17 +577,17 @@ export default function DraftTab() {
                                 />
                             <IntroducerOrSubjectStep
                                 formik={formik}
-                                contractType={selectedContractType}
+                                contractType={currentContractType}
                             />
 
                             <DurationStep
                                 formik={formik}
-                                contractType={selectedContractType}
+                                contractType={currentContractType}
                             />
 
                             <SalaryStep
                                 formik={formik}
-                                contractType={selectedContractType}
+                                contractType={currentContractType}
                                 financialYear={financialYear}
                                 selectedFinancialYear={selectedFinancialYear}
                             />
