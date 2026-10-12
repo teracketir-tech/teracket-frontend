@@ -793,18 +793,19 @@ class HrmSalarySlip extends ActiveRecord
 
         // تعدیل 29/31 روزه فقط برای قراردادهای ماهانه اعمال می‌شود.
         $monthDays = self::getJalaliMonthDays($year, $month);
-        $compensatory31Days = (!$isHourlyContract && $monthDays === 31) ? $dailySalary : 0;
-        $deduct29Days = (!$isHourlyContract && $monthDays === 29) ? $dailySalary : 0;
+        $isFullMonthContract = $contractRatio >= 0.999;
+        $compensatory31Days = (!$isHourlyContract && $isFullMonthContract && $monthDays === 31) ? $dailySalary : 0;
+        $deduct29Days = (!$isHourlyContract && $isFullMonthContract && $monthDays === 29) ? $dailySalary : 0;
 
         // بیمه: سهم کارمند 7 درصد به‌علاوه ضریب 1.1 (نرخ مؤثر 7.7 درصد).
         if ($isHourlyContract || $isProjectContract) {
             $insurableBaseSalary = $financialYear
-                ? (float) $financialYear->salary
+                ? ((float) $financialYear->salary
                     + (float) $financialYear->housing_benefits
-                    + (float) $financialYear->coupon
-                : $baseSalary;
+                    + (float) $financialYear->coupon) * $contractRatio
+                : $baseSalary * $contractRatio;
         } else {
-            $insurableBaseSalary = $baseSalary + $housingAllowance + $foodAllowance;
+            $insurableBaseSalary = $baseSalary * $contractRatio + $housingAllowance + $foodAllowance;
         }
         $insuranceAmount = max(0, $insurableBaseSalary) * 0.07 * 1.1;
         $supplementaryInsurance = 0;
